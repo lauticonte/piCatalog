@@ -5,7 +5,14 @@ function Footer() {
   return (
     <footer className='bg-white border-t mt-[50px]  w-full'>
       <div className='mx-auto py-7'>
-        <p className='text-center text-sm text-black'>&copy; {year} AllUNeed, All rights reserved.</p>
+
+        <a href='https://contelautaro.com.ar/' target='blank'>
+          <p className='text-center text-sm text-black customfont'>Conte</p>    
+        
+        </a>
+
+
+        <p className='text-center text-sm text-black'>&copy; {year}, todos los derechos reservados.</p>
       </div>
     </footer>
   )

@@ -1,6 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'MBF';
+  src: url('/MBF-m.ttf') format('truetype');
+}
+
+.customfont {
+  font-family: 'MBF', sans-serif;
+}
  
 @layer base {
   :root {

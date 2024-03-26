@@ -8,7 +8,6 @@ import NavActions from './nav-actions'
 
 async function Navbar() {
   const categories = await getCategories()
-  console.log(categories);
   
 
   return (

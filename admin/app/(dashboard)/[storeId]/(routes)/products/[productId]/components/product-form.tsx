@@ -40,10 +40,10 @@ function ProductForm({ initialData, categories, brands, colors }: IProductForm) 
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const title = initialData ? 'Edit product' : 'Create product'
-  const description = initialData ? 'Edit a product' : 'Add a new product'
-  const toastMessage = initialData ? 'Product updated' : 'Product created'
-  const action = initialData ? 'Save changes' : 'Create product'
+  const title = initialData ? 'Editar producto' : 'Subir producto'
+  const description = initialData ? 'Editar un producto' : 'Agregar un nuevo producto a la base de datos'
+  const toastMessage = initialData ? 'Producto actualizado' : 'Producto creado'
+  const action = initialData ? 'Guardar cambios' : 'Crear producto'
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(ProductFormSchema),
@@ -53,6 +53,7 @@ function ProductForm({ initialData, categories, brands, colors }: IProductForm) 
         }
       : {
           name: '',
+          desc: '',
           images: [],
           price: 0,
           categoryId: '',
@@ -115,7 +116,7 @@ function ProductForm({ initialData, categories, brands, colors }: IProductForm) 
             name='images'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Images</FormLabel>
+                <FormLabel>Imágenes</FormLabel>
                 <FormControl>
                   <ImageUpload
                     values={field.value.map(image => image.url)}
@@ -133,9 +134,21 @@ function ProductForm({ initialData, categories, brands, colors }: IProductForm) 
               name='name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Product name</FormLabel>
+                  <FormLabel>Nombre</FormLabel>
                   <FormControl>
-                    <Input disabled={loading} placeholder='Product name' {...field} />
+                    <Input disabled={loading} placeholder='Nombre...' {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='desc'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Descripción</FormLabel>
+                  <FormControl>
+                    <Input disabled={loading} placeholder='Descripción...' {...field} />
                   </FormControl>
                 </FormItem>
               )}
@@ -146,37 +159,37 @@ function ProductForm({ initialData, categories, brands, colors }: IProductForm) 
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <FormLabel>Price</FormLabel>
+                    <FormLabel>Precio</FormLabel>
                     <FormControl>
-                      <Input disabled={loading} placeholder='Product price' {...field} />
+                      <Input disabled={loading} placeholder='Precio...' {...field} />
                     </FormControl>
                   </FormItem>
                 )
               }}
             />
-            <FormField
-              control={form.control}
-              name='categoryId'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Category</FormLabel>
-                  <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue defaultValue={field.value} placeholder='Select a category' />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {categories?.map(category => (
-                        <SelectItem key={category.id} value={category.id}>
-                          {category.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
+<FormField
+  control={form.control}
+  name='categoryId'
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Categoría</FormLabel>
+      <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
+        <FormControl>
+          <SelectTrigger>
+            <SelectValue defaultValue={field.value} placeholder='Seleccioná una categoria...' />
+          </SelectTrigger>
+        </FormControl>
+        <SelectContent style={{ maxHeight: '200px', overflowY: 'auto' }}> {/* Estilo añadido */}
+          {categories?.map(category => (
+            <SelectItem key={category.id} value={category.id}>
+              {category.name}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </FormItem>
+  )}
+/>
             <FormField
               control={form.control}
               name='brandId'
@@ -186,7 +199,7 @@ function ProductForm({ initialData, categories, brands, colors }: IProductForm) 
                   <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue defaultValue={field.value} placeholder='Seleccione una marca' />
+                        <SelectValue defaultValue={field.value} placeholder='Seleccioná una marca...' />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -235,8 +248,8 @@ function ProductForm({ initialData, categories, brands, colors }: IProductForm) 
                       <Checkbox className='mt-1' checked={field.value} onCheckedChange={field.onChange} />
                     </FormControl>
                     <div className='space-y-1 leading-none'>
-                      <FormLabel>Featured</FormLabel>
-                      <FormDescription>This product will appear on the home page</FormDescription>
+                      <FormLabel>Destacado</FormLabel>
+                      <FormDescription>Este producto va a aparecer en el inicio.</FormDescription>
                     </div>
                   </FormItem>
                 )
@@ -252,8 +265,8 @@ function ProductForm({ initialData, categories, brands, colors }: IProductForm) 
                       <Checkbox className='mt-1' checked={field.value} onCheckedChange={field.onChange} />
                     </FormControl>
                     <div className='space-y-1 leading-none'>
-                      <FormLabel>Archived</FormLabel>
-                      <FormDescription>This product will not appear anywhere in the store.</FormDescription>
+                      <FormLabel>Archivado</FormLabel>
+                      <FormDescription>Este producto desaparecerá de la tienda.</FormDescription>
                     </div>
                   </FormItem>
                 )

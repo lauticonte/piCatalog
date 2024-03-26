@@ -85,6 +85,7 @@ model Product {
   categoryId String      @db.ObjectId
   category   Category    @relation("CategoryToProduct", fields: [categoryId], references: [id])
   name       String
+  desc       String
   price      Float
   isFeatured Boolean     @default(false)
   isArchived Boolean     @default(false)

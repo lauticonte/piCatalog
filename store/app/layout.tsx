@@ -12,33 +12,15 @@ import ReactQueryProvider from '@/providers/react-query-provider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'AllUNeed Ecommece',
-  description: 'This is the Ecommerce named ALLUNEED',
+  title: 'piCatalog',
+  description: 'piCatalog',
   icons: {
     icon: '/logo.png',
   },
   authors: {
-    name: 'thuta sann',
-    url: 'http://thutadev.vercel.app/',
-  },
-  openGraph: {
-    images: '/alluneed-og.webp',
-    type: 'website',
-    url: 'https://alluneed.vercel.app/',
-    locale: 'en',
-    title: 'AllUNeed Ecommece',
-    description: 'This is the Ecommerce named ALLUNEED',
-    siteName: 'AllUNeed',
-    countryName: 'Myanmar',
-    alternateLocale: 'eng',
-  },
-  twitter: {
-    title: "AllUNeed Ecommece'",
-    description: 'This is the Ecommerce named ALLUNEED',
-    card: 'summary_large_image',
-    site: '@thutasann3',
-    images: '/alluneed-og.webp',
-  },
+    name: 'Lautaro Conte',
+    url: 'https://contelautaro.com.ar/',
+  }
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -1,6 +1,6 @@
 'use client'
 
-import { Color, Brand } from '@/types'
+import { Brand } from '@/types'
 import { useRouter, useSearchParams } from 'next/navigation'
 import React from 'react'
 import qs from 'query-string'
@@ -10,7 +10,7 @@ import { cn } from '@/utils/utils'
 interface IFilter {
   valueKey: string
   name: string
-  data: (Brand | Color)[]
+  data: Brand[]
 }
 
 function Filter({ valueKey, name, data }: IFilter) {

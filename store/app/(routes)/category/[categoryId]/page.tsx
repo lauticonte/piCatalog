@@ -16,7 +16,6 @@ interface ICategoryPage {
     categoryId: string
   }
   searchParams: {
-    colorId: string
     brandId: string
   }
 }
@@ -24,7 +23,6 @@ interface ICategoryPage {
 async function CategoryPage({ params, searchParams }: ICategoryPage) {
   const products = await getProducts({
     categoryId: params.categoryId,
-    colorId: searchParams.colorId,
     brandId: searchParams.brandId,
   })
   const brands = await getBrands()
@@ -37,11 +35,10 @@ async function CategoryPage({ params, searchParams }: ICategoryPage) {
         <Billboard data={category.billboard} />
         <div className='px-4 sm:px-6 lg:px-8 pb-24'>
           <div className='lg:grid lg:grid-cols-5 lg:gap-x-8'>
-            <MobileFilters brands={brands} colors={colors} />
+            <MobileFilters brands={brands} />
             <div className='hidden lg:block'>
               <ClearFilter />
-              <Filter valueKey='brandId' name='Brands' data={brands} />
-              <Filter valueKey='colorId' name='Colors' data={colors} />
+              <Filter valueKey='brandId' name='Marcas' data={brands} />
             </div>
             <div className='mt-6 lg:col-span-4 lg:mt-0'>
               {products.length === 0 && <NoResults />}

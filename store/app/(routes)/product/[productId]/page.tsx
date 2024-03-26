@@ -19,24 +19,6 @@ export async function generateMetadata({ params }: IProductPage): Promise<Metada
   const product = await getProduct(params.productId)
   return {
     title: product.name,
-    openGraph: {
-      images: product.images[0].url,
-      type: 'website',
-      url: `http://localhost:3001/${product.id}`,
-      locale: 'en',
-      title: `${product.name} | AllUNeed Ecommece`,
-      description: 'This is the Ecommerce named ALLUNEED',
-      siteName: 'AllUNeed',
-      countryName: 'Myanmar',
-      alternateLocale: 'eng',
-    },
-    twitter: {
-      title: `${product.name} | AllUNeed Ecommece`,
-      description: 'This is the Ecommerce named ALLUNEED',
-      card: 'summary_large_image',
-      site: '@thutasann3',
-      images: product.images[0].url,
-    },
   }
 }
 

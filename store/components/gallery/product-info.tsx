@@ -19,6 +19,8 @@ function ProductInfo({ data }: IProductInfo) {
     cart.addItem(data)
   }
 
+  const items = data.desc.split('•')
+
   return (
     <div>
       <h1 className='text-3xl font-bold text-gray-900'>{data.name}</h1>
@@ -28,18 +30,15 @@ function ProductInfo({ data }: IProductInfo) {
         </p>
       </div>
       <hr className='my-4' />
-      <div className='flex items-center gap-x-4'>
-        <h3 className='font-semibold text-blas'>Brand: </h3>
-        {data.brand.value}
-      </div>
-      <div className='mt-3 flex items-center gap-x-4'>
-        <h3 className='font-semibold text-blas'>Color: </h3>
-        <div
-          className='h-7 w-7 rounded-full border'
-          style={{
-            backgroundColor: data?.color?.value,
-          }}
-        />
+
+            {/* Agregar descripcion aqui */}
+            <div className='mt-3'>
+        <h3 className='font-semibold text-blas mb-1'>Descripcion: </h3>
+        <ul>
+          {items.map((item, index) => (
+            <li key={index}>{item.trim()}</li>
+          ))}
+        </ul>
       </div>
       <div className='mt-7 flex items-center gap-x-3'>
         <Button className='flex items-center gap-x-3' onClick={handleAddToCart}>
@@ -47,6 +46,7 @@ function ProductInfo({ data }: IProductInfo) {
           <AiOutlineShoppingCart className='w-6 h-6' />
         </Button>
       </div>
+
     </div>
   )
 }

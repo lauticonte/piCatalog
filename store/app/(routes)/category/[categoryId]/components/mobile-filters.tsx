@@ -9,21 +9,19 @@ import ClearFilter from './clear-filter'
 
 interface IMobileFilters {
   brands: Brand[]
-  colors: Color[]
 }
 
-function MobileFilters({ brands, colors }: IMobileFilters) {
+function MobileFilters({ brands }: IMobileFilters) {
   return (
     <Sheet>
       <SheetTrigger className='lg:hidden flex items-center gap-3 rounded-full bg-black border-transparent px-5 py-3 disabled:cursor-not-allowed disabled:opacity-50 text-white font-semibold hover:opacity-75 transition'>
-        Filters
+        Filtros
         <BsPlus size={20} />
       </SheetTrigger>
       <SheetContent>
         <div className='p-4'>
           <ClearFilter />
-          <Filter valueKey='bransId' name='Brands' data={brands} />
-          <Filter valueKey='colorId' name='Colors' data={colors} />
+          <Filter valueKey='brandId' name='Marcas' data={brands} />
         </div>
       </SheetContent>
     </Sheet>

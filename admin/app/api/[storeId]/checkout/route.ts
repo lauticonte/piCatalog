@@ -35,11 +35,11 @@ export async function POST(req: Request, { params }: { params: { storeId: string
     line_items.push({
       quantity: 1,
       price_data: {
-        currency: 'USD',
+        currency: 'ARS',
         product_data: {
           name: product.name,
         },
-        unit_amount: product.price * 100,
+        unit_amount: product.price * 10000,
       },
     })
   })

@@ -18,7 +18,7 @@ function ClearFilter() {
         flex items-center gap-2
             text-md font-bold group cursor-pointer'
       >
-        <span className='group-hover:text-slate-600'>Remove Filter</span> <FaDeleteLeft className='group-hover:text-slate-600' size={20} />
+        <span className='group-hover:text-slate-600'>Limpiar filtros</span> <FaDeleteLeft className='group-hover:text-slate-600' size={20} />
       </p>
       <hr className='my-4' />
     </>
