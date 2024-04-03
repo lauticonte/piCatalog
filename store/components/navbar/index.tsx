@@ -12,14 +12,14 @@ async function Navbar() {
 
   return (
     <Fragment>
-      <div className='border-b backdrop-blur-md fixed left-0 w-full top-0 z-30'>
+      <div className='border-b bg-green-900/20 backdrop-blur-md fixed left-0 w-full top-0 z-30 '>
         <Container>
           <div className='relative px-4 sm:px-6 lg:px-8 flex h-16 items-center'>
             <Link
               href='/'
               className='ml-4 flex lg:ml-0 gap-x-2 text-xl font-bold hover:text-slate-700 focus:text-slate-700 focus:outline-none'
             >
-              piCATALOG
+              mhGarage
             </Link>
             <MainNav data={categories} />
             <div className='block md:hidden ml-3'>

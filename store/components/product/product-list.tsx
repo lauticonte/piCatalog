@@ -11,7 +11,7 @@ interface IProductList {
 function ProductList({ title, items }: IProductList) {
   return (
     <div className='space-y-4'>
-      <h2 className='font-bold text-2xl'>{title}</h2>
+      <h2 className='font-bold text-2xl text-center sm:text-left'>{title}</h2>
       {items.length === 0 ? (
         <NoResults />
       ) : (

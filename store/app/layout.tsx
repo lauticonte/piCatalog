@@ -12,8 +12,8 @@ import ReactQueryProvider from '@/providers/react-query-provider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'piCatalog',
-  description: 'piCatalog',
+  title: 'mhGarage',
+  description: 'mhGarage',
   icons: {
     icon: '/logo.png',
   },
