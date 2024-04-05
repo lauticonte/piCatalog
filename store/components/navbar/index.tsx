@@ -12,7 +12,7 @@ async function Navbar() {
 
   return (
     <Fragment>
-      <div className='border-b bg-green-900/20 backdrop-blur-md fixed left-0 w-full top-0 z-30 '>
+      <div className='border-b bg-black-900/10 backdrop-blur-md fixed left-0 w-full top-0 z-30 text-white '>
         <Container>
           <div className='relative px-4 sm:px-6 lg:px-8 flex h-16 items-center'>
             <Link

@@ -20,14 +20,14 @@ export default async function Home() {
   return (
     <Container>
     <div className='rounded-xl w-full bg-custom'>
-  <div className='relative w-full h-[250px] sm:h-[500px] new-leaf-gradient'>
+  <div className='relative w-full h-[250px] sm:h-[500px] new-leaf-gradient rounded-b-lg'>
     <p></p>
   </div>
 </div>
 
 
       <div className='space-y-10 pt-10 pb-10 bg-custom'>
-        <div className='flex flex-col gap-y-8 px-4 sm:px-6 lg:px-0'>
+        <div className='text-white flex flex-col gap-y-8 px-4 sm:px-6 lg:px-0'>
           <ProductList title='Productos Destacados' items={products} />
         </div>
       </div>
