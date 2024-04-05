@@ -8,7 +8,7 @@ interface ICurrency {
 }
 
 function Currency({ value }: ICurrency) {
-  return <div className='font-semibold'>{formatter.format(Number(value))}</div>
+  return <div className='font-semibold'>{formatter.format(Number(value))}.-</div>
 }
 
 export default Currency

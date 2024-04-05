@@ -4,7 +4,7 @@ import { usePreviewModal } from '@/hooks/use-preview-modal'
 import { useCart } from '@/hooks/use-cart'
 import { Product } from '@/types'
 import React, { MouseEventHandler } from 'react'
-import { AiOutlineExpand, AiOutlineShoppingCart } from 'react-icons/ai'
+import { AiOutlineExpand, AiOutlineWhatsApp } from 'react-icons/ai'
 import IconButton from '../ui/icon-button'
 
 interface IProductAction {
@@ -36,9 +36,9 @@ function ProductAction({ data }: IProductAction) {
         />
         <IconButton
           onClick={handleAddToCart}
-          icon={<AiOutlineShoppingCart size={20} className='text-gray-600' />}
+          icon={<AiOutlineWhatsApp size={20} className='text-gray-600' />}
           role='button'
-          aria-label='add to cart'
+          aria-label='consultar por whatsapp'
         />
       </div>
     </div>

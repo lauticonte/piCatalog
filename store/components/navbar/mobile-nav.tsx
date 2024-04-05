@@ -13,7 +13,7 @@ interface IMobileNav {
 function MobileNav({ categories }: IMobileNav) {
   const longestCategoryLength = Math.max(...categories.map(category => category.name.length));
   const minWidth = `${longestCategoryLength * 0.75}ch`; // Ajusta el valor según tus necesidades
-  const maxWidth = '20rem'; // Ajusta el valor según tus necesidades
+  const maxWidth = '25rem'; // Ajusta el valor según tus necesidades
 
   return (
     <NavigationMenu>
@@ -26,7 +26,7 @@ function MobileNav({ categories }: IMobileNav) {
           >
             <ul className='overflow-y-scroll max-h-60'>
               {categories?.map(cate => (
-                <li key={cate.id} className='mb-1'>
+                <li key={cate.id} className='mb-1 divide-dashed'>
                   <Link href={`/category/${cate.id}`} passHref>
                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>{cate.name}</NavigationMenuLink>
                   </Link>

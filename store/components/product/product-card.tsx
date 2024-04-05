@@ -10,8 +10,6 @@ interface IProductCard {
 }
 
 function ProductCard({ data }: IProductCard) {
-  // Obtener el nombre del producto antes del símbolo •
-  const productName = data.name.split(' • ')[0];
 
   return (
     <div className='bg-white group cursor-pointer rounded-xl border p-3 space-y-4 shadow-md'>
@@ -28,14 +26,16 @@ function ProductCard({ data }: IProductCard) {
       </div>
       <div className='text-center'>
         <Link href={`/product/${data.id}`} className='focus:outline-none font-semibold group-hover:underline text-lg'>
-          <span className="block flex items-center justify-center h-12 overflow-hidden mb-3">{productName}</span>
+          <span className='block flex-wrap items-center justify-center h-12 overflow-hidden mb-3 text-ellipsis'>{data.name}</span>
         </Link>
         <p className='mt-1 text-xs text-gray-600 bg-gray-200 px-3 py-1 rounded-full'>{data.category.name}</p>
       </div>
-    
+
       <div className='flex items-center justify-center'>
-        <div className='text-xl font-bold'>
-          <span className='text-3xl font-bold text-primary'><Currency value={data.price} /></span>
+        <div className='text-xl font-bold mb-2'>
+          <span className='text-3xl font-bold text-primary'>
+            <Currency value={data.price} />
+          </span>
         </div>
       </div>
     </div>
