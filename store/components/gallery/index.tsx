@@ -22,15 +22,15 @@ const Gallery = ({ images }: IGallery) => {
       </div>
       <Tab.Panels className='aspect-square w-full'>
         {images.map(image => (
-          <Tab.Panel key={image.id} className='border'>
-            <div className='aspect-square relative h-full w-auto sm:rounded-lg overflow-hidden'>
+          <Tab.Panel key={image.id} className=''>
+            <div className='aspect-square relative h-full w-auto rounded-lg overflow-hidden shadow-lg shadow-black'>
               <Image
                 priority
                 fetchPriority='high'
                 fill
                 src={image.url}
                 alt='Product'
-                className='object-contain object-center'
+                className='object-center object-contain bg-white'
                 quality={100}
               />
             </div>

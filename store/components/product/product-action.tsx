@@ -34,12 +34,12 @@ function ProductAction({ data }: IProductAction) {
           role='button'
           aria-label='preview'
         />
-        <IconButton
+        {/* <IconButton
           onClick={handleAddToCart}
           icon={<AiOutlineWhatsApp size={20} className='text-gray-600' />}
           role='button'
           aria-label='consultar por whatsapp'
-        />
+        /> */}
       </div>
     </div>
   )

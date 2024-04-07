@@ -8,7 +8,7 @@ const ActionButton = forwardRef<HTMLButtonElement, IButton>(({ className, childr
     <button
       ref={ref}
       className={cn(
-        `rounded-full border border-gray-300 px-3 py-1 text-sm text-gray-700 font-semibold hover:bg-gray-100 focus:outline-none focus:border-primary transition`,
+        `mt-3 rounded-md bg-gray-900 border border-gray-900 px-3 py-1 text-sm text-gray-300 font-semibold hover:bg-black focus:outline-none focus:border-primary transition`,
         className
       )}
       type={type}

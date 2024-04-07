@@ -19,7 +19,7 @@ function MobileFilters({ brands }: IMobileFilters) {
         <BsPlus size={20} />
       </SheetTrigger>
       <SheetContent>
-        <div className='p-4'>
+        <div className='p-4 text-white'>
           <ClearFilter />
           <Filter valueKey='brandId' name='Marcas' data={brands} />
         </div>

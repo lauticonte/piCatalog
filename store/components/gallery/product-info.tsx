@@ -28,14 +28,14 @@ function ProductInfo({ data }: IProductInfo) {
   const items = data.desc.split('•')
 
   return (
-    <div>
-      <h1 className='text-2xl font-bold text-gray-900'>{data.name}</h1>
-      <div className='mt-3 flex items-end justify-between'>
-        <p className='text-2xl text-gray-900'>
+    <div className='text-gray-200'>
+      <h1 className='text-2xl font-bold text-gray-200'>{data.name}</h1>
+      <div className='mt-3 flex items-center justify-center md:justify-start'>
+        <p className='text-2xl text-gray-200 rounded-full bg-gray-900 border-transparent px-14 py-3 text-white font-semibold transition'>
           <Currency value={data.price} />
         </p>
       </div>
-      <hr className='my-4' />
+      <hr className='my-4 border-gray-400' />
 
       {/* Agregar descripcion aquí */}
       <div className='mt-3'>
@@ -46,12 +46,12 @@ function ProductInfo({ data }: IProductInfo) {
           ))}
         </ul>
         {visibleItems < items.length && (
-          <ActionButton className='text-xs' onClick={handleShowMore}>Ver más</ActionButton>
+          <ActionButton className='text-xs' onClick={handleShowMore}>Ver más...</ActionButton>
         )}
-        <hr className='my-4' />
+        <hr className='my-4 border-gray-400' />
       </div>
       <div className='mt-2 flex justify-end items-center gap-x-2'>
-        <Button className='flex items-center gap-x-3' onClick={handleAddToCart}>
+        <Button className='flex items-center gap-x-3 bg-lime-600' onClick={handleAddToCart}>
           Consultar
           <AiOutlineWhatsApp className='w-6 h-6' />
         </Button>

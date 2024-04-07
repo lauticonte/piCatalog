@@ -2,7 +2,6 @@ import { Product } from '@/types'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { create } from 'zustand'
 import { toast } from 'react-hot-toast'
-import Currency from '@/components/ui/currency'
 import { formatter } from '@/utils/utils'
 
 interface CartStore {
@@ -12,14 +11,21 @@ interface CartStore {
   removeAll: () => void
 }
 
+
+
+
 export const useCart = create(
   persist<CartStore>(
     (set, get) => ({
       items: [],
       addItem: (data: Product) => {
+        const raise = Math.round(Number(data.price) * 1.3);
+        const newValue = Math.round(Number(raise) / 50) * 50;
+        const price = formatter.format(Number(newValue));
+    
         const model = data.name.split(' • ')[1];
         const name = data.name.split(' • ')[0];
-        const price = formatter.format(Number(data.price));
+        
         const link =`https://mhgarage.ar/product/${data.id}`;
         const msg = encodeURIComponent(`Hola, quiero consultar por el siguiente artículo:\n\n*${name}*\n- _Modelo: *"${model}"*_\n- _Precio: *${price}*_\n> _${link}_`);
         const wp = '+541168851595'; // Reemplaza esto con tu número de WhatsApp
