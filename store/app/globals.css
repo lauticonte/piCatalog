@@ -11,6 +11,16 @@
   font-family: 'MBF', sans-serif;
 }
 
+.customfont:visited{
+  color: white;
+}
+
+.customfont:hover{
+  color: #624AD9;
+}
+
+
+
 .bg-custom {
   background-color: #1D232A;
 }

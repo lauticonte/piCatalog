@@ -10,11 +10,11 @@ interface IProductPage {
 export const getServerSideProps = async (ctx: any, { params }: IProductPage) => {
   const products = await getProducts({ isFeatured: true })
 
-  const dynamicRoutes = products.map(prod => `https://alluneed.vercel.app/product/${prod.id}`)
+  const dynamicRoutes = products.map(prod => `localhost:3001/product/${prod.id}`)
 
   const fields = [
     {
-      loc: `https://alluneed.vercel.app/prodcut/${dynamicRoutes}`,
+      loc: `localhost:3001/product/${dynamicRoutes}`,
       lastmod: new Date().toISOString(),
     },
   ]

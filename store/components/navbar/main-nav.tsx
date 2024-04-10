@@ -26,20 +26,20 @@ function MainNav({ data }: IMainNav) {
       console.log('Realizar búsqueda con término:', searchTerm);
     };
 
+    //Barra de busqueda a la derecha:
+
     return (
       <div className='hidden md:flex mx-6 items-center space-x-4 lg:space-x-6'>
-        {/* Buscador */}
+        {/* Formulario de búsqueda */}
         <form onSubmit={handleSearchSubmit}>
           <input
             type='text'
             value={searchTerm}
             onChange={handleSearchChange}
             placeholder='Buscar productos...'
-            className='border border-gray-300 px-2 py-1 rounded-md focus:outline-none focus:border-primary'
+            
+            className='w-48 sm:w-64 px-3 py-1.5 border border-gray-200 rounded-lg focus:outline-none focus:border-primary text-black placeholder-gray-400 transition-colors'
           />
-          <button type='submit' className='bg-primary text-white px-3 py-1 rounded-md hover:bg-primary-dark focus:outline-none'>
-            Buscar
-          </button>
         </form>
   
         {/* Menú desplegable de categorías */}

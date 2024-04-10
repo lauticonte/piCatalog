@@ -3,16 +3,18 @@ import React, { memo } from 'react'
 function Footer() {
   const year = new Date().getFullYear()
   return (
-    <footer className='bg-white border-t pt-[50px]  w-full'>
-      <div className='mx-auto py-7'>
+    <footer className='bg-gray-900 w-full'>
+      <div className='mx-auto py-7 text-white text-center '>
 
         <a href='https://contelautaro.com.ar/' target='blank'>
-          <p className='text-center text-sm text-black customfont'>Conte</p>    
+          <span className='text-center text-sm'>Desarrollado por
+          <span className='text-center text-sm customfont ml-1'>Conte</span>
+          </span>  
         
         </a>
 
 
-        <p className='text-center text-sm text-black'>&copy; {year}, todos los derechos reservados.</p>
+        <p className='text-center text-sm'>&copy; {year} MH GARAGE, todos los derechos reservados.</p>
       </div>
     </footer>
   )
