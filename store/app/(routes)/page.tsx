@@ -22,7 +22,7 @@ export default async function Home() {
   return (
     <Container>
       <div className='rounded-xl w-full bg-custom'>
-        <div className='relative w-full h-[250px] sm:h-[500px] new-leaf-gradient rounded-b-lg'>
+        <div className='relative w-full h-[250px] lg:h-[350px] 2xl:h-[500px] new-leaf-gradient rounded-b-lg'>
           <p></p>
         </div>
       </div>
