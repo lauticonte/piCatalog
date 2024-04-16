@@ -1,7 +1,7 @@
 {
-  "name": "AllUNeed Ecommerce",
-  "short_name": "alluneed",
-  "description": "This is the Ecommerce named ALLUNEED",
+  "name": "MHGarage",
+  "short_name": "MHGarage",
+  "description": "This is the Ecommerce named MHGarage",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#1CDADA",

@@ -20,7 +20,7 @@ function ProductClient({ data }: IProductClient) {
 
   return (
     <Fragment>
-      <div className='flex items-center justify-between'>
+      <div className='flex items-center justify-between overscroll-none'>
         <Heading title={`Product (${data.length})`} description='Manage products for your store' />
         <Button onClick={() => router.push(`/${params.storeId}/products/new`)}>
           <FiPlus className='mr-2 w-4- h4' />
@@ -29,11 +29,11 @@ function ProductClient({ data }: IProductClient) {
       </div>
       <Separator />
       <DataTable searchKey='name' columns={columns} data={data} />
-      <Separator />
+      {/* <Separator />
 
       <Heading title='API' description='API calls for Products' />
 
-      <ApiList entityName='products' entityIdName='productId' />
+      <ApiList entityName='products' entityIdName='productId' /> */}
     </Fragment>
   )
 }

@@ -21,7 +21,7 @@ function MobileNav({ categories }: IMobileNav) {
         <NavigationMenuItem>
           <NavigationMenuTrigger className='bg-transparent flex items-center justify-center'>Categorías</NavigationMenuTrigger>
           <NavigationMenuContent
-            className='p-2 bg-white border border-gray-200 rounded-md shadow-md'
+            className='p-2 bg-gray-900 border border-gray-400 rounded-md shadow-md'
             style={{ minWidth, maxWidth }}
           >
             <ul className='overflow-y-scroll max-h-60'>

@@ -12,7 +12,7 @@ function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
   const routes: IRoutes[] = [
     {
       href: `/${params.storeId}`,
-      label: 'Overview',
+      label: 'Panel',
       active: pathname === `/${params.storeId}`,
     },
     {
@@ -22,38 +22,33 @@ function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
     },
     {
       href: `/${params.storeId}/categories`,
-      label: 'Categories',
+      label: 'Categorías',
       active: pathname.includes(`/${params.storeId}/categories`),
     },
     {
       href: `/${params.storeId}/brands`,
-      label: 'Brands',
+      label: 'Marcas',
       active: pathname.includes(`/${params.storeId}/brands`),
     },
     {
-      href: `/${params.storeId}/colors`,
-      label: 'Colors',
-      active: pathname.includes(`/${params.storeId}/colors`),
-    },
-    {
       href: `/${params.storeId}/products`,
-      label: 'Products',
+      label: 'Productos',
       active: pathname.includes(`/${params.storeId}/products`),
-    },
-    {
-      href: `/${params.storeId}/orders`,
-      label: 'Orders',
-      active: pathname.includes(`/${params.storeId}/orders`),
-    },
-    {
-      href: `/${params.storeId}/settings`,
-      label: 'Settings',
-      active: pathname === `/${params.storeId}/settings`,
-    },
+    }
+    // {
+    //   href: `/${params.storeId}/orders`,
+    //   label: 'Orders',
+    //   active: pathname.includes(`/${params.storeId}/orders`),
+    // },
+    // {
+    //   href: `/${params.storeId}/settings`,
+    //   label: 'Settings',
+    //   active: pathname === `/${params.storeId}/settings`,
+    // },
   ]
 
   return (
-    <div className={cn('flex items-center space-x-4 lg:space-x-6', className)} {...props}>
+    <div className={cn('flex items-center space-x-4 lg:space-x-6 overscroll-none', className)} {...props}>
       {routes?.map(route => (
         <Link
           key={route.href}

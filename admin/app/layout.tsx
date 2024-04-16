@@ -8,8 +8,8 @@ import ToastProvider from '@/providers/toast-prrovider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'AllUNeed Admin',
-  description: 'AllUNeed Admin Dashboard',
+  title: 'MHGarage Admin',
+  description: 'MHGarage Admin Dashboard',
   icons: {
     icon: '/logo.png',
   },

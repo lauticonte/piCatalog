@@ -13,6 +13,7 @@ interface IProductCard {
 }
 
 function ProductCard({ data }: IProductCard) {
+  const categoryID = data.category.toString();
 
   return (
 
@@ -40,7 +41,11 @@ function ProductCard({ data }: IProductCard) {
           <h5 >{data.name}</h5>
         
       </Link>
+      <Link href={`/category/${data.category.id}`}>
+        
       <p className='mt-1 text-xs text-center text-gray-600 bg-gray-200 px-3 py-1 rounded-full'>{data.category.name}</p>
+
+      </Link>
 
     </div>
 
