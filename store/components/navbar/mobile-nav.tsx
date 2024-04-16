@@ -20,10 +20,10 @@ function MobileNav({ categories }: IMobileNav) {
       <NavigationMenuList className='group flex flex-1 list-none justify-start space-x-1'>
         <NavigationMenuItem>
           <NavigationMenuTrigger className='bg-transparent flex items-center justify-center'>Categorías</NavigationMenuTrigger>
-          <NavigationMenuContent
-            className='p-2 bg-gray-900 border border-gray-400 rounded-md shadow-md'
-            style={{ minWidth, maxWidth }}
-          >
+            <NavigationMenuContent
+              className='p-2 bg-gray-900 border border-gray-400 rounded-md shadow-md'
+              style={{ minWidth, maxWidth }}
+            >
             <ul className='overflow-y-scroll max-h-60'>
               {categories?.map(cate => (
                 <li key={cate.id} className='mb-1 divide-dashed'>

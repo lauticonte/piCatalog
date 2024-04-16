@@ -15,7 +15,7 @@ async function Navbar() {
     <Fragment>
       <div className='border-b bg-black-900/10 backdrop-blur-md fixed left-0 w-full top-0 z-30 text-white '>
         <Container>
-          <div className='relative px-4 sm:px-6 lg:px-8 flex h-16 items-center'>
+          <div className='relative px-0 sm:px-6 lg:px-8 flex h-16 items-center'>
             <Link
               href='/'
               className='ml-4 flex lg:ml-0 gap-x-2 text-xl font-bold hover:text-white focus:text-white focus:outline-none '

@@ -21,7 +21,7 @@ function NavActions() {
   }
 
   return (
-    <div className='ml-auto flex items-center gap-x-4'>
+    <div className='mx-5 flex items-center gap-x-4'>
       <Button
         
         className='flex items-center rounded-full px-6 py-2 lg:hidden'
