@@ -4,6 +4,7 @@ import ProductList from '@/components/product/product-list';
 import Container from '@/components/ui/container';
 import Button from '@/components/ui/button';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const srcImage = 'https://images.unsplash.com/photo-1632216820004-4b3b3b3b3b3b';
 
@@ -23,6 +24,7 @@ export default async function Home() {
     <Container>
       <div className='rounded-xl w-full bg-custom'>
         <div className='relative w-full h-[250px] lg:h-[350px] 2xl:h-[500px] new-leaf-gradient rounded-b-lg'>
+          <Image src="/banner.png" layout='fill' alt='Banner' className='rounded-b-lg object-cover 2xl:object-cover ' />
           <p></p>
         </div>
       </div>
