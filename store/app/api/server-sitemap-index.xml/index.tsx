@@ -10,11 +10,11 @@ interface IProductPage {
 export const getServerSideProps = async (ctx: any, { params }: IProductPage) => {
   const products = await getProducts({ isFeatured: true })
 
-  const dynamicRoutes = products.map(prod => `localhost:3001/product/${prod.id}`)
+  const dynamicRoutes = products.map(prod => `https://admin.mhgarage.ar/product/${prod.id}`)
 
   const fields = [
     {
-      loc: `localhost:3001/product/${dynamicRoutes}`,
+      loc: `https://admin.mhgarage.ar/product/${dynamicRoutes}`,
       lastmod: new Date().toISOString(),
     },
   ]
