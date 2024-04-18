@@ -22,12 +22,10 @@ export const metadata: Metadata = {
     locale: 'es_AR',
     url: 'https://mhgarage.ar/',
     title: 'MH Garage - Herramientas',
-    description: 'Catálogo de herramientas online. Consultas por WhatsApp. Envíos a todo el país.',
+    description: 'Catálogo de herramientas online. Consultas por WhatsApp.',
     images: [
       {
-        url: '/banner.png',
-        width: 800,
-        height: 600,
+        url: '/opengraph-image.png',
         alt: 'MH Garage - Herramientas',
       },
     ]},
