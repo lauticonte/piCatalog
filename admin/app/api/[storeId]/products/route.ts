@@ -9,7 +9,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 
     const body = await req.json()
 
-    const { name, desc, price, categoryId, colorId, brandId, images, isFeatured, isArchived } = body
+    const { name, desc, price, categoryId, colorId, SKU, brandId, images, isFeatured, isArchived } = body
 
     if (!userId) {
       return new NextResponse('Unauthenticated', { status: 403 })
@@ -68,6 +68,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
         categoryId,
         colorId,
         brandId,
+        SKU,
         storeId: params.storeId,
         images: {
           createMany: {

@@ -24,6 +24,7 @@ async function ProductsPage({ params }: { params: { storeId: string } }) {
     id: item.id,
     name: item.name,
     desc: item.desc,
+    SKU: item.SKU,
     isFeatured: item.isFeatured,
     isArchived: item.isArchived,
     price: formatter.format(item.price),

@@ -54,7 +54,7 @@ function Filter({ valueKey, name, data }: IFilter) {
           <div className='flex items-center' key={idx}>
             <Button
               className={cn(
-                'rounded-md text-sm text-gray-800 p-2 bg-white border border-gray-300',
+                'uppercase rounded-md text-sm text-gray-800 p-2 bg-gray-300 border-0',
                 selectedValue === filter.id ? 'bg-black text-white' : ''
               )}
               onClick={() => handleFilter(filter.id)}

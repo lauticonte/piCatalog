@@ -54,6 +54,7 @@ function ProductForm({ initialData, categories, brands, colors }: IProductForm) 
       : {
           name: '',
           desc: '',
+          SKU: '',
           images: [],
           price: 0,
           categoryId: '',
@@ -149,6 +150,18 @@ function ProductForm({ initialData, categories, brands, colors }: IProductForm) 
                   <FormLabel>Descripción</FormLabel>
                   <FormControl>
                     <Input disabled={loading} placeholder='Descripción...' {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='SKU'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Modelo</FormLabel>
+                  <FormControl>
+                    <Input disabled={loading} placeholder='SKU...' {...field} />
                   </FormControl>
                 </FormItem>
               )}

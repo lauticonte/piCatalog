@@ -20,12 +20,17 @@ function MobileFilters({ brands }: IMobileFilters) {
       </SheetTrigger>
       <SheetContent>
         <div className='p-4 text-white'>
+          
+
+          {/* Muestra todas las marcas para poder filtrar por ellas */}
+          <Filter valueKey='brandId' name='MARCAS' data={brands} />
           <ClearFilter />
-          <Filter valueKey='brandId' name='Marcas' data={brands} />
         </div>
       </SheetContent>
     </Sheet>
-  )
+  );
 }
+
+
 
 export default MobileFilters

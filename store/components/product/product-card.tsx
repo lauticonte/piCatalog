@@ -36,7 +36,7 @@ function ProductCard({ data }: IProductCard) {
       <span className="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">20% OFF</span>
     </div>
     <div className="mt-4 px-5 pb-5">
-      <Link className="text-xl font-medium text-ellipsis overflow-hidden text-white overflow-ellipsis block box-border flex-wrap items-center justify-center h-14 pb-6 mb-2 text-ellipsis" href={`/product/${data.id}`}>
+      <Link className="text-xl uppercase font-medium text-ellipsis overflow-hidden text-white overflow-ellipsis block box-border flex-wrap items-center justify-center h-14 pb-6 mb-2 text-ellipsis" href={`/product/${data.id}`}>
         
           <h5 >{data.name}</h5>
         

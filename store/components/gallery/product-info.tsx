@@ -26,10 +26,12 @@ function ProductInfo({ data }: IProductInfo) {
   };
 
   const items = data.desc.split('•')
+  const brand = data.brand.name
+  
 
   return (
     <div className='text-gray-200'>
-      <h1 className='text-2xl font-bold text-gray-200'>{data.name}</h1>
+      <h1 className='text-2xl font-bold text-gray-200 uppercase'>{data.name}</h1>
       <div className='mt-3 flex items-center justify-center md:justify-start'>
         <p className='text-2xl text-gray-200 rounded-full bg-gray-900 border-transparent px-14 py-3 text-white font-semibold transition'>
           <Currency value={data.price} />
@@ -39,8 +41,13 @@ function ProductInfo({ data }: IProductInfo) {
 
       {/* Agregar descripcion aquí */}
       <div className='mt-3'>
+      <li className='mt-4 mb-4 list-none'>Marca: <span className='font-semibold rounded-lg bg-gray-700 border-transparent px-4 py-3 ml-2 '>{brand}</span></li>
         <h3 className='font-semibold text-blas mb-1'>Descripción: </h3>
         <ul>
+          {/* brand */}
+          
+          {/* category */}
+
           {items.slice(0, visibleItems).map((item, index) => (
             <li key={index}>{item.trim()}</li>
           ))}
