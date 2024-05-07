@@ -21,10 +21,10 @@ function BrandsClient({ data }: IBrand) {
   return (
     <Fragment>
       <div className='flex items-center justify-between'>
-        <Heading title={`Brands (${data.length})`} description='Manage brands for your store' />
+        <Heading title={`Marcas (${data.length})`} description='Gestioná las marcas de tu negocio' />
         <Button onClick={() => router.push(`/${params.storeId}/brands/new`)}>
           <FiPlus className='mr-2 w-4- h4' />
-          Add New
+          Agregar
         </Button>
       </div>
       <Separator />

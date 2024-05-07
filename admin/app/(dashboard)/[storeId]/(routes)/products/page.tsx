@@ -22,7 +22,7 @@ async function ProductsPage({ params }: { params: { storeId: string } }) {
 
   const transformedProducts: ProductColumn[] = products.map(item => ({
     id: item.id,
-    name: item.name,
+    name: item.name.toUpperCase(),
     desc: item.desc,
     SKU: item.SKU,
     isFeatured: item.isFeatured,

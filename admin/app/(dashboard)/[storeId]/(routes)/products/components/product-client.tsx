@@ -21,10 +21,10 @@ function ProductClient({ data }: IProductClient) {
   return (
     <Fragment>
       <div className='flex items-center justify-between overscroll-none'>
-        <Heading title={`Product (${data.length})`} description='Manage products for your store' />
+        <Heading title={`Productos (${data.length})`} description='Gestioná tus productos' />
         <Button onClick={() => router.push(`/${params.storeId}/products/new`)}>
           <FiPlus className='mr-2 w-4- h4' />
-          Add New
+          Agregar
         </Button>
       </div>
       <Separator />

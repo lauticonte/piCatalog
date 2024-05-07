@@ -54,7 +54,7 @@ function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
           key={route.href}
           href={route.href}
           className={cn(
-            'text-sm font-medium transition-colors hover:text-primary hover:underline focus:outline-none focus:underline',
+            'text-sm font-bold uppercase transition-colors hover:text-primary hover:underline focus:outline-none focus:underline',
             route.active ? 'text-black dark:text-white' : 'text-muted-foreground'
           )}
         >

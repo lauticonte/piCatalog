@@ -21,10 +21,10 @@ function BillboardClient({ data }: IBillboardClient) {
   return (
     <Fragment>
       <div className='flex items-center justify-between'>
-        <Heading title={`Categories (${data.length})`} description='Manage categories for your store' />
+        <Heading title={`Categorías (${data.length})`} description='Gestioná las categorías de tu negocio' />
         <Button onClick={() => router.push(`/${params.storeId}/categories/new`)}>
           <FiPlus className='mr-2 w-4- h4' />
-          Add New
+          Agregar
         </Button>
       </div>
       <Separator />

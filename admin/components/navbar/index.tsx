@@ -23,10 +23,11 @@ async function Navbar() {
       <div className='border-b h-16 items-center backdrop-blur-md fixed top-0 left-0 w-full z-40 '>
         <div className='flex h-16  '>
           {/* <StoreSwitcher items={stores} /> */}
-          <MainNav className='mx-4' />
-          {/* <div className='ml-auto flex items-center space-x-2'>
+          <div className='ml-2 flex items-center space-x-2'>
             <UserButton afterSignOutUrl='/' />
-          </div> */}
+          </div>
+          <MainNav className='mx-4' />
+
         </div>
       </div>
       <div className='h-[60px]' />
