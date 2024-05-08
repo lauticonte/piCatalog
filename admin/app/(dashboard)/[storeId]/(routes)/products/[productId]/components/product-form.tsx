@@ -58,7 +58,7 @@ function ProductForm({ initialData, categories, brands, colors }: IProductForm) 
           images: [],
           price: 0,
           categoryId: '',
-          colorId: '',
+          colorId: '65ec0abd6702c9c0e4c08960',
           brandId: '',
           isFeatured: false,
           isArchived: false,
@@ -226,29 +226,7 @@ function ProductForm({ initialData, categories, brands, colors }: IProductForm) 
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name='colorId'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Color</FormLabel>
-                  <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue defaultValue={field.value} placeholder='Select a color' />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {colors?.map(color => (
-                        <SelectItem key={color.id} value={color.id}>
-                          {color.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
+            
           </div>
           <div className='grid grid-cols-3 gap-8'>
             <FormField
