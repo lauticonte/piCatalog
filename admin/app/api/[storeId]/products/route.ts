@@ -93,6 +93,11 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
     const brandId = searchParams.get('brandId') || undefined
     const isFeatured = searchParams.get('isFeatured')
 
+    // Parámetros de paginación
+    const page = parseInt(searchParams.get('page') || '1', 10)
+    const limit = parseInt(searchParams.get('limit') || '15', 10)
+    const skip = (page - 1) * limit
+
     if (!params.storeId) {
       return new NextResponse('Store id is required', { status: 400 })
     }
@@ -115,6 +120,8 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
       orderBy: {
         createdAt: 'desc',
       },
+      skip, // Omitir los productos anteriores
+      take: limit, // Limitar el número de productos obtenidos
     })
 
     return NextResponse.json(products)

@@ -1,26 +1,26 @@
-import { getProducts } from '@/actions/get-products'
-import { getServerSideSitemap } from 'next-sitemap'
+import React from 'react';
+import { getProducts } from '@/actions/get-products';
+import { getProductsCount } from '@/actions/get-products-count';
+import { getServerSideSitemap } from 'next-sitemap';
 
-interface IProductPage {
-  params: {
-    productId: string
-  }
-}
+const ITEMS_PER_PAGE = 12;
 
-export const getServerSideProps = async (ctx: any, { params }: IProductPage) => {
-  const products = await getProducts({ isFeatured: true })
+export const getServerSideProps = async (ctx: any) => {
 
-  const dynamicRoutes = products.map(prod => `https://admin.mhgarage.ar/product/${prod.id}`)
+  const fields = [];
 
-  const fields = [
-    {
-      loc: `https://admin.mhgarage.ar/product/${dynamicRoutes}`,
+  // Obtener los productos según el límite actual
+  const products = await getProducts({ isFeatured: true, limit: ITEMS_PER_PAGE });
+
+  products.forEach(product => {
+    fields.push({
+      loc: `https://admin.mhgarage.ar/product/${product.id}`,
       lastmod: new Date().toISOString(),
-    },
-  ]
+    });
+  });
 
-  return getServerSideSitemap(ctx, fields)
-}
+  return getServerSideSitemap(ctx, fields);
+};
 
 // Default export to prevent next.js errors
 export default function SitemapIndex() {}

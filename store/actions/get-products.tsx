@@ -8,6 +8,8 @@ interface Query {
   colorId?: string
   brandId?: string
   isFeatured?: boolean
+  page?: number
+  limit?: number
 }
 
 export const getProducts = async (query: Query): Promise<Product[]> => {
@@ -18,6 +20,8 @@ export const getProducts = async (query: Query): Promise<Product[]> => {
       brandId: query.brandId,
       categoryId: query.categoryId,
       isFeatured: query.isFeatured,
+      page: query.page,
+      limit: query.limit,
     },
   })
 
@@ -26,6 +30,10 @@ export const getProducts = async (query: Query): Promise<Product[]> => {
       revalidate: 10,
     },
   })
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch products')
+  }
 
   return res.json()
 }
