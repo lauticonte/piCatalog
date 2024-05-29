@@ -5,7 +5,6 @@ import prismadb from '@/lib/prismadb'
 
 export async function GET(req: Request, { params }: { params: { categoryId: string } }) {
   try {
-    console.log('parmas.categoryId', params.categoryId)
 
     if (!params.categoryId) {
       return new NextResponse('Category id is required', { status: 400 })

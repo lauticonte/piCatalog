@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs'
-
 import prismadb from '@/lib/prismadb'
 
 export async function POST(req: Request, { params }: { params: { storeId: string } }) {
@@ -87,19 +86,23 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 
 export async function GET(req: Request, { params }: { params: { storeId: string } }) {
   try {
-    const { searchParams } = new URL(req.url)
-    const categoryId = searchParams.get('categoryId') || undefined
-    const colorId = searchParams.get('colorId') || undefined
-    const brandId = searchParams.get('brandId') || undefined
-    const isFeatured = searchParams.get('isFeatured')
+    const { searchParams } = new URL(req.url);
 
-    // Parámetros de paginación
-    const page = parseInt(searchParams.get('page') || '1', 10)
-    const limit = parseInt(searchParams.get('limit') || '15', 10)
-    const skip = (page - 1) * limit
+    const categoryId = searchParams.get('categoryId') || undefined;
+    const colorId = searchParams.get('colorId') || undefined;
+    const brandId = searchParams.get('brandId') || undefined;
+    const isFeatured = searchParams.get('isFeatured');
+
+    const page = searchParams.get('page') || '1';
+    const limit = searchParams.get('limit') || '12'; // Asegúrate que '3' es el valor por defecto deseado
+
+    const limitInt = parseInt(limit, 10);
+    const pageInt = parseInt(page, 10);
+
+    const skip = (pageInt - 1) * limitInt;
 
     if (!params.storeId) {
-      return new NextResponse('Store id is required', { status: 400 })
+      return new NextResponse('Store id is required', { status: 400 });
     }
 
     const products = await prismadb.product.findMany({
@@ -121,12 +124,12 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
         createdAt: 'desc',
       },
       skip, // Omitir los productos anteriores
-      take: limit, // Limitar el número de productos obtenidos
-    })
+      take: limitInt, // Limitar el número de productos obtenidos
+    });
 
-    return NextResponse.json(products)
+    return NextResponse.json(products);
   } catch (error) {
-    console.log('[PRODUCTS_GET]', error)
-    return new NextResponse('Internal error', { status: 500 })
+    console.log('[PRODUCTS_GET]', error);
+    return new NextResponse('Internal error', { status: 500 });
   }
 }

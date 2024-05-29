@@ -40,8 +40,6 @@ function Filter({ valueKey, name, data }: IFilter) {
       }
     )
 
-    console.log('url', url)
-
     router.push(url)
   }
 

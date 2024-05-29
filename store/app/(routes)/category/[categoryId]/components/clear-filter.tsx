@@ -6,12 +6,12 @@ import { FaDeleteLeft } from 'react-icons/fa6'
 
 function ClearFilter() {
   const router = useRouter()
-  const parmas = useParams()
+  const params = useParams()
 
   return (
     <>
       <p
-        onClick={() => router.push(`/category/${parmas.categoryId}`)}
+        onClick={() => router.push(`/category/${params.categoryId}`)}
         role='button'
         aria-hidden
         className='

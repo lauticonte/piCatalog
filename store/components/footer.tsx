@@ -3,7 +3,7 @@ import React, { memo } from 'react'
 function Footer() {
   const year = new Date().getFullYear()
   return (
-    <footer className='bg-gray-900 w-full'>
+    <footer className='bg-gray-900 w-full z-50'>
       <div className='mx-auto py-7 text-white text-center '>
 
         <a href='https://contelautaro.com.ar/' target='blank'>
