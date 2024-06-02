@@ -23,11 +23,12 @@ export const useCart = create(
         const newValue = Math.round(Number(raise) / 50) * 50;
         const price = formatter.format(Number(newValue));
     
-        const model = data.name.split(' • ')[1];
+        const model = data.SKU;
         const name = data.name.split(' • ')[0];
+        const marca = data.brand.name;
         
         const link =`https://mhgarage.ar/product/${data.id}`;
-        const msg = encodeURIComponent(`Hola, quiero consultar por el siguiente artículo:\n\n*${name}*\n- _Modelo: *"${model}"*_\n- _Precio: *${price}*_\n> _${link}_`);
+        const msg = encodeURIComponent(`Hola, quiero consultar por el siguiente artículo:\n\n*${name}*\n- _Marca: *"${marca}"*_\n- _Modelo: *"${model}"*_\n- _Precio: *${price}*_\n> _${link}_`);
         const wp = '+541156977161'; // Reemplaza esto con tu número de WhatsApp
         const urlWp = `https://wa.me/${wp}/?text=${msg}`;
         window.location.href = urlWp;

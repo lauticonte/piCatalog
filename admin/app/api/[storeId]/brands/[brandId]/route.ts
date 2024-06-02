@@ -13,6 +13,9 @@ export async function GET(req: Request, { params }: { params: { brandId: string 
       where: {
         id: params.brandId,
       },
+      include: {
+        billboard: true,
+      },
     })
 
     return NextResponse.json(brand)
@@ -64,10 +67,14 @@ export async function PATCH(req: Request, { params }: { params: { brandId: strin
 
     const body = await req.json()
 
-    const { name, value } = body
+    const { name, value, billboardId } = body
 
     if (!userId) {
       return new NextResponse('Unauthenticated', { status: 403 })
+    }
+
+    if (!billboardId) {
+      return new NextResponse('Billboard is required', { status: 400 })
     }
 
     if (!name) {
@@ -100,6 +107,7 @@ export async function PATCH(req: Request, { params }: { params: { brandId: strin
       data: {
         name,
         value,
+        billboardId,
       },
     })
 

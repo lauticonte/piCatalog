@@ -9,9 +9,6 @@ async function CategoriesPage({ params }: { params: { storeId: string } }) {
     where: {
       storeId: params.storeId,
     },
-    include: {
-      billboard: true,
-    },
     orderBy: {
       createdAt: 'desc',
     },
@@ -20,7 +17,6 @@ async function CategoriesPage({ params }: { params: { storeId: string } }) {
   const transformedCategoreis: CategoryColumn[] = categories.map(item => ({
     id: item.id,
     name: item.name,
-    billboardLabel: item.billboard.label,
     createdAt: format(item.createdAt, 'MMMM do, yyyy'),
   }))
 

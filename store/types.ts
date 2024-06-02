@@ -8,6 +8,7 @@ export interface Product {
   brand: Brand
   color: Color
   images: Image[]
+  SKU: string
 }
 
 export interface Image {
@@ -24,13 +25,13 @@ export interface Billboard {
 export interface Category {
   id: string
   name: string
-  billboard: Billboard
 }
 
 export interface Brand {
   id: string
   name: string
   value: string
+  billboard: Billboard
 }
 
 export interface Color {

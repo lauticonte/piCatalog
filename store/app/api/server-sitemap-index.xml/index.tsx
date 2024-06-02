@@ -3,18 +3,17 @@ import { getProducts } from '@/actions/get-products';
 import { getProductsCount } from '@/actions/get-products-count';
 import { getServerSideSitemap } from 'next-sitemap';
 
-const ITEMS_PER_PAGE = 12;
 
 export const getServerSideProps = async (ctx: any) => {
 
   const fields = [];
 
   // Obtener los productos según el límite actual
-  const products = await getProducts({ isFeatured: true, limit: ITEMS_PER_PAGE });
+  const products = await getProducts({ isFeatured: true });
 
   products.forEach(product => {
     fields.push({
-      loc: `https://admin.mhgarage.ar/product/${product.id}`,
+      loc: `http://localhost:3001/product/${product.id}`,
       lastmod: new Date().toISOString(),
     });
   });

@@ -6,7 +6,7 @@ import CellAction from './cell-action'
 export type BrandColumn = {
   id: string
   name: string
-  value: string
+  billboardLabel: string
   createdAt: string
 }
 
@@ -16,8 +16,9 @@ export const columns: ColumnDef<BrandColumn>[] = [
     header: 'Name',
   },
   {
-    accessorKey: 'value',
-    header: 'Value',
+    accessorKey: 'billboardLabel',
+    header: 'Billboard',
+    cell: ({ row }) => row.original.billboardLabel,
   },
   {
     accessorKey: 'createdAt',

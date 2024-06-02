@@ -9,6 +9,9 @@ async function CategoriesPage({ params }: { params: { storeId: string } }) {
     where: {
       storeId: params.storeId,
     },
+    include: {
+      billboard: true,
+    },
     orderBy: {
       createdAt: 'desc',
     },
@@ -18,6 +21,7 @@ async function CategoriesPage({ params }: { params: { storeId: string } }) {
     id: item.id,
     name: item.name,
     value: item.value,
+    billboardLabel: item.billboard.label,
     createdAt: format(item.createdAt, 'MMMM do, yyyy'),
   }))
 

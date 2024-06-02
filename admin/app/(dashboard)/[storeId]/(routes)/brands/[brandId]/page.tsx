@@ -12,10 +12,16 @@ async function BrandPage({ params }: { params: { brandId: string; storeId: strin
           },
         })
 
+        const billboards = await prismadb.billboard.findMany({
+          where: {
+            storeId: params.storeId,
+          },
+        })
+
   return (
     <div className='flex-col'>
       <div className='flex-1 space-y-4 px-8 pt-2'>
-        <BrandForm initialData={brand} />
+        <BrandForm initialData={brand} billboards={billboards} />
       </div>
     </div>
   )

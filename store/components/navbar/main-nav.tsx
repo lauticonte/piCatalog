@@ -4,10 +4,10 @@ import React, {useState} from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/utils/utils';
-import { Category } from '@/types';
+import { Brand } from '@/types';
 
 interface IMainNav {
-  data: Category[];
+  data: Brand[];
 }
 
 function MainNav({ data }: IMainNav) {
@@ -45,7 +45,7 @@ function MainNav({ data }: IMainNav) {
         {/* Menú desplegable de categorías */}
         <div className='relative group'>
           <button className='text-sm font-medium transition-colors hover:text-primary hover:underline focus:outline-none focus:underline'>
-            Categorías
+            Marcas
             <svg
               xmlns='http://www.w3.org/2000/svg'
               className='h-5 w-5 ml-1 inline-block'
@@ -61,10 +61,10 @@ function MainNav({ data }: IMainNav) {
         <ul className='absolute hidden bg-white border border-gray-200 py-1 px-2 mt-1 rounded-lg group-hover:block min-w-[24rem]'>
           {data.map(route => (
             <li key={route.id}>
-              <Link href={`/category/${route.id}`}>
+              <Link href={`/brand/${route.id}`}>
                 <span className={cn(
                   'text-sm font-medium transition-colors hover:text-primary hover:underline focus:outline-none focus:underline',
-                  pathname === `/category/${route.id}` ? 'text-black' : 'text-muted-foreground'
+                  pathname === `/brand/${route.id}` ? 'text-black' : 'text-muted-foreground'
                 )}>
                   {route.name}
                 </span>

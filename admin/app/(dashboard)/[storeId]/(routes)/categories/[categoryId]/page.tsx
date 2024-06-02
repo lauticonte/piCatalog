@@ -21,7 +21,7 @@ async function CategoryPage({ params }: { params: { categoryId: string; storeId:
   return (
     <div className='flex-col'>
       <div className='flex-1 space-y-4 px-8 pt-2'>
-        <CategoryForm initialData={category} billboards={billboards} />
+        <CategoryForm initialData={category} />
       </div>
     </div>
   )

@@ -1,4 +1,3 @@
-import { getCategories } from '@/actions/get-categories'
 import Link from 'next/link'
 import React, { Fragment } from 'react'
 import Container from '../ui/container'
@@ -6,9 +5,10 @@ import MainNav from './main-nav'
 import Mobilenav from './mobile-nav'
 import NavActions from './nav-actions'
 import Image from 'next/image'
+import { getBrands } from '@/actions/get-brands'
 
 async function Navbar() {
-  const categories = await getCategories()
+  const brands = await getBrands()
   
 
   return (
@@ -23,9 +23,9 @@ async function Navbar() {
               <Image src='/logo-full.png' width={150} height={70} alt='logo' />
 
             </Link>
-            <MainNav data={categories} />
+            <MainNav data={brands} />
             <div className='block md:hidden ml-3'>
-              <Mobilenav categories={categories} />
+              <Mobilenav brands={brands} />
             </div>
             <NavActions />
           </div>

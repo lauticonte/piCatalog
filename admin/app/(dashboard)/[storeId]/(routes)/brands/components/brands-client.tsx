@@ -32,7 +32,7 @@ function BrandsClient({ data }: IBrand) {
       <DataTable searchKey='name' columns={columns} data={data} />
       <Separator />
 
-      <Heading title='API' description='API calls for Categories' />
+      <Heading title='API' description='Endpoints para marcas' />
 
       <ApiList entityName='brands' entityIdName='brandId' />
     </Fragment>

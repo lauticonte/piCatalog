@@ -16,16 +16,14 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 import { BiTrash } from 'react-icons/bi'
 import { z } from 'zod'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 type CaregoryFormValues = z.infer<typeof CategoryFormSchema>
 
 interface ICategoyForm {
   initialData: Category | null
-  billboards: Billboard[]
 }
 
-function CategoryForm({ initialData, billboards }: ICategoyForm) {
+function CategoryForm({ initialData }: ICategoyForm) {
   const params = useParams()
   const router = useRouter()
   const [open, setOpen] = useState(false)
@@ -40,7 +38,6 @@ function CategoryForm({ initialData, billboards }: ICategoyForm) {
     resolver: zodResolver(CategoryFormSchema),
     defaultValues: initialData || {
       name: '',
-      billboardId: '',
     },
   })
 
@@ -106,30 +103,7 @@ function CategoryForm({ initialData, billboards }: ICategoyForm) {
                   </FormControl>
                 </FormItem>
               )}
-            />
-            <FormField
-              control={form.control}
-              name='billboardId'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Billboard</FormLabel>
-                  <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue defaultValue={field.value} placeholder='Select a billboard' />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {billboards?.map(billboard => (
-                        <SelectItem key={billboard.id} value={billboard.id}>
-                          {billboard.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
+            />  
           </div>
           <Button disabled={loading} className='ml-auto' type='submit'>
             {action}

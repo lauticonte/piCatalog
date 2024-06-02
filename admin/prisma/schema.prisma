@@ -28,11 +28,11 @@ model Billboard {
   id         String     @id @default(auto()) @map("_id") @db.ObjectId
   storeId    String     @db.ObjectId
   store      Store      @relation("StoreToBillboard", fields: [storeId], references: [id])
-  categories Category[]
   label      String
   imageUrl   String
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt()
+  brands     Brand[]
 
   @@index([storeId])
 }
@@ -41,28 +41,28 @@ model Category {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   storeId     String    @db.ObjectId
   store       Store     @relation("StoreToCategory", fields: [storeId], references: [id])
-  billboardId String    @db.ObjectId
-  billboard   Billboard @relation(fields: [billboardId], references: [id])
   products    Product[] @relation("CategoryToProduct")
   name        String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
   @@index([storeId])
-  @@index([billboardId])
 }
 
 model Brand {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  storeId   String    @db.ObjectId
-  store     Store     @relation("StoreToBrand", fields: [storeId], references: [id])
-  name      String
-  value     String
-  products  Product[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  storeId     String    @db.ObjectId
+  store       Store     @relation("StoreToBrand", fields: [storeId], references: [id])
+  name        String
+  value       String
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  billboardId String    @db.ObjectId
+  billboard   Billboard @relation(fields: [billboardId], references: [id])
 
   @@index([storeId])
+  @@index([billboardId])
 }
 
 model Color {

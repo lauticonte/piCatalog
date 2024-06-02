@@ -7,11 +7,11 @@ import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu';
 import { Category } from '@/types';
 
 interface IMobileNav {
-  categories: Category[];
+  brands: Category[];
 }
 
-function MobileNav({ categories }: IMobileNav) {
-  const longestCategoryLength = Math.max(...categories.map(category => category.name.length));
+function MobileNav({ brands }: IMobileNav) {
+  const longestCategoryLength = Math.max(...brands.map(brand => brand.name.length));
   const minWidth = `${longestCategoryLength * 0.75}ch`; // Ajusta el valor según tus necesidades
   const maxWidth = '25rem'; // Ajusta el valor según tus necesidades
 
@@ -19,16 +19,16 @@ function MobileNav({ categories }: IMobileNav) {
     <NavigationMenu>
       <NavigationMenuList className='group flex flex-1 list-none justify-start space-x-1'>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className='bg-transparent flex items-center justify-center'>Categorías</NavigationMenuTrigger>
+          <NavigationMenuTrigger className='bg-transparent flex items-center justify-center'>Marcas</NavigationMenuTrigger>
             <NavigationMenuContent
               className='p-2 bg-gray-900 border border-gray-400 rounded-md shadow-md'
               style={{ minWidth, maxWidth }}
             >
             <ul className='overflow-y-scroll max-h-60'>
-              {categories?.map(cate => (
-                <li key={cate.id} className='mb-1 divide-dashed'>
-                  <Link href={`/category/${cate.id}`} passHref>
-                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>{cate.name}</NavigationMenuLink>
+              {brands?.map(br => (
+                <li key={br.id} className='mb-1 divide-dashed'>
+                  <Link href={`/brand/${br.id}`} passHref>
+                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>{br.name}</NavigationMenuLink>
                   </Link>
                 </li>
               ))}
