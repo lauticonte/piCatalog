@@ -13,7 +13,7 @@ interface IProductPage {
   }
 }
 
-const DOMAIN_URL = 'http://localhost:3001'
+const DOMAIN_URL = 'https://admin.mhgarage.ar'
 
 export async function generateMetadata({ params }: IProductPage): Promise<Metadata> {
   const product = await getProduct(params.productId)

@@ -1,7 +1,7 @@
 import { Product } from '@/types'
 import qs from 'query-string'
 
-const URL = `http://localhost:3001/api/65ec0a796702c9c0e4c0895f/products`
+const URL = `https://admin.mhgarage.ar/api/65ec0a796702c9c0e4c0895f/products`
 
 interface Query {
   categoryId?: string
