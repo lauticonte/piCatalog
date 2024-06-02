@@ -11,7 +11,7 @@ function ClearFilter() {
   return (
     <>
       <p
-        onClick={() => router.push(`/category/${params.categoryId}`)}
+        onClick={() => router.push(`/brand/${params.brandId}`)}
         role='button'
         aria-hidden
         className='

@@ -5,7 +5,7 @@ import React from 'react'
 import { BsPlus } from 'react-icons/bs'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import Filter from './filter'
-import ClearFilter from './clear-filter'
+import ClearFilter from '../../../brand/[brandId]/components/clear-filter'
 
 interface IMobileFilters {
   brands: Brand[]
