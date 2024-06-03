@@ -42,7 +42,7 @@ function MainNav({ data }: IMainNav) {
           />
         </form>
   
-        {/* Menú desplegable de categorías */}
+        {/* Menú desplegable de categorías
         <div className='relative group'>
           <button className='text-sm font-medium transition-colors hover:text-primary hover:underline focus:outline-none focus:underline'>
             Marcas
@@ -72,7 +72,33 @@ function MainNav({ data }: IMainNav) {
             </li>
           ))}
         </ul>
-      </div>
+      </div> */}
+
+      {/* Enlaces de navegación */}
+      <Link href='/brands'>
+      <button className='text-sm font-medium transition-colors hover:text-primary hover:underline focus:outline-none focus:underline'>
+            Marcas
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              className='h-5 w-5 ml-1 inline-block'
+              viewBox='0 0 20 20'
+              fill='currentColor'
+            >
+            <path
+              fillRule='evenodd'
+              d='M10 3a1 1 0 0 1 .707.293l4 4a1 1 0 0 1-1.414 1.414L10 5.414 6.707 8.707a1 1 0 0 1-1.414-1.414l4-4A1 1 0 0 1 10 3zM10 17a1 1 0 0 1-.707-.293l-4-4a1 1 0 1 1 1.414-1.414L10 14.586l3.293-3.293a1 1 0 0 1 1.414 1.414l-4 4A1 1 0 0 1 10 17z'
+            />
+          </svg>
+        </button>
+      </Link>
+
+
+
+
+
+
+
+
     </div>
   );
 }

@@ -32,6 +32,7 @@ export interface Brand {
   name: string
   value: string
   billboard: Billboard
+  imageUrl: string
 }
 
 export interface Color {

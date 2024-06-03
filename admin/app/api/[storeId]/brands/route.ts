@@ -7,7 +7,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
     const { userId } = auth()
     const body = await req.json()
 
-    const { name, value, billboardId } = body
+    const { name, value, billboardId, imageUrl } = body
 
     if (!userId) {
       return new NextResponse('Unauthenticated', { status: 403 })
@@ -24,6 +24,10 @@ export async function POST(req: Request, { params }: { params: { storeId: string
     
     if (!billboardId) {
       return new NextResponse('Billboard is required', { status: 400 })
+    }
+
+    if (!imageUrl) {
+      return new NextResponse('Image is required', { status: 400 })
     }
 
     if (!params.storeId) {
@@ -47,6 +51,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
         value,
         storeId: params.storeId,
         billboardId,
+        imageUrl,
       },
     })
 

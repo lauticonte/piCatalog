@@ -19,21 +19,9 @@ function MobileNav({ brands }: IMobileNav) {
     <NavigationMenu>
       <NavigationMenuList className='group flex flex-1 list-none justify-start space-x-1'>
         <NavigationMenuItem>
+          <Link href='/brands' passHref>
           <NavigationMenuTrigger className='bg-transparent flex items-center justify-center'>Marcas</NavigationMenuTrigger>
-            <NavigationMenuContent
-              className='p-2 bg-gray-900 border border-gray-400 rounded-md shadow-md'
-              style={{ minWidth, maxWidth }}
-            >
-            <ul className='overflow-y-scroll max-h-60'>
-              {brands?.map(br => (
-                <li key={br.id} className='mb-1 divide-dashed'>
-                  <Link href={`/brand/${br.id}`} passHref>
-                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>{br.name}</NavigationMenuLink>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </NavigationMenuContent>
+          </Link>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>

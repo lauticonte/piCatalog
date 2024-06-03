@@ -4,7 +4,7 @@ import React from 'react'
 import BrandsClient from './components/brands-client'
 import { BrandColumn } from './components/columns'
 
-async function CategoriesPage({ params }: { params: { storeId: string } }) {
+async function BrandsPage({ params }: { params: { storeId: string } }) {
   const brands = await prismadb.brand.findMany({
     where: {
       storeId: params.storeId,
@@ -34,4 +34,4 @@ async function CategoriesPage({ params }: { params: { storeId: string } }) {
   )
 }
 
-export default CategoriesPage
+export default BrandsPage

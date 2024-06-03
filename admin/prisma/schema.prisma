@@ -60,6 +60,7 @@ model Brand {
   updatedAt   DateTime  @updatedAt
   billboardId String    @db.ObjectId
   billboard   Billboard @relation(fields: [billboardId], references: [id])
+  imageUrl    String
 
   @@index([storeId])
   @@index([billboardId])

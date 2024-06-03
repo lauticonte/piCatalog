@@ -17,6 +17,7 @@ import { toast } from 'react-hot-toast'
 import { BiTrash } from 'react-icons/bi'
 import { z } from 'zod'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import ImageUpload from '@/components/ui/image-upload'
 
 type BrandFormValues = z.infer<typeof BrandFormSchema>
 
@@ -98,6 +99,23 @@ function BrandForm({ initialData, billboards }: IBrandForm) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-8 w-full'>
           <div className='grid grid-cols-3 gap-8'>
+          <FormField
+            control={form.control}
+            name='imageUrl'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Logo de la marca</FormLabel>
+                <FormControl>
+                  <ImageUpload
+                    values={field.value ? [field.value] : []}
+                    disabled={loading}
+                    onChange={url => field.onChange(url)}
+                    onRemove={() => field.onChange('')}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
             <FormField
               control={form.control}
               name='name'
