@@ -13,12 +13,27 @@ interface IProductPage {
   }
 }
 
-const DOMAIN_URL = 'https://admin.mhgarage.ar'
+const DOMAIN_URL = 'https://mhgarage.ar'  // Actualiza tu dominio
 
 export async function generateMetadata({ params }: IProductPage): Promise<Metadata> {
   const product = await getProduct(params.productId)
+
   return {
     title: product.name,
+    description: product.desc, // Descripción del producto
+    openGraph: {
+      title: product.name,
+      description: product.desc,
+      url: `${DOMAIN_URL}/producto/${params.productId}`,
+      images: [
+        {
+          url: `${product.images[0]?.url}`, // URL de la primera imagen del producto
+          width: 800,
+          height: 600,
+          alt: product.name,
+        },
+      ],
+    },
   }
 }
 
@@ -36,15 +51,14 @@ async function ProductPage({ params }: IProductPage) {
           <div className='lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8'>
             <Gallery images={product.images} />
             <div className='mt-10 px-2 sm:mt-16 sm:px-0 mb-20'>
-              
               <ProductInfo data={product} />
             </div>
           </div>
           <div className="relative flex py-5 items-center mt-16">
-    <div className="flex-grow border-t border-gray-400 mt-16"></div>
-    <span className="flex-shrink mx-4 text-gray-400 mt-16">Artículos Relacionados</span>
-    <div className="flex-grow border-t border-gray-400 mt-16"></div>
-</div>
+            <div className="flex-grow border-t border-gray-400 mt-16"></div>
+            <span className="flex-shrink mx-4 text-gray-400 mt-16">Artículos Relacionados</span>
+            <div className="flex-grow border-t border-gray-400 mt-16"></div>
+          </div>
           <ProductList title='' items={suggestedProducts} />
         </div>
       </Container>
