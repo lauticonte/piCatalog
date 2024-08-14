@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     description: 'Catálogo de herramientas online. Consultas por WhatsApp.',
     images: [
       {
-        url: '/opengraph-image.png',
+        url: 'https://mhgarage.ar/opengraph-image.png',
         alt: 'MH Garage - Herramientas',
       },
     ]},
