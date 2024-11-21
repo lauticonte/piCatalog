@@ -16,9 +16,9 @@ function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
       active: pathname === `/${params.storeId}`,
     },
     {
-      href: `/${params.storeId}/billboards`,
-      label: 'Billboards',
-      active: pathname.includes(`/${params.storeId}/billboards`),
+      href: `/${params.storeId}/products`,
+      label: 'Productos',
+      active: pathname.includes(`/${params.storeId}/products`),
     },
     {
       href: `/${params.storeId}/categories`,
@@ -31,10 +31,11 @@ function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
       active: pathname.includes(`/${params.storeId}/brands`),
     },
     {
-      href: `/${params.storeId}/products`,
-      label: 'Productos',
-      active: pathname.includes(`/${params.storeId}/products`),
+      href: `/${params.storeId}/billboards`,
+      label: 'Billboards',
+      active: pathname.includes(`/${params.storeId}/billboards`),
     }
+
     // {
     //   href: `/${params.storeId}/orders`,
     //   label: 'Orders',

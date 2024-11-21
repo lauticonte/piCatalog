@@ -39,7 +39,7 @@ export function DataTable<TData, TValue>({ columns, data, searchKey }: DataTable
     <div>
       <div className='flex items-center py-4'>
         <Input
-          placeholder='Search...'
+          placeholder='Buscar...'
           value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ''}
           onChange={event => table.getColumn(searchKey)?.setFilterValue(event.target.value)}
           className='max-w-sm'
@@ -81,10 +81,10 @@ export function DataTable<TData, TValue>({ columns, data, searchKey }: DataTable
       </div>
       <div className='flex items-center justify-end space-x-2 py-4'>
         <Button variant='outline' size='sm' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-          Previous
+          Anterior
         </Button>
         <Button variant='outline' size='sm' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-          Next
+          Siguiente
         </Button>
       </div>
     </div>

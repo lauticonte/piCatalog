@@ -21,14 +21,14 @@ function ProductClient({ data }: IProductClient) {
   return (
     <Fragment>
       <div className='flex items-center justify-between overscroll-none'>
-        <Heading title={`Productos (${data.length})`} description='Gestioná tus productos' />
+        <Heading title={`Productos (${data.length})`} description='Gestioná tus productos, buscalos por CÓDIGO (SKU)' />
         <Button onClick={() => router.push(`/${params.storeId}/products/new`)}>
           <FiPlus className='mr-2 w-4- h4' />
           Agregar
         </Button>
       </div>
       <Separator />
-      <DataTable searchKey='name' columns={columns} data={data} />
+      <DataTable searchKey='SKU' columns={columns} data={data} />
       {/* <Separator />
 
       <Heading title='API' description='API calls for Products' />
