@@ -13,7 +13,7 @@ export const getServerSideProps = async (ctx: any) => {
 
   products.forEach(product => {
     fields.push({
-      loc: `https://admin.mhgarage.ar/product/${product.id}`,
+      loc: `http://admin.mhgarage.ar/product/${product.id}`,
       lastmod: new Date().toISOString(),
     });
   });

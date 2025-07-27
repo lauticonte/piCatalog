@@ -1,4 +1,4 @@
-const COUNT_URL = `https://admin.mhgarage.ar/api/65ec0a796702c9c0e4c0895f/products/count`
+const COUNT_URL = `http://admin.mhgarage.ar/api/65ec0a796702c9c0e4c0895f/products/count`
 
 export const getProductsCount = async (): Promise<number> => {
   const res = await fetch(COUNT_URL)
