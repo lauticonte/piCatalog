@@ -9,6 +9,8 @@ import { useParams, useRouter } from 'next/navigation'
 import React, { Fragment } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { ProductColumn, columns } from './columns'
+import axios from 'axios'
+import { toast } from 'react-hot-toast'
 
 interface IProductClient {
   data: Array<ProductColumn>
@@ -17,6 +19,28 @@ interface IProductClient {
 function ProductClient({ data }: IProductClient) {
   const router = useRouter()
   const params = useParams()
+
+  const onDeleteSelected = async (rows: ProductColumn[]) => {
+    try {
+      const response = await axios.delete(`/api/${params.storeId}/products`, {
+        data: { ids: rows.map(row => row.id) },
+      })
+
+      const { deleted, blocked } = response.data
+
+      if (deleted > 0) {
+        toast.success(`${deleted} producto${deleted > 1 ? 's' : ''} eliminado${deleted > 1 ? 's' : ''}`)
+      }
+
+      if (blocked?.length) {
+        toast.error(`${blocked.length} no se pudieron eliminar porque están asociados a un pedido`)
+      }
+
+      router.refresh()
+    } catch (error) {
+      toast.error('No se pudieron eliminar los productos seleccionados')
+    }
+  }
 
   return (
     <Fragment>
@@ -28,7 +52,13 @@ function ProductClient({ data }: IProductClient) {
         </Button>
       </div>
       <Separator />
-      <DataTable searchKey='SKU' columns={columns} data={data} />
+      <DataTable
+        searchKey='SKU'
+        columns={columns}
+        data={data}
+        onDeleteSelected={onDeleteSelected}
+        getRowLabel={product => `${product.name} (SKU ${product.SKU})`}
+      />
       {/* <Separator />
 
       <Heading title='API' description='API calls for Products' />

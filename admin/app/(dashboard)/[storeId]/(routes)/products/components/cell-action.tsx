@@ -24,17 +24,17 @@ function CellAction({ data }: ICellAction) {
 
   const handleCopy = (id: string) => {
     navigator.clipboard.writeText(id)
-    toast.success('Product ID copied to clipboard')
+    toast.success('ID del producto copiado')
   }
 
   const onDelete = async () => {
     try {
-      setOpen(true)
+      setLoading(true)
       await axios.delete(`/api/${params.storeId}/products/${data.id}`)
       router.refresh()
-      toast.success('Product deleted')
+      toast.success('Producto eliminado')
     } catch (error) {
-      toast.error('Make sure you removed all categories using this billboard first.')
+      toast.error('No se pudo eliminar. Puede estar asociado a un pedido.')
     } finally {
       setLoading(false)
       setOpen(false)
@@ -43,7 +43,14 @@ function CellAction({ data }: ICellAction) {
 
   return (
     <>
-      <ConfirmModal loading={loading} isOpen={open} onClose={() => setOpen(false)} onConfirm={onDelete} />
+      <ConfirmModal
+        loading={loading}
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onConfirm={onDelete}
+        title='¿Eliminar este producto?'
+        items={[`${data.name} (SKU ${data.SKU})`]}
+      />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant='ghost' className='h-8 w-8 p-0'>
@@ -52,18 +59,18 @@ function CellAction({ data }: ICellAction) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuLabel>Acciones</DropdownMenuLabel>
           <DropdownMenuItem className='cursor-pointer' onClick={() => handleCopy(data.id)}>
             <BiCopy className='mr-2 h-4 w-4' />
-            Copy Id
+            Copiar ID
           </DropdownMenuItem>
           <DropdownMenuItem className='cursor-pointer' onClick={() => router.push(`/${params.storeId}/products/${data.id}`)}>
             <AiOutlineEdit className='mr-2 h-4 w-4' />
-            Update
+            Editar
           </DropdownMenuItem>
           <DropdownMenuItem className='cursor-pointer' onClick={() => setOpen(true)}>
             <BiTrash className='mr-2 h-4 w-4' />
-            Delete
+            Eliminar
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

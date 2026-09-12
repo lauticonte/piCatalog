@@ -24,7 +24,9 @@ export const Modal: React.FC<ModalProps> = ({ title, description, isOpen, onClos
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        <div>{children}</div>
+        {/* min-w-0: DialogContent es un grid y sus items no se encogen por debajo
+            del contenido, así que sin esto el texto largo desborda el modal. */}
+        <div className='min-w-0'>{children}</div>
       </DialogContent>
     </Dialog>
   )

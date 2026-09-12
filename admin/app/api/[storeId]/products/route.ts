@@ -133,3 +133,64 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
     return new NextResponse('Internal error', { status: 500 });
   }
 }
+
+export async function DELETE(req: Request, { params }: { params: { storeId: string } }) {
+  try {
+    const { userId } = auth()
+
+    if (!userId) {
+      return new NextResponse('Unauthenticated', { status: 403 })
+    }
+
+    const body = await req.json()
+    const { ids } = body
+
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return new NextResponse('Product ids are required', { status: 400 })
+    }
+
+    const storeByUserId = await prismadb.store.findFirst({
+      where: {
+        id: params.storeId,
+        userId,
+      },
+    })
+
+    if (!storeByUserId) {
+      return new NextResponse('Unauthorized', { status: 405 })
+    }
+
+    // Un producto referenciado por un pedido no se puede borrar: lo apartamos para
+    // que un solo producto trabado no haga fallar todo el lote.
+    const orderItems = await prismadb.orderItem.findMany({
+      where: {
+        productId: { in: ids },
+      },
+      select: {
+        productId: true,
+      },
+    })
+
+    const blocked = Array.from(new Set(orderItems.map(item => item.productId)))
+    const deletable = ids.filter((id: string) => !blocked.includes(id))
+
+    let deleted = 0
+
+    if (deletable.length > 0) {
+      // El storeId acota el borrado a la tienda del usuario autenticado.
+      const result = await prismadb.product.deleteMany({
+        where: {
+          id: { in: deletable },
+          storeId: params.storeId,
+        },
+      })
+
+      deleted = result.count
+    }
+
+    return NextResponse.json({ deleted, blocked })
+  } catch (error) {
+    console.log('[PRODUCTS_DELETE]', error)
+    return new NextResponse('Internal error', { status: 500 })
+  }
+}

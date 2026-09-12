@@ -2,6 +2,7 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 import CellAction from './cell-action'
+import { Checkbox } from '@/components/ui/checkbox'
 
 export type ProductColumn = {
   id: string
@@ -15,6 +16,25 @@ export type ProductColumn = {
 }
 
 export const columns: ColumnDef<ProductColumn>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
+        onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
+        aria-label='Seleccionar todos los productos de la página'
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={value => row.toggleSelected(!!value)}
+        aria-label='Seleccionar producto'
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     accessorKey: 'name',
     header: 'Name',
