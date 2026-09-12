@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 
 import prismadb from '@/lib/prismadb'
+import { getLocalDay } from '@/lib/utils'
 
 /**
  * Registra un clic en "Consultar" de la tienda.
@@ -52,7 +53,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 
     // Una consulta por visitante, producto y día: mide cuánta gente distinta
     // preguntó, no cuántas veces dudó la misma persona.
-    const day = new Date().toISOString().slice(0, 10)
+    const day = getLocalDay()
 
     await prismadb.consultation.upsert({
       where: {
