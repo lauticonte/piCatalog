@@ -5,6 +5,8 @@
 @font-face {
   font-family: 'MBF';
   src: url('/MBF-m.ttf') format('truetype');
+  /* Se usa solo para la firma del pie: que no bloquee el pintado del resto. */
+  font-display: swap;
 }
 
 .customfont {

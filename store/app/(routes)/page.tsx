@@ -53,7 +53,10 @@ export default async function Home() {
     <Container>
       <div className='rounded-xl w-full bg-custom'>
         <div className='relative w-full h-[250px] lg:h-[350px] 2xl:h-[500px] new-leaf-gradient rounded-b-lg'>
-          <Image src="/banner.gif" unoptimized={true} layout='fill' alt='Banner' className='rounded-b-lg object-cover 2xl:object-cover ' />
+          {/* Es el elemento LCP: priority lo precarga en vez de dejar que el navegador lo
+              descubra tarde, que era el retraso de 1,5s que marcaba PageSpeed.
+              Se mantiene unoptimized a propósito: la conversión degrada la resolución. */}
+          <Image src="/banner.gif" fill priority sizes="100vw" unoptimized alt='Banner' className='rounded-b-lg object-cover 2xl:object-cover ' />
           <p></p>
         </div>
       </div>
