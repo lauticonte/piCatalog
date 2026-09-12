@@ -1,11 +1,11 @@
 import { Billboard } from '@/types'
 
-const URL = `http://admin.mhgarage.ar/api/65ec0a796702c9c0e4c0895f/billboards`
+const URL = `https://admin.mhgarage.ar/api/65ec0a796702c9c0e4c0895f/billboards`
 
 export const getBillboards = async (id: string): Promise<Billboard> => {
   const res = await fetch(`${URL}/${id}`, {
     next: {
-      revalidate: 3,
+      revalidate: 300,
     },
   })
   return res.json()

@@ -28,10 +28,11 @@ const Gallery = ({ images }: IGallery) => {
                 priority
                 fetchPriority='high'
                 fill
+                sizes='(max-width: 1024px) 100vw, 50vw'
                 src={image.url}
                 alt='Product'
                 className='object-center object-contain bg-white'
-                quality={100}
+                quality={85}
               />
             </div>
           </Tab.Panel>

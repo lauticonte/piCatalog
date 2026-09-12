@@ -2,10 +2,10 @@ import { Product } from '@/types';
 
 // Esta función simula la obtención de productos desde una fuente de datos
 const getAllProducts = async (): Promise<Product[]> => {
-    const URL = `http://admin.mhgarage.ar/api/65ec0a796702c9c0e4c0895f/products`
+    const URL = `https://admin.mhgarage.ar/api/65ec0a796702c9c0e4c0895f/products`
     const res = await fetch(URL, {
         next: {
-            revalidate: 10,
+            revalidate: 60,
         },
     })
     return res.json()

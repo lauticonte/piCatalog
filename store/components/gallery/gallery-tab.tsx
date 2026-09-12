@@ -14,7 +14,7 @@ function GalleryTab({ image }: IGalleryTab) {
       {({ selected }) => (
         <div>
           <span className='absolute h-full w-full aspect-square inset-0 overflow-hidden rounded-md'>
-            <Image loading='lazy' fill src={image.url} alt='product' className='object-cover object-center' quality={100} />
+            <Image loading='lazy' fill sizes='(max-width: 640px) 25vw, 140px' src={image.url} alt='product' className='object-cover object-center' quality={75} />
           </span>
           <span
             className={cn('absolute outline-none inset-0 rounded-md ring-1 ring-offset-1', selected ? 'ring-black' : 'ring-transparent')}

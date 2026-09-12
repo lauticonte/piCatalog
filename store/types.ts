@@ -35,6 +35,14 @@ export interface Brand {
   imageUrl: string
 }
 
+export interface Combo {
+  id: string
+  name: string
+  desc: string
+  imageUrl: string
+  products: Product[]
+}
+
 export interface Color {
   id: string
   name: string

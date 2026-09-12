@@ -75,6 +75,12 @@ function MainNav({ data }: IMainNav) {
       </div> */}
 
       {/* Enlaces de navegación */}
+      <Link href='/combos'>
+        <button className='text-sm font-medium transition-colors hover:text-secondary hover:underline focus:outline-none focus:underline flex items-center'>
+          Combos
+        </button>
+      </Link>
+
       <Link href='/brands'>
   <button className='text-sm font-medium transition-colors hover:text-secondary hover:underline focus:outline-none focus:underline flex items-center'>
     Marcas

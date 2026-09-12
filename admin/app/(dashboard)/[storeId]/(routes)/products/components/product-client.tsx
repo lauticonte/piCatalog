@@ -6,11 +6,13 @@ import { DataTable } from '@/components/ui/data-table'
 import Heading from '@/components/ui/heading'
 import { Separator } from '@/components/ui/separator'
 import { useParams, useRouter } from 'next/navigation'
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
+import { BiPackage } from 'react-icons/bi'
 import { ProductColumn, columns } from './columns'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
+import AddToComboModal from '@/components/modals/add-to-combo-modal'
 
 interface IProductClient {
   data: Array<ProductColumn>
@@ -19,6 +21,9 @@ interface IProductClient {
 function ProductClient({ data }: IProductClient) {
   const router = useRouter()
   const params = useParams()
+  const [comboModalOpen, setComboModalOpen] = useState(false)
+  // Se guarda la selección al abrir el modal, porque el DataTable la limpia al terminar la acción.
+  const [selectedProducts, setSelectedProducts] = useState<ProductColumn[]>([])
 
   const onDeleteSelected = async (rows: ProductColumn[]) => {
     try {
@@ -42,10 +47,41 @@ function ProductClient({ data }: IProductClient) {
     }
   }
 
+  const onAddToCombo = async (comboId: string) => {
+    try {
+      const response = await axios.post(`/api/${params.storeId}/combos/${comboId}/products`, {
+        productIds: selectedProducts.map(product => product.id),
+      })
+
+      const { added, alreadyIn } = response.data
+
+      if (added > 0) {
+        toast.success(`${added} producto${added > 1 ? 's' : ''} agregado${added > 1 ? 's' : ''} al combo`)
+      }
+
+      if (alreadyIn > 0) {
+        toast(`${alreadyIn} ya estaba${alreadyIn > 1 ? 'n' : ''} en el combo`)
+      }
+
+      router.refresh()
+    } catch (error) {
+      toast.error('No se pudieron agregar los productos al combo')
+    } finally {
+      setComboModalOpen(false)
+      setSelectedProducts([])
+    }
+  }
+
   return (
     <Fragment>
+      <AddToComboModal
+        isOpen={comboModalOpen}
+        onClose={() => setComboModalOpen(false)}
+        onConfirm={onAddToCombo}
+        productCount={selectedProducts.length}
+      />
       <div className='flex items-center justify-between overscroll-none'>
-        <Heading title={`Productos (${data.length})`} description='Gestioná tus productos, buscalos por CÓDIGO (SKU)' />
+        <Heading title={`Productos (${data.length})`} description='Gestioná tus productos, buscalos por nombre o CÓDIGO (SKU)' />
         <Button onClick={() => router.push(`/${params.storeId}/products/new`)}>
           <FiPlus className='mr-2 w-4- h4' />
           Agregar
@@ -53,11 +89,23 @@ function ProductClient({ data }: IProductClient) {
       </div>
       <Separator />
       <DataTable
-        searchKey='SKU'
+        searchKey={['name', 'SKU']}
+        searchPlaceholder='Buscar por nombre o SKU...'
         columns={columns}
         data={data}
         onDeleteSelected={onDeleteSelected}
         getRowLabel={product => `${product.name} (SKU ${product.SKU})`}
+        bulkActions={[
+          {
+            label: 'Agregar a combo',
+            icon: <BiPackage className='mr-2 h-4 w-4' />,
+            // Sin confirm: el paso de confirmación es el propio modal de selección de combo.
+            onRun: rows => {
+              setSelectedProducts(rows)
+              setComboModalOpen(true)
+            },
+          },
+        ]}
       />
       {/* <Separator />
 

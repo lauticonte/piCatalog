@@ -26,6 +26,7 @@ function ProductCard({ data }: IProductCard) {
             className="absolute top-0 right-0 h-full w-full object-contain bg-white rounded-r-lg rounded-l-lg"
             src={data?.images[0].url}
             fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             alt={data.name}
           />
         

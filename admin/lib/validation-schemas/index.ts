@@ -43,3 +43,9 @@ export const ProductFormSchema = z.object({
   isFeatured: z.boolean().default(false).optional(),
   isArchived: z.boolean().default(false).optional(),
 })
+
+export const ComboFormSchema = z.object({
+  name: z.string().min(1),
+  desc: z.string().optional(),
+  imageUrl: z.string().optional(),
+})

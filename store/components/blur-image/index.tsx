@@ -1,4 +1,3 @@
-import getBase64 from '@/utils/getBase64'
 import Image from 'next/image'
 
 interface IBlurImage {
@@ -12,10 +11,27 @@ interface IBlurImage {
   quality?: number
   laoding?: 'lazy' | 'eager'
   fetchPriority?: 'auto' | 'high' | 'low'
+  sizes?: string
   isExternal?: boolean
 }
 
-async function BlurImage({
+/**
+ * Miniatura borrosa para el placeholder, derivada de la propia URL.
+ *
+ * Antes esto se resolvía con plaiceholder: había que descargar la imagen completa
+ * en el server y procesarla con sharp en cada render (~500ms por imagen, casi todo
+ * descarga). Cloudinary puede generar la versión borrosa por URL, así que el
+ * placeholder sale gratis y el componente deja de ser async.
+ */
+const cloudinaryBlurUrl = (src: string) => {
+  if (!src?.includes('/res.cloudinary.com/') || !src.includes('/upload/')) {
+    return undefined
+  }
+
+  return src.replace('/upload/', '/upload/e_blur:1000,q_1,w_50/')
+}
+
+function BlurImage({
   src,
   alt,
   fill,
@@ -26,19 +42,21 @@ async function BlurImage({
   laoding,
   quality,
   fetchPriority,
+  sizes,
   isExternal,
   ...props
-}: // @ts-ignore
-IBlurImage): any {
-  const myBlurDataUrl = await getBase64(src)
+}: IBlurImage) {
+  const blurDataURL = cloudinaryBlurUrl(src)
+
   return (
     <Image
       {...props}
       src={src}
       width={width}
       height={height}
-      placeholder='blur'
-      blurDataURL={myBlurDataUrl}
+      // Sin miniatura (imágenes que no son de Cloudinary) se omite el blur en vez de fallar.
+      placeholder={blurDataURL ? 'blur' : 'empty'}
+      blurDataURL={blurDataURL}
       loading={laoding}
       className={className}
       alt={alt}
@@ -46,6 +64,7 @@ IBlurImage): any {
       priority={priority}
       quality={quality}
       fetchPriority={fetchPriority}
+      sizes={sizes}
     />
   )
 }

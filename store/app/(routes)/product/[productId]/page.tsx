@@ -5,7 +5,8 @@ import ProductInfo from '@/components/gallery/product-info'
 import ProductList from '@/components/product/product-list'
 import Container from '@/components/ui/container'
 import { Metadata, ResolvingMetadata } from 'next'
-import React from 'react'
+import React, { Suspense } from 'react'
+import { Loader } from '@/components/ui/loader'
 
 interface IProductPage {
   params: {
@@ -37,12 +38,17 @@ export async function generateMetadata({ params }: IProductPage): Promise<Metada
   }
 }
 
+// Los relacionados dependen de la categoría del producto, así que no se pueden pedir
+// en paralelo. Se aíslan en su propio componente para que Suspense los transmita aparte:
+// el producto se pinta apenas está listo, sin esperar esta segunda llamada.
+async function RelatedProducts({ categoryId }: { categoryId: string }) {
+  const suggestedProducts = await getProducts({ categoryId })
+
+  return <ProductList title='' items={suggestedProducts} />
+}
+
 async function ProductPage({ params }: IProductPage) {
   const product = await getProduct(params.productId)
-
-  const suggestedProducts = await getProducts({
-    categoryId: product?.category.id,
-  })
 
   return (
     <div className='bg-gray-800'>
@@ -59,7 +65,16 @@ async function ProductPage({ params }: IProductPage) {
             <span className="flex-shrink mx-4 text-gray-400 mt-16">Artículos Relacionados</span>
             <div className="flex-grow border-t border-gray-400 mt-16"></div>
           </div>
-          <ProductList title='' items={suggestedProducts} />
+          <Suspense
+            fallback={
+              <div className='flex w-full items-center justify-center py-10'>
+                <Loader />
+              </div>
+            }
+          >
+            {/* @ts-ignore */}
+            <RelatedProducts categoryId={product?.category.id} />
+          </Suspense>
         </div>
       </Container>
     </div>

@@ -20,6 +20,7 @@ model Store {
   colors     Color[]     @relation("StoreToColor")
   products   Product[]   @relation("StoreToProduct")
   orders     Order[]     @relation("StoreToOrder")
+  combos     Combo[]     @relation("StoreToCombo")
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 }
@@ -97,6 +98,7 @@ model Product {
   color      Color       @relation(fields: [colorId], references: [id])
   images     Image[]
   orderItems OrderItem[]
+  comboItems ComboProduct[]
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 
@@ -139,5 +141,35 @@ model OrderItem {
   product   Product @relation(fields: [productId], references: [id])
 
   @@index([orderId])
+  @@index([productId])
+}
+
+
+model Combo {
+  id        String         @id @default(auto()) @map("_id") @db.ObjectId
+  storeId   String         @db.ObjectId
+  store     Store          @relation("StoreToCombo", fields: [storeId], references: [id])
+  name      String
+  desc      String         @default("")
+  imageUrl  String         @default("")
+  isActive  Boolean        @default(true)
+  items     ComboProduct[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@index([storeId])
+}
+
+// Tabla intermedia en vez de una relación muchos-a-muchos con arrays: así el modelo
+// Product no suma ningún campo escalar y los documentos existentes quedan intactos.
+model ComboProduct {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  comboId   String  @db.ObjectId
+  combo     Combo   @relation(fields: [comboId], references: [id], onDelete: Cascade)
+  productId String  @db.ObjectId
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([comboId, productId])
+  @@index([comboId])
   @@index([productId])
 }

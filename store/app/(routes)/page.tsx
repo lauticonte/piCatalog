@@ -1,6 +1,7 @@
 import { getBillboards } from '@/actions/get-billboards';
 import { getProducts } from '@/actions/get-products';
 import { getBrands } from '@/actions/get-brands';
+import { Product } from '@/types';
 import ProductList from '@/components/product/product-list';
 import Container from '@/components/ui/container';
 import Image from 'next/image';
@@ -12,27 +13,28 @@ async function getProductsLimited() {
   const brands = await getBrands();
 
   // Step 2: Collect products by brand
-  let allProducts = [];
+  // En paralelo: antes era un await dentro del for, o sea una llamada por marca
+  // esperando a la anterior (~9s con 9 marcas).
+  const perBrand = await Promise.all(
+    brands.map(brand => getProducts({ isFeatured: true, brandId: brand.id, limit: 4 }))
+  );
+
+  const allProducts = perBrand.flat();
+
+  // Step 3: Ensure at least one product per brand
+  // El campo es `brand.id`: la API devuelve la marca embebida, no un brandId plano.
+  const productsByBrand: Product[] = [];
   for (const brand of brands) {
-    const brandProducts = await getProducts({isFeatured: true, brandId: brand.id, limit: 4});
-    if (brandProducts.length > 0) {
-      allProducts.push(...brandProducts);
+    const first = allProducts.find(product => product.brand?.id === brand.id);
+    if (first) {
+      productsByBrand.push(first);
     }
   }
 
-  // Step 3: Ensure at least one product per brand
-  const productsByBrand = brands.reduce((acc, brand) => {
-    const brandProducts = allProducts.filter(product => product.brandId === brand.id);
-    if (brandProducts.length > 0) {
-      acc.push(brandProducts[0]);
-    }
-    return acc;
-  }, []);
-
   // Step 4: Add more products to reach at least 32
   if (productsByBrand.length < 32) {
-    const additionalProducts = allProducts.slice(0, 50 - productsByBrand.length);
-    productsByBrand.push(...additionalProducts);
+    const chosen = new Set(productsByBrand.map(product => product.id));
+    productsByBrand.push(...allProducts.filter(product => !chosen.has(product.id)).slice(0, 50 - productsByBrand.length));
   }
 
   // Step 5: Randomize the list and pick 8
@@ -41,8 +43,11 @@ async function getProductsLimited() {
 }
 
 export default async function Home() {
-  const billboard = await getBillboards('6602115b567a6fa1743446d6');
-  const productsLimited = await getProductsLimited();
+  // Las dos ramas son independientes: no tiene sentido encadenarlas.
+  const [billboard, productsLimited] = await Promise.all([
+    getBillboards('6602115b567a6fa1743446d6'),
+    getProductsLimited(),
+  ]);
 
   return (
     <Container>

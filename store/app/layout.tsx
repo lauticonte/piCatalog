@@ -38,14 +38,18 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en'>
-      <body className={inter.className}>
+      {/* Columna flex de alto mínimo de pantalla + <main> que crece: así el footer
+          queda abajo de todo aunque la página tenga poco contenido. */}
+      <body className={`${inter.className} min-h-screen flex flex-col bg-custom`}>
         <ModalProvider />
         <ToastProvider />
         <ProgressBar />
         <ScrollToTop />
         {/* @ts-ignore */}
         <Navbar />
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <main className='flex-1 flex flex-col'>
+          <ReactQueryProvider>{children}</ReactQueryProvider>
+        </main>
         <Footer />
       </body>
     </html>
