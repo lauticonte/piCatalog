@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs'
 
 import prismadb from '@/lib/prismadb'
+import { findProductById } from '@/lib/product-queries'
 
 export async function GET(req: Request, { params }: { params: { productId: string } }) {
   try {
@@ -9,17 +10,8 @@ export async function GET(req: Request, { params }: { params: { productId: strin
       return new NextResponse('Product id is required', { status: 400 })
     }
 
-    const product = await prismadb.product.findUnique({
-      where: {
-        id: params.productId,
-      },
-      include: {
-        images: true,
-        category: true,
-        brand: true,
-        color: true,
-      },
-    })
+    // Resuelto con una sola consulta en vez de cinco: ver lib/product-queries.ts
+    const product = await findProductById(params.productId)
 
     return NextResponse.json(product)
   } catch (error) {

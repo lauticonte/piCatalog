@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs'
 import prismadb from '@/lib/prismadb'
+import { findProducts } from '@/lib/product-queries'
 
 export async function POST(req: Request, { params }: { params: { storeId: string } }) {
   try {
@@ -105,26 +106,15 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
       return new NextResponse('Store id is required', { status: 400 });
     }
 
-    const products = await prismadb.product.findMany({
-      where: {
-        storeId: params.storeId,
-        categoryId,
-        colorId,
-        brandId,
-        isFeatured: isFeatured ? true : undefined,
-        isArchived: false,
-      },
-      include: {
-        images: true,
-        category: true,
-        color: true,
-        brand: true,
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-      skip, // Omitir los productos anteriores
-      take: limitInt, // Limitar el número de productos obtenidos
+    // Resuelto con una sola consulta en vez de cinco: ver lib/product-queries.ts
+    const products = await findProducts({
+      storeId: params.storeId,
+      categoryId,
+      colorId,
+      brandId,
+      isFeatured: Boolean(isFeatured),
+      skip,
+      take: limitInt,
     });
 
     return NextResponse.json(products);
