@@ -3,6 +3,7 @@ import { persist, createJSONStorage } from 'zustand/middleware'
 import { create } from 'zustand'
 import { toast } from 'react-hot-toast'
 import { formatter } from '@/utils/utils'
+import { trackConsultation } from '@/utils/track-consultation'
 
 interface CartStore {
   items: Product[]
@@ -31,6 +32,10 @@ export const useCart = create(
         const msg = encodeURIComponent(`Hola, quiero consultar por el siguiente artículo:\n\n*${name}*\n- _Marca: *"${marca}"*_\n- _Modelo: *"${model}"*_\n- _Precio: *${price}*_\n> ${link}`);
         const wp = '+541156977161'; // Reemplaza esto con tu número de WhatsApp
         const urlWp = `https://wa.me/${wp}/?text=${msg}`;
+
+        // Queda registrado en el panel antes de irnos a WhatsApp.
+        trackConsultation(data.id);
+
         window.location.href = urlWp;
 
         // No necesitas limpiar el carrito aquí, a menos que desees eliminar todos los artículos del carrito cuando se agregue uno nuevo.

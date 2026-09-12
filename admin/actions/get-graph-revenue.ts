@@ -5,55 +5,41 @@ interface GraphData {
   total: number
 }
 
+// Valor de los productos consultados mes a mes, para ver la evolución del interés.
 export const getGraphRevenue = async (storeId: string): Promise<GraphData[]> => {
-  const paidOrders = await prismadb.order.findMany({
+  const consultations = await prismadb.consultation.findMany({
     where: {
       storeId,
-      isPaid: true,
     },
     include: {
-      orderItems: {
-        include: {
-          product: true,
-        },
-      },
+      product: true,
     },
   })
 
-  const monthlyRevenue: { [key: number]: number } = {}
+  const monthlyTotals: { [key: number]: number } = {}
 
-  // Grouping the orders by month and summing the revenue
-  for (const order of paidOrders) {
-    const month = order.createdAt.getMonth() // 0 for Jan, 1 for Feb, ...
-    let revenueForOrder = 0
-
-    for (const item of order.orderItems) {
-      revenueForOrder += item.product.price
-    }
-
-    // Adding the revenue for this order to the respective month
-    monthlyRevenue[month] = (monthlyRevenue[month] || 0) + revenueForOrder
+  for (const consultation of consultations) {
+    const month = consultation.createdAt.getMonth()
+    monthlyTotals[month] = (monthlyTotals[month] || 0) + consultation.product.price
   }
 
-  // Converting the grouped data into the format expected by the graph
   const graphData: GraphData[] = [
-    { name: 'Jan', total: 0 },
+    { name: 'Ene', total: 0 },
     { name: 'Feb', total: 0 },
     { name: 'Mar', total: 0 },
-    { name: 'Apr', total: 0 },
+    { name: 'Abr', total: 0 },
     { name: 'May', total: 0 },
     { name: 'Jun', total: 0 },
     { name: 'Jul', total: 0 },
-    { name: 'Aug', total: 0 },
+    { name: 'Ago', total: 0 },
     { name: 'Sep', total: 0 },
     { name: 'Oct', total: 0 },
     { name: 'Nov', total: 0 },
-    { name: 'Dec', total: 0 },
+    { name: 'Dic', total: 0 },
   ]
 
-  // Filling in the revenue data
-  for (const month in monthlyRevenue) {
-    graphData[parseInt(month)].total = monthlyRevenue[parseInt(month)]
+  for (const [month, total] of Object.entries(monthlyTotals)) {
+    graphData[Number(month)].total = total
   }
 
   return graphData

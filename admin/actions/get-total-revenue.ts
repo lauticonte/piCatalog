@@ -1,26 +1,16 @@
 import prismadb from '@/lib/prismadb'
 
+// Suma el precio de los productos consultados: da una idea del volumen de dinero
+// que está moviendo el interés de los visitantes, no de ventas cerradas.
 export const getTotalRevenue = async (storeId: string) => {
-  const paidOrders = await prismadb.order.findMany({
+  const consultations = await prismadb.consultation.findMany({
     where: {
       storeId,
-      isPaid: true,
     },
     include: {
-      orderItems: {
-        include: {
-          product: true,
-        },
-      },
+      product: true,
     },
   })
 
-  const totalRevenue = paidOrders.reduce((total, order) => {
-    const orderTotal = order.orderItems.reduce((orderSum, item) => {
-      return orderSum + item.product.price
-    }, 0)
-    return total + orderTotal
-  }, 0)
-
-  return totalRevenue
+  return consultations.reduce((total, consultation) => total + consultation.product.price, 0)
 }

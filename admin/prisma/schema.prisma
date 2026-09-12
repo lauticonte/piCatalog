@@ -21,6 +21,7 @@ model Store {
   products   Product[]   @relation("StoreToProduct")
   orders     Order[]     @relation("StoreToOrder")
   combos     Combo[]     @relation("StoreToCombo")
+  consultations Consultation[] @relation("StoreToConsultation")
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 }
@@ -99,6 +100,7 @@ model Product {
   images     Image[]
   orderItems OrderItem[]
   comboItems ComboProduct[]
+  consultations Consultation[]
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
 
@@ -172,4 +174,24 @@ model ComboProduct {
   @@unique([comboId, productId])
   @@index([comboId])
   @@index([productId])
+}
+
+// Un clic en "Consultar" de la tienda, que abre WhatsApp con el producto.
+// No hay carrito ni venta: esto es la única señal de interés que deja el visitante.
+model Consultation {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  storeId   String   @db.ObjectId
+  store     Store    @relation("StoreToConsultation", fields: [storeId], references: [id])
+  productId String   @db.ObjectId
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  // Identificador anónimo del navegador y día, para contar visitantes distintos
+  // en vez de clics repetidos de la misma persona.
+  visitorId String
+  day       String
+  createdAt DateTime @default(now())
+
+  @@unique([productId, visitorId, day])
+  @@index([storeId])
+  @@index([productId])
+  @@index([createdAt])
 }
