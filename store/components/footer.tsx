@@ -56,19 +56,22 @@ function Footer() {
         <div className='mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-6 py-4 text-center sm:flex-row sm:text-left'>
           <p className='text-xs text-slate-500'>
             &copy; {year} MH Garage. Todos los derechos reservados.
-            <span className='ml-2 text-slate-600' title={`commit ${process.env.NEXT_PUBLIC_COMMIT_SHA}`}>
+          </p>
+          {/* La versión va bajo la firma, con el violeta de la marca Conte. */}
+          <div className='flex flex-col items-center sm:items-end'>
+            <a
+              href='https://contelautaro.com.ar/'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='flex items-center gap-1 text-xs text-slate-500 transition-colors hover:text-white'
+            >
+              <span>Desarrollado por</span>
+              <span className='customfont text-sm'>Conte</span>
+            </a>
+            <span className='text-[10px] font-semibold text-[#624AD9]' title={`commit ${process.env.NEXT_PUBLIC_COMMIT_SHA}`}>
               v{process.env.NEXT_PUBLIC_APP_VERSION}
             </span>
-          </p>
-          <a
-            href='https://contelautaro.com.ar/'
-            target='_blank'
-            rel='noopener noreferrer'
-            className='flex items-center gap-1 text-xs text-slate-500 transition-colors hover:text-white'
-          >
-            <span>Desarrollado por</span>
-            <span className='customfont text-sm'>Conte</span>
-          </a>
+          </div>
         </div>
       </div>
     </footer>

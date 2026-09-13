@@ -51,9 +51,10 @@ export default async function Home() {
 
   return (
     <Container>
-      {/* El banner sale del margen en mobile: con 2048x700 cada píxel de ancho cuenta,
-          y los márgenes laterales lo achicaban todavía más. */}
-      <div className='-mx-4 w-auto bg-custom sm:mx-0 sm:w-full sm:rounded-xl'>
+      {/* El banner va de borde a borde en mobile: el Container no tiene padding, así
+          que con w-full ya ocupa todo el ancho. Un margen negativo acá lo sacaba de la
+          pantalla y generaba scroll lateral. */}
+      <div className='w-full bg-custom sm:rounded-xl'>
         {/* El contenedor toma la proporción real del banner (2048x700). Con alto fijo,
             object-cover agrandaba la imagen para llenarlo y recortaba los costados,
             que en mobile se comía el texto y los logos de la derecha. */}
