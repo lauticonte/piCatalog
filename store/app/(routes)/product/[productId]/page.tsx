@@ -44,14 +44,14 @@ export async function generateMetadata({ params }: IProductPage): Promise<Metada
 async function RelatedProducts({ categoryId }: { categoryId: string }) {
   const suggestedProducts = await getProducts({ categoryId })
 
-  return <ProductList title='' items={suggestedProducts} />
+  return <ProductList title='Artículos relacionados' items={suggestedProducts} />
 }
 
 async function ProductPage({ params }: IProductPage) {
   const product = await getProduct(params.productId)
 
   return (
-    <div className='bg-gray-800'>
+    <div className='flex flex-1 flex-col bg-custom'>
       <Container>
         <div className='px-4 py-10 sm:px-6 lg:px-8'>
           <div className='lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8'>
@@ -60,11 +60,7 @@ async function ProductPage({ params }: IProductPage) {
               <ProductInfo data={product} />
             </div>
           </div>
-          <div className="relative flex py-5 items-center mt-16">
-            <div className="flex-grow border-t border-gray-400 mt-16"></div>
-            <span className="flex-shrink mx-4 text-gray-400 mt-16">Artículos Relacionados</span>
-            <div className="flex-grow border-t border-gray-400 mt-16"></div>
-          </div>
+
           <Suspense
             fallback={
               <div className='flex w-full items-center justify-center py-10'>

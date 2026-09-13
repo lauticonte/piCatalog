@@ -51,9 +51,13 @@ function ProductCard({ data }: IProductCard) {
         </Link>
       </div>
 
-      {/* El precio en su propia banda: antes se mezclaba con el resto del texto. */}
-      <div className='mt-3 bg-white/[0.04] px-4 py-3 text-center text-[24px] font-extrabold leading-none tracking-tight text-white'>
-        <Currency value={data.price} />
+      {/* El precio en su propia banda: antes se mezclaba con el resto del texto.
+          La etiqueta arriba aclara de qué precio se trata antes de mostrar el número. */}
+      <div className='mt-3 bg-white/[0.04] px-4 py-2.5 text-center'>
+        <span className='block text-[9px] font-bold uppercase tracking-widest text-slate-500'>Precio contado</span>
+        <span className='block text-[24px] font-extrabold leading-tight tracking-tight text-white'>
+          <Currency value={data.price} />
+        </span>
       </div>
 
       <Consult data={data} />

@@ -11,7 +11,9 @@ function Currency({ value }: ICurrency) {
   // Divide el valor por 50 para evitar las centenas
   const raise = Math.round(Number(value) * 1.3);
   const newValue = Math.round(Number(raise) / 50) * 50;
-  return <span className='font-semibold'>{formatter.format(Number(newValue))}.-</span>
+  // El ".-" se sacó: con el importe ya en pesos y la etiqueta "Precio contado"
+  // al lado, no aportaba y confundía a quien no conoce la convención.
+  return <span className='font-semibold'>{formatter.format(Number(newValue))}</span>
 }
 
 export default Currency

@@ -12,11 +12,16 @@ function ProductList({ title, items }: IProductList) {
   return (
     <div className='space-y-4'>
       {/* Barrita amarilla: repite el acento de las tarjetas y del hero, para que la
-          sección no arranque con un título suelto sobre el fondo. */}
-      <div className='flex items-center gap-3'>
-        <span className='h-7 w-1 rounded-full bg-[#f5b301]' />
-        <h2 className='text-2xl font-extrabold uppercase tracking-tight'>{title}</h2>
-      </div>
+          sección no arranque con un título suelto sobre el fondo.
+          Sin título no se dibuja nada: si no, quedaba la barrita huérfana. */}
+      {title ? (
+        <div className='flex items-center gap-3'>
+          <span className='h-7 w-1 rounded-full bg-[#f5b301]' />
+          {/* Color explícito: heredaba el del contenedor, y en la ficha de producto
+              eso daba texto negro sobre fondo oscuro. */}
+          <h2 className='text-2xl font-extrabold uppercase tracking-tight text-white'>{title}</h2>
+        </div>
+      ) : null}
       {items.length === 0 ? (
         <NoResults />
       ) : (
