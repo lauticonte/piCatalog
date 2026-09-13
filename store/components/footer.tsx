@@ -54,7 +54,12 @@ function Footer() {
       {/* Barra inferior: la firma mantiene la tipografía de la marca personal. */}
       <div className='border-t border-white/10'>
         <div className='mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-6 py-4 text-center sm:flex-row sm:text-left'>
-          <p className='text-xs text-slate-500'>&copy; {year} MH Garage. Todos los derechos reservados.</p>
+          <p className='text-xs text-slate-500'>
+            &copy; {year} MH Garage. Todos los derechos reservados.
+            <span className='ml-2 text-slate-600' title={`commit ${process.env.NEXT_PUBLIC_COMMIT_SHA}`}>
+              v{process.env.NEXT_PUBLIC_APP_VERSION}
+            </span>
+          </p>
           <a
             href='https://contelautaro.com.ar/'
             target='_blank'

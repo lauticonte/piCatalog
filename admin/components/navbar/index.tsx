@@ -34,7 +34,10 @@ async function Navbar() {
 
           <MainNav className='flex-1' />
 
-          <div className='flex shrink-0 items-center'>
+          <div className='flex shrink-0 items-center gap-3'>
+            <span className='hidden text-[11px] text-slate-400 sm:block' title={`commit ${process.env.NEXT_PUBLIC_COMMIT_SHA}`}>
+              v{process.env.NEXT_PUBLIC_APP_VERSION} · {process.env.NEXT_PUBLIC_COMMIT_SHA}
+            </span>
             <UserButton afterSignOutUrl='/' />
           </div>
         </div>
