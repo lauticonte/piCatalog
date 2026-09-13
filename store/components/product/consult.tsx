@@ -1,32 +1,31 @@
 'use client'
 
-import { usePreviewModal } from '@/hooks/use-preview-modal'
 import { useCart } from '@/hooks/use-cart'
 import { Product } from '@/types'
 import React, { MouseEventHandler } from 'react'
-import { AiOutlineExpand, AiOutlineWhatsApp } from 'react-icons/ai'
-import IconButton from '../ui/icon-button'
+import { AiOutlineWhatsApp } from 'react-icons/ai'
 
 interface IConsult {
   data: Product
 }
 
 function Consult({ data }: IConsult) {
-  const previewModal = usePreviewModal()
   const cart = useCart()
 
-  const handleAddToCart: MouseEventHandler<HTMLButtonElement> = event => {
+  const handleConsult: MouseEventHandler<HTMLButtonElement> = event => {
     event.stopPropagation()
     cart.addItem(data)
   }
 
   return (
-    <div className="flex items-center justify-center">
-    <button onClick={handleAddToCart} className="flex items-center justify-center gap-x-1 w-full bg-lime-600 text-white px-3 py-3 rounded-b-lg m-0">
-      <AiOutlineWhatsApp className='w-6 h-6' />
+    // Verde real de WhatsApp: el anterior era un lima que no era ni el de la marca ni el de MH.
+    <button
+      onClick={handleConsult}
+      className='flex w-full items-center justify-center gap-2 bg-[#25D366] py-3 text-sm font-bold text-[#0b2e1a] transition hover:brightness-110'
+    >
+      <AiOutlineWhatsApp className='h-5 w-5' />
       Consultar
     </button>
-  </div>
   )
 }
 

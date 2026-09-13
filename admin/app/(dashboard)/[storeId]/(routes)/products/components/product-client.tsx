@@ -80,14 +80,17 @@ function ProductClient({ data }: IProductClient) {
         onConfirm={onAddToCombo}
         productCount={selectedProducts.length}
       />
-      <div className='flex items-center justify-between overscroll-none'>
-        <Heading title={`Productos (${data.length})`} description='Gestioná tus productos, buscalos por nombre o CÓDIGO (SKU)' />
-        <Button onClick={() => router.push(`/${params.storeId}/products/new`)}>
-          <FiPlus className='mr-2 w-4- h4' />
-          Agregar
-        </Button>
-      </div>
-      <Separator />
+      <Heading
+        title='Productos'
+        badge={data.length}
+        description='Gestioná tu catálogo. Buscá por nombre o código (SKU).'
+        action={
+          <Button size='lg' onClick={() => router.push(`/${params.storeId}/products/new`)}>
+            <FiPlus className='mr-2 h-4 w-4' />
+            Agregar producto
+          </Button>
+        }
+      />
       <DataTable
         searchKey={['name', 'SKU']}
         searchPlaceholder='Buscar por nombre o SKU...'

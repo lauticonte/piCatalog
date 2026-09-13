@@ -1,5 +1,5 @@
 import prismadb from '@/lib/prismadb'
-import { format } from 'date-fns'
+import { formatDate } from '@/lib/utils'
 import React from 'react'
 import BillboardClient from './components/billboard-client'
 import { BillboardColumn } from './components/columns'
@@ -17,7 +17,7 @@ async function BillboardsPage({ params }: { params: { storeId: string } }) {
   const transformedBillboards: BillboardColumn[] = billboards.map(item => ({
     id: item.id,
     label: item.label,
-    createdAt: format(item.createdAt, 'MMMM do, yyyy'),
+    createdAt: formatDate(item.createdAt),
   }))
 
   return (

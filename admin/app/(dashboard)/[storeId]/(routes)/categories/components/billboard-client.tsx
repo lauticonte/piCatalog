@@ -20,14 +20,17 @@ function BillboardClient({ data }: IBillboardClient) {
 
   return (
     <Fragment>
-      <div className='flex items-center justify-between'>
-        <Heading title={`Categorías (${data.length})`} description='Gestioná las categorías de tu negocio' />
-        <Button onClick={() => router.push(`/${params.storeId}/categories/new`)}>
-          <FiPlus className='mr-2 w-4- h4' />
-          Agregar
-        </Button>
-      </div>
-      <Separator />
+      <Heading
+        title='Categorías'
+        badge={data.length}
+        description='Gestioná las categorías de tu negocio'
+        action={
+          <Button size='lg' onClick={() => router.push(`/${params.storeId}/categories/new`)}>
+            <FiPlus className='mr-2 h-4 w-4' />
+            Agregar categoría
+          </Button>
+        }
+      />
 
       <DataTable searchKey='name' columns={columns} data={data} />
       <Separator />

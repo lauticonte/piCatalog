@@ -51,12 +51,25 @@ export default async function Home() {
 
   return (
     <Container>
-      <div className='rounded-xl w-full bg-custom'>
-        <div className='relative w-full h-[250px] lg:h-[350px] 2xl:h-[500px] new-leaf-gradient rounded-b-lg'>
+      {/* El banner sale del margen en mobile: con 2048x700 cada píxel de ancho cuenta,
+          y los márgenes laterales lo achicaban todavía más. */}
+      <div className='-mx-4 w-auto bg-custom sm:mx-0 sm:w-full sm:rounded-xl'>
+        {/* El contenedor toma la proporción real del banner (2048x700). Con alto fijo,
+            object-cover agrandaba la imagen para llenarlo y recortaba los costados,
+            que en mobile se comía el texto y los logos de la derecha. */}
+        {/* Dos recortes del mismo banner. El original es 2048x700 (casi 3:1): mostrado
+            entero en un celular queda de 140px de alto, y recortado por object-cover
+            perdía el texto y los logos. El recorte para mobile es 1229x700 y conserva
+            todo el contenido. Cada uno se oculta por CSS, así el navegador descarga
+            solo el que corresponde. */}
+        <div className='relative w-full aspect-[1229/700] max-h-[500px] new-leaf-gradient sm:hidden'>
+          <Image src='/banner-mobile.png' fill priority sizes='100vw' unoptimized alt='Banner' className='object-cover' />
+        </div>
+        <div className='relative hidden w-full aspect-[2048/700] max-h-[500px] new-leaf-gradient sm:block sm:rounded-b-lg'>
           {/* Es el elemento LCP: priority lo precarga en vez de dejar que el navegador lo
               descubra tarde, que era el retraso de 1,5s que marcaba PageSpeed.
               Se mantiene unoptimized a propósito: la conversión degrada la resolución. */}
-          <Image src="/banner.gif" fill priority sizes="100vw" unoptimized alt='Banner' className='rounded-b-lg object-cover 2xl:object-cover ' />
+          <Image src="/banner.gif" fill priority sizes="100vw" unoptimized alt='Banner' className='object-cover sm:rounded-b-lg' />
           <p></p>
         </div>
       </div>

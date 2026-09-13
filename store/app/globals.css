@@ -23,6 +23,23 @@
 
 
 
+/* Marquesina del header: el track lleva el contenido duplicado, así que al
+   desplazarlo un 50% vuelve al punto de partida y el ciclo no se corta. */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
+
 .bg-custom {
   background-color: #1D232A;
 }

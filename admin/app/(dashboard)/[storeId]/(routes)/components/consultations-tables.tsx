@@ -15,13 +15,12 @@ function ConsultationsTables({ ranking, history }: IConsultationsTables) {
   return (
     <Fragment>
       <Heading
-        isDetail
         title='Productos más consultados'
         description='Ordenados por cantidad de personas distintas que preguntaron'
       />
       <DataTable searchKey={['name', 'SKU']} searchPlaceholder='Buscar por nombre o SKU...' columns={rankingColumns} data={ranking} />
 
-      <Heading isDetail title='Últimas consultas' description='De la más reciente a la más antigua, en hora argentina' />
+      <Heading title='Últimas consultas' description='De la más reciente a la más antigua, en hora argentina' />
       <DataTable searchKey={['name', 'SKU']} searchPlaceholder='Buscar por nombre o SKU...' columns={historyColumns} data={history} />
     </Fragment>
   )

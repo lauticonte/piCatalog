@@ -1,6 +1,7 @@
 'use client'
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import { formatter } from '@/lib/utils'
 
 interface OverviewProps {
   data: any[]
@@ -8,11 +9,24 @@ interface OverviewProps {
 
 export const Overview: React.FC<OverviewProps> = ({ data }) => {
   return (
-    <ResponsiveContainer width='100%' height={350}>
-      <BarChart data={data}>
-        <XAxis dataKey='name' stroke='#888888' fontSize={12} tickLine={false} axisLine={false} />
-        <YAxis stroke='#888888' fontSize={12} tickLine={false} axisLine={false} tickFormatter={value => `$${value}`} />
-        <Bar dataKey='total' fill='#3498db' radius={[4, 4, 0, 0]} />
+    <ResponsiveContainer width='100%' height={280}>
+      <BarChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
+        <CartesianGrid vertical={false} stroke='#eef1f3' />
+        <XAxis dataKey='name' stroke='#8a949e' fontSize={12} tickLine={false} axisLine={false} />
+        <YAxis
+          stroke='#8a949e'
+          fontSize={12}
+          tickLine={false}
+          axisLine={false}
+          width={70}
+          tickFormatter={value => formatter.format(value)}
+        />
+        <Tooltip
+          cursor={{ fill: '#f4f6f7' }}
+          formatter={(value: number) => [formatter.format(value), 'Consultado']}
+          contentStyle={{ borderRadius: 8, border: '1px solid #e3e7ea', fontSize: 12 }}
+        />
+        <Bar dataKey='total' fill='#3aa17e' radius={[4, 4, 0, 0]} maxBarSize={44} />
       </BarChart>
     </ResponsiveContainer>
   )

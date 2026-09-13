@@ -54,20 +54,21 @@ function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
   ]
 
   return (
-    <div className={cn('flex items-center space-x-4 lg:space-x-6 overscroll-none', className)} {...props}>
+    <nav className={cn('flex items-center gap-1 overflow-x-auto', className)} {...props}>
       {routes?.map(route => (
         <Link
           key={route.href}
           href={route.href}
           className={cn(
-            'text-sm font-bold uppercase transition-colors hover:text-primary hover:underline focus:outline-none focus:underline',
-            route.active ? 'text-black dark:text-white' : 'text-muted-foreground'
+            'whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-semibold uppercase tracking-wide transition-colors',
+            // La pestaña activa se marca con un fondo propio, no solo con el color del texto.
+            route.active ? 'bg-white/10 text-white' : 'text-slate-400 hover:bg-white/5 hover:text-white'
           )}
         >
           {route.label}
         </Link>
       ))}
-    </div>
+    </nav>
   )
 }
 

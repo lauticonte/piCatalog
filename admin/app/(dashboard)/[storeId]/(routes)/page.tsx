@@ -81,38 +81,38 @@ const DashboardPage = async ({ params }: DashboardPageProps) => {
         <Heading title='Panel' description='Qué están consultando tus clientes' />
         <Separator />
         <div className='grid gap-4 grid-cols-3'>
-          <Card>
+          <Card className='shadow-sm'>
             <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
               <CardTitle className='text-sm font-medium'>Valor consultado</CardTitle>
-              <CiDollar className='h-4 w-4 text-muted-foreground' />
+              <span className='flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-50 text-emerald-700'><CiDollar className='h-5 w-5' /></span>
             </CardHeader>
             <CardContent>
-              <div className='text-2xl font-bold'>{formatter.format(totalRevenue)}</div>
+              <div className='text-3xl font-extrabold tracking-tight'>{formatter.format(totalRevenue)}</div>
               <p className='text-xs text-muted-foreground'>Suma de los productos consultados</p>
             </CardContent>
           </Card>
-          <Card>
+          <Card className='shadow-sm'>
             <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
               <CardTitle className='text-sm font-medium'>Consultas</CardTitle>
-              <BsCreditCard className='h-4 w-4 text-muted-foreground' />
+              <span className='flex h-9 w-9 items-center justify-center rounded-lg bg-sky-50 text-sky-700'><BsCreditCard className='h-4 w-4' /></span>
             </CardHeader>
             <CardContent>
-              <div className='text-2xl font-bold'>{salesCount}</div>
+              <div className='text-3xl font-extrabold tracking-tight'>{salesCount}</div>
               <p className='text-xs text-muted-foreground'>Clics en "Consultar" por WhatsApp</p>
             </CardContent>
           </Card>
-          <Card>
+          <Card className='shadow-sm'>
             <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
               <CardTitle className='text-sm font-medium'>Productos en stock</CardTitle>
-              <GoPackage className='h-4 w-4 text-muted-foreground' />
+              <span className='flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-700'><GoPackage className='h-4 w-4' /></span>
             </CardHeader>
             <CardContent>
-              <div className='text-2xl font-bold'>{stockCount}</div>
+              <div className='text-3xl font-extrabold tracking-tight'>{stockCount}</div>
               <p className='text-xs text-muted-foreground'>Publicados en la tienda</p>
             </CardContent>
           </Card>
         </div>
-        <Card className='col-span-4'>
+        <Card className='col-span-4 shadow-sm'>
           <CardHeader>
             <CardTitle>Valor consultado por mes</CardTitle>
           </CardHeader>

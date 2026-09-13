@@ -19,17 +19,17 @@ function CombosClient({ data }: ICombosClient) {
 
   return (
     <Fragment>
-      <div className='flex items-center justify-between'>
-        <Heading
-          title={`Combos (${data.length})`}
-          description='Creá el combo acá y después cargale productos desde la pantalla de Productos'
-        />
-        <Button onClick={() => router.push(`/${params.storeId}/combos/new`)}>
-          <FiPlus className='mr-2 w-4- h4' />
-          Agregar
-        </Button>
-      </div>
-      <Separator />
+      <Heading
+        title='Combos'
+        badge={data.length}
+        description='Creá el combo acá y después cargale productos desde la pantalla de Productos'
+        action={
+          <Button size='lg' onClick={() => router.push(`/${params.storeId}/combos/new`)}>
+            <FiPlus className='mr-2 h-4 w-4' />
+            Agregar combo
+          </Button>
+        }
+      />
 
       <DataTable searchKey='name' columns={columns} data={data} />
     </Fragment>

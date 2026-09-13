@@ -16,7 +16,7 @@ body,
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 210 20% 98%;  /* gris muy suave: las tarjetas blancas se despegan */
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;

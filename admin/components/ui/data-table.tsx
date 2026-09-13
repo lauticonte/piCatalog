@@ -14,8 +14,9 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useEffect, useState } from 'react'
 import { Input } from './input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './select'
 import ConfirmModal from '@/components/modals/confirm-modal'
-import { BiTrash } from 'react-icons/bi'
+import { BiSearch, BiTrash } from 'react-icons/bi'
 
 /** Una acción que opera sobre las filas tildadas. */
 export interface BulkAction<TData> {
@@ -27,6 +28,9 @@ export interface BulkAction<TData> {
   confirmTitle?: (rows: TData[]) => string
   onRun: (rows: TData[]) => Promise<void> | void
 }
+
+// Ancho opcional declarado en la definición de cada columna.
+const colWidth = (def: any) => (def?.meta?.width ? { width: def.meta.width } : undefined)
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -145,21 +149,34 @@ export function DataTable<TData, TValue>({
         description='Esta acción no se puede deshacer.'
         items={getRowLabel ? selectedRows.map(row => getRowLabel(row.original)) : undefined}
       />
-      <div className='flex items-center gap-2 py-4'>
-        <Input
-          placeholder={searchPlaceholder}
-          value={globalFilter}
-          onChange={event => {
-            setGlobalFilter(event.target.value)
-            // Al filtrar el resultado se achica: volvemos al principio para no
-            // caer en una página fuera de rango.
-            table.setPageIndex(0)
-          }}
-          className='max-w-sm'
-        />
+      {/* Buscador, tabla y paginador dentro de una sola tarjeta: antes el buscador
+          flotaba suelto arriba y la tabla parecía un bloque aparte. */}
+      <div className='overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm'>
+      <div className='flex flex-wrap items-center gap-3 border-b border-slate-200 bg-slate-50/60 px-4 py-3'>
+        <div className='relative w-full max-w-sm'>
+          <BiSearch className='pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400' />
+          <Input
+            placeholder={searchPlaceholder}
+            value={globalFilter}
+            onChange={event => {
+              setGlobalFilter(event.target.value)
+              // Al filtrar el resultado se achica: volvemos al principio para no
+              // caer en una página fuera de rango.
+              table.setPageIndex(0)
+            }}
+            className='bg-white pl-9'
+          />
+        </div>
+        {globalFilter && (
+          <span className='text-sm text-slate-500'>
+            <b className='text-slate-700'>{table.getFilteredRowModel().rows.length}</b> encontrados
+          </span>
+        )}
+
+        {/* La barra de acciones aparece solo con filas tildadas y se destaca del resto. */}
         {actions.length > 0 && selectedRows.length > 0 && (
-          <>
-            <span className='text-sm text-muted-foreground whitespace-nowrap'>
+          <div className='ml-auto flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-1.5'>
+            <span className='whitespace-nowrap text-sm font-semibold text-emerald-800'>
               {selectedRows.length} seleccionado{selectedRows.length > 1 ? 's' : ''}
             </span>
             {actions.map(action => (
@@ -174,17 +191,24 @@ export function DataTable<TData, TValue>({
                 {action.label}
               </Button>
             ))}
-          </>
+          </div>
         )}
       </div>
-      <div className='rounded-md border'>
+      <div className='overflow-x-auto'>
         <Table>
-          <TableHeader>
+          <TableHeader className='bg-muted/50'>
             {table.getHeaderGroups().map(headerGroup => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className='hover:bg-transparent'>
                 {headerGroup.headers.map(header => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead
+                      key={header.id}
+                      // Ancho declarado por columna: sin esto la tabla reparte sola y
+                      // deja huecos enormes al lado de las columnas angostas.
+                      // Se usa `meta.width` y no `size` porque TanStack le asigna
+                      // size: 150 por defecto a todas, lo que limitaría la columna ancha.
+                      style={colWidth(header.column.columnDef)}
+                    >
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   )
@@ -195,7 +219,7 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map(row => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'} className='transition-colors'>
                   {row.getVisibleCells().map(cell => (
                     <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                   ))}
@@ -203,16 +227,39 @@ export function DataTable<TData, TValue>({
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className='h-24 text-center'>
-                  No results.
+                <TableCell colSpan={columns.length} className='h-28 text-center text-sm text-muted-foreground'>
+                  No hay resultados.
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      <div className='flex items-center justify-end space-x-2 py-4'>
-        <span className='text-sm text-muted-foreground'>
+      <div className='flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 bg-slate-50/60 px-4 py-3'>
+        <div className='flex items-center gap-3'>
+          <span className='text-sm text-slate-500'>
+            Mostrando <b className='text-slate-700'>{table.getRowModel().rows.length}</b> de{' '}
+            <b className='text-slate-700'>{table.getFilteredRowModel().rows.length}</b>
+          </span>
+          {/* Con más de mil productos, 10 por página obliga a paginar demasiado. */}
+          <Select
+            value={String(pagination.pageSize)}
+            onValueChange={value => table.setPageSize(Number(value))}
+          >
+            <SelectTrigger className='h-8 w-[130px] shrink-0 whitespace-nowrap bg-white text-sm'>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {[10, 30, 50, 100].map(size => (
+                <SelectItem key={size} value={String(size)}>
+                  {size} por pág.
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className='flex items-center gap-2'>
+        <span className='text-sm text-slate-500'>
           Página {pageCount === 0 ? 0 : pagination.pageIndex + 1} de {pageCount}
         </span>
         <Button variant='outline' size='sm' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
@@ -221,6 +268,8 @@ export function DataTable<TData, TValue>({
         <Button variant='outline' size='sm' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
           Siguiente
         </Button>
+        </div>
+      </div>
       </div>
     </div>
   )

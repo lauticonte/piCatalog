@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 
 import prismadb from "@/lib/prismadb";
-import { formatter } from "@/lib/utils";
+import { formatter, formatDate } from "@/lib/utils";
 
 import { OrderColumn } from "./components/columns"
 import { OrderClient } from "./components/client";
@@ -37,7 +37,7 @@ const OrdersPage = async ({
       return total + Number(item.product.price)
     }, 0)),
     isPaid: item.isPaid,
-    createdAt: format(item.createdAt, 'MMMM do, yyyy'),
+    createdAt: formatDate(item.createdAt),
   }));
 
   return (

@@ -1,5 +1,5 @@
 import prismadb from '@/lib/prismadb'
-import { format } from 'date-fns'
+import { formatDate } from '@/lib/utils'
 import React from 'react'
 import BillboardClient from './components/billboard-client'
 import { CategoryColumn } from './components/columns'
@@ -9,6 +9,10 @@ async function CategoriesPage({ params }: { params: { storeId: string } }) {
     where: {
       storeId: params.storeId,
     },
+    include: {
+      // Cuántos productos cuelgan de cada categoría: es el dato que uno busca acá.
+      _count: { select: { products: true } },
+    },
     orderBy: {
       createdAt: 'desc',
     },
@@ -17,7 +21,8 @@ async function CategoriesPage({ params }: { params: { storeId: string } }) {
   const transformedCategoreis: CategoryColumn[] = categories.map(item => ({
     id: item.id,
     name: item.name,
-    createdAt: format(item.createdAt, 'MMMM do, yyyy'),
+    productsCount: item._count.products,
+    createdAt: formatDate(item.createdAt),
   }))
 
   return (

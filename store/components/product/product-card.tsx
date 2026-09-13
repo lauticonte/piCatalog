@@ -1,11 +1,9 @@
 import { Product } from '@/types'
 import Link from 'next/link'
-import React, { MouseEventHandler } from 'react'
+import React from 'react'
 import BlurImage from '../blur-image'
 import Currency from '../ui/currency'
 import ProductAction from './product-action'
-import { AiOutlineWhatsApp } from 'react-icons/ai'
-import { formatter } from '@/utils/utils'
 import Consult from './consult'
 
 interface IProductCard {
@@ -13,57 +11,54 @@ interface IProductCard {
 }
 
 function ProductCard({ data }: IProductCard) {
-  const categoryID = data.category.toString();
-
   return (
-
-
-    <div className="group border-0 flex w-full max-w-xs flex-col self-center overflow-hidden rounded-xl border bg-gray-700 shadow-xl shadow-black">
-    <div className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-l-lg">
-      <Link href={`/product/${data.id}`}>
-        
+    <article className='group flex h-full w-full max-w-xs flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1D232A] transition duration-200 hover:-translate-y-1 hover:border-[#f5b301]/60'>
+      {/* Altura fija: si la impone cada foto, las tarjetas de una misma fila quedan desparejas. */}
+      <div className='relative h-56 shrink-0 bg-white'>
+        <Link href={`/product/${data.id}`} className='absolute inset-0'>
           <BlurImage
-            className="absolute top-0 right-0 h-full w-full object-contain bg-white rounded-r-lg rounded-l-lg"
+            className='object-contain p-4 transition duration-300 group-hover:scale-105'
             src={data?.images[0].url}
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw'
             alt={data.name}
           />
-        
-      </Link>
-      <ProductAction data={data} />
+        </Link>
+        <span className='pointer-events-none absolute left-3 top-3 rounded-md bg-[#f5b301] px-2 py-0.5 text-[11px] font-extrabold tracking-wide text-[#1D232A]'>
+          20% OFF
+        </span>
+        <ProductAction data={data} />
+      </div>
 
+      <div className='flex flex-1 flex-col gap-1 px-4 pt-3.5'>
+        {/* En herramientas la marca pesa en la decisión y la tarjeta no la mostraba.
+            La barrita amarilla repite el acento del hero. */}
+        <div className='flex items-center gap-2'>
+          <span className='h-3 w-0.5 rounded bg-[#f5b301]' />
+          <span className='text-[10px] font-bold uppercase tracking-widest text-[#f5b301]'>{data.brand?.name}</span>
+        </div>
 
-      <span className="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">20% OFF</span>
-    </div>
-    <div className="mt-4 px-5 pb-5">
-      <Link className="text-xl uppercase font-medium text-ellipsis overflow-hidden text-white overflow-ellipsis block box-border flex-wrap items-center justify-center h-14 pb-6 mb-2 text-ellipsis" href={`/product/${data.id}`}>
-        
-          <h5 >{data.name}</h5>
-        
-      </Link>
-      <Link href={`/category/${data.category.id}`}>
-        
-      <p className='mt-1 text-xs text-center text-gray-600 bg-gray-200 px-3 py-1 rounded-full'>{data.category.name}</p>
+        <Link href={`/product/${data.id}`}>
+          <h3 className='line-clamp-2 min-h-[2.6rem] text-[15px] font-semibold uppercase leading-snug text-white'>
+            {data.name}
+          </h3>
+        </Link>
 
-      </Link>
+        <Link href={`/category/${data.category.id}`}>
+          <span className='text-[11px] uppercase tracking-wide text-slate-500 hover:text-slate-300'>
+            {data.category.name}
+          </span>
+        </Link>
+      </div>
 
-    </div>
+      {/* El precio en su propia banda: antes se mezclaba con el resto del texto. */}
+      <div className='mt-3 bg-white/[0.04] px-4 py-3 text-center text-[24px] font-extrabold leading-none tracking-tight text-white'>
+        <Currency value={data.price} />
+      </div>
 
-
-    <p className="text-xl text-gray-200 bg-gray-900 border-transparent px-14 py-3 text-white font-semibold transition text-center">
-
-<Currency value={data.price} />
-
-</p>
-
-    <Consult data={data} />
-
-  </div>
-
-
-  
-)
+      <Consult data={data} />
+    </article>
+  )
 }
 
 export default ProductCard

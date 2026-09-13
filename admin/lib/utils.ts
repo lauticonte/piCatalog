@@ -8,9 +8,12 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const formatter = new Intl.NumberFormat('en-US', {
+// Pesos argentinos con formato local: separador de miles con punto y decimales
+// con coma. Antes usaba en-US/USD, así que $325.150 se mostraba como "$325,150.00".
+export const formatter = new Intl.NumberFormat('es-AR', {
   style: 'currency',
-  currency: 'USD',
+  currency: 'ARS',
+  maximumFractionDigits: 0,
 })
 
 /**

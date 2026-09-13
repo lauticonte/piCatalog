@@ -71,9 +71,15 @@ export interface ProductFilters {
   colorId?: string
   brandId?: string
   isFeatured?: boolean
+  /** Texto libre: busca en el nombre y en el SKU. */
+  q?: string
   skip?: number
   take?: number
 }
+
+// Escapa los caracteres que Mongo interpretaría como expresión regular, para que
+// buscar "1/2" o "(2,00" no rompa la consulta.
+const escapeRegex = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 export const findProductById = async (productId: string) => {
   const [product] = normalize(
@@ -85,7 +91,7 @@ export const findProductById = async (productId: string) => {
   return product ?? null
 }
 
-export const findProducts = async ({ storeId, categoryId, colorId, brandId, isFeatured, skip = 0, take = 12 }: ProductFilters) => {
+export const findProducts = async ({ storeId, categoryId, colorId, brandId, isFeatured, q, skip = 0, take = 12 }: ProductFilters) => {
   const match: Record<string, any> = {
     storeId: { $oid: storeId },
     isArchived: false,
@@ -96,6 +102,11 @@ export const findProducts = async ({ storeId, categoryId, colorId, brandId, isFe
   if (colorId) match.colorId = { $oid: colorId }
   if (brandId) match.brandId = { $oid: brandId }
   if (isFeatured) match.isFeatured = true
+
+  if (q?.trim()) {
+    const termino = escapeRegex(q.trim())
+    match.$or = [{ name: { $regex: termino, $options: 'i' } }, { SKU: { $regex: termino, $options: 'i' } }]
+  }
 
   return normalize(
     await prismadb.product.aggregateRaw({

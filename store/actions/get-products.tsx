@@ -1,9 +1,13 @@
 import { Product } from '@/types'
 import qs from 'query-string'
 
-const URL = `https://admin.mhgarage.ar/api/65ec0a796702c9c0e4c0895f/products`
+// Permite apuntar al admin local en desarrollo. Sin la variable usa producción.
+const BASE = process.env.ADMIN_API_URL || 'https://admin.mhgarage.ar/api/65ec0a796702c9c0e4c0895f'
+
+const URL = `${BASE}/products`
 
 interface Query {
+  q?: string
   categoryId?: string
   colorId?: string
   brandId?: string
@@ -16,6 +20,7 @@ export const getProducts = async (query: Query): Promise<Product[]> => {
   const url = qs.stringifyUrl({
     url: URL,
     query: {
+      q: query.q,
       colorId: query.colorId,
       brandId: query.brandId,
       categoryId: query.categoryId,

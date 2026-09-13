@@ -1,5 +1,5 @@
 import prismadb from '@/lib/prismadb'
-import { format } from 'date-fns'
+import { formatDate } from '@/lib/utils'
 import React from 'react'
 import CombosClient from './components/combos-client'
 import { ComboColumn } from './components/columns'
@@ -22,8 +22,10 @@ async function CombosPage({ params }: { params: { storeId: string } }) {
   const transformedCombos: Array<ComboColumn> = combos.map(item => ({
     id: item.id,
     name: item.name,
+    image: item.imageUrl || null,
+    desc: item.desc,
     productsCount: item._count.items,
-    createdAt: format(item.createdAt, 'MMMM do, yyyy'),
+    createdAt: formatDate(item.createdAt),
   }))
 
   return (

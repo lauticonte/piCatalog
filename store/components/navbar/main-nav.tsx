@@ -1,105 +1,44 @@
 'use client'
 
-import React, {useState} from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { cn } from '@/utils/utils';
-import { Brand } from '@/types';
+import React from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { cn } from '@/utils/utils'
+import { Brand } from '@/types'
+import SearchForm from './search-form'
 
 interface IMainNav {
-  data: Brand[];
+  data: Brand[]
 }
 
 function MainNav({ data }: IMainNav) {
-  const pathname = usePathname();
-  const [searchTerm, setSearchTerm] = useState('');
+  const pathname = usePathname()
 
-    // Función para manejar cambios en el campo de búsqueda
-    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchTerm(event.target.value);
-    };
-  
-    // Función para realizar la búsqueda
-    const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      // Aquí podrías implementar la lógica de búsqueda y redirigir a la página de resultados
-      console.log('Realizar búsqueda con término:', searchTerm);
-    };
+  const links = [
+    { href: '/combos', label: 'Combos' },
+    { href: '/brands', label: 'Marcas' },
+  ]
 
-    //Barra de busqueda a la derecha:
+  return (
+    <div className='hidden flex-1 items-center gap-8 md:flex'>
+      <SearchForm className='w-full max-w-md' />
 
-    return (
-      <div className='hidden md:flex mx-6 items-center space-x-4 lg:space-x-6'>
-        {/* Formulario de búsqueda */}
-        <form onSubmit={handleSearchSubmit}>
-          <input
-            type='text'
-            value={searchTerm}
-            onChange={handleSearchChange}
-            placeholder='Buscar productos...'
-            
-            className='w-48 sm:w-64 px-3 py-1.5 border border-gray-200 rounded-lg focus:outline-none focus:border-primary text-black placeholder-gray-400 transition-colors'
-          />
-        </form>
-  
-        {/* Menú desplegable de categorías
-        <div className='relative group'>
-          <button className='text-sm font-medium transition-colors hover:text-primary hover:underline focus:outline-none focus:underline'>
-            Marcas
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-5 w-5 ml-1 inline-block'
-              viewBox='0 0 20 20'
-              fill='currentColor'
-            >
-            <path
-              fillRule='evenodd'
-              d='M10 3a1 1 0 0 1 .707.293l4 4a1 1 0 0 1-1.414 1.414L10 5.414 6.707 8.707a1 1 0 0 1-1.414-1.414l4-4A1 1 0 0 1 10 3zM10 17a1 1 0 0 1-.707-.293l-4-4a1 1 0 1 1 1.414-1.414L10 14.586l3.293-3.293a1 1 0 0 1 1.414 1.414l-4 4A1 1 0 0 1 10 17z'
-            />
-          </svg>
-        </button>
-        <ul className='absolute hidden bg-white border border-gray-200 py-1 px-2 mt-1 rounded-lg group-hover:block min-w-[24rem]'>
-          {data.map(route => (
-            <li key={route.id}>
-              <Link href={`/brand/${route.id}`}>
-                <span className={cn(
-                  'text-sm font-medium transition-colors hover:text-primary hover:underline focus:outline-none focus:underline',
-                  pathname === `/brand/${route.id}` ? 'text-black' : 'text-muted-foreground'
-                )}>
-                  {route.name}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div> */}
-
-      {/* Enlaces de navegación */}
-      <Link href='/combos'>
-        <button className='text-sm font-medium transition-colors hover:text-secondary hover:underline focus:outline-none focus:underline flex items-center'>
-          Combos
-        </button>
-      </Link>
-
-      <Link href='/brands'>
-  <button className='text-sm font-medium transition-colors hover:text-secondary hover:underline focus:outline-none focus:underline flex items-center'>
-    Marcas
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-double-right" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
-  <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
-</svg>
-  </button>
-</Link>
-
-
-
-
-
-
-
-
+      <nav className='ml-auto flex items-center gap-1'>
+        {links.map(link => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className={cn(
+              'rounded-md px-3 py-2 text-sm font-bold uppercase tracking-wide transition-colors',
+              pathname.startsWith(link.href) ? 'bg-white/5 text-[#f5b301]' : 'text-slate-300 hover:text-white'
+            )}
+          >
+            {link.label}
+          </Link>
+        ))}
+      </nav>
     </div>
-  );
+  )
 }
 
-export default MainNav;
+export default MainNav

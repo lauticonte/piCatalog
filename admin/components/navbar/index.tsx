@@ -3,6 +3,8 @@ import { auth, UserButton } from '@clerk/nextjs'
 import { redirect } from 'next/navigation'
 import React from 'react'
 import MainNav from './main-nav'
+import Image from 'next/image'
+import Link from 'next/link'
 import StoreSwitcher from './store-switcher'
 
 async function Navbar() {
@@ -20,17 +22,24 @@ async function Navbar() {
 
   return (
     <>
-      <div className='border-b h-16 items-center backdrop-blur-md fixed top-0 left-0 w-full z-40 '>
-        <div className='flex h-16  '>
-          {/* <StoreSwitcher items={stores} /> */}
-          <div className='ml-2 flex items-center space-x-2'>
+      {/* Barra oscura con la identidad de la tienda, en lugar del blanco por defecto. */}
+      <header className='fixed top-0 left-0 z-40 w-full bg-[#1D232A] text-white shadow-sm'>
+        <div className='flex h-16 items-center gap-6 px-4 sm:px-6'>
+          <Link href={`/${stores[0]?.id ?? ''}`} className='flex shrink-0 items-center gap-2'>
+            <Image src='/logo.png' alt='MH Garage' width={34} height={34} className='rounded-md' priority />
+            <span className='hidden text-sm font-extrabold uppercase tracking-wider sm:block'>
+              MH <span className='text-[#3aa17e]'>Garage</span>
+            </span>
+          </Link>
+
+          <MainNav className='flex-1' />
+
+          <div className='flex shrink-0 items-center'>
             <UserButton afterSignOutUrl='/' />
           </div>
-          <MainNav className='mx-4' />
-
         </div>
-      </div>
-      <div className='h-[60px]' />
+      </header>
+      <div className='h-16' />
     </>
   )
 }

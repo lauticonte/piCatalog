@@ -1,5 +1,5 @@
 import prismadb from '@/lib/prismadb'
-import { format } from 'date-fns'
+import { formatDate } from '@/lib/utils'
 import React from 'react'
 import BrandsClient from './components/brands-client'
 import { BrandColumn } from './components/columns'
@@ -11,6 +11,7 @@ async function BrandsPage({ params }: { params: { storeId: string } }) {
     },
     include: {
       billboard: true,
+      _count: { select: { products: true } },
     },
     orderBy: {
       createdAt: 'desc',
@@ -22,7 +23,9 @@ async function BrandsPage({ params }: { params: { storeId: string } }) {
     name: item.name,
     value: item.value,
     billboardLabel: item.billboard.label,
-    createdAt: format(item.createdAt, 'MMMM do, yyyy'),
+    image: item.imageUrl || null,
+    productsCount: item._count.products,
+    createdAt: formatDate(item.createdAt),
   }))
 
   return (

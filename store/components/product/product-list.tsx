@@ -11,7 +11,12 @@ interface IProductList {
 function ProductList({ title, items }: IProductList) {
   return (
     <div className='space-y-4'>
-      <h2 className='font-bold text-2xl text-center sm:text-left'>{title}</h2>
+      {/* Barrita amarilla: repite el acento de las tarjetas y del hero, para que la
+          sección no arranque con un título suelto sobre el fondo. */}
+      <div className='flex items-center gap-3'>
+        <span className='h-7 w-1 rounded-full bg-[#f5b301]' />
+        <h2 className='text-2xl font-extrabold uppercase tracking-tight'>{title}</h2>
+      </div>
       {items.length === 0 ? (
         <NoResults />
       ) : (

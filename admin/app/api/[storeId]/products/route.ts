@@ -93,6 +93,7 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
     const colorId = searchParams.get('colorId') || undefined;
     const brandId = searchParams.get('brandId') || undefined;
     const isFeatured = searchParams.get('isFeatured');
+    const q = searchParams.get('q') || undefined;
 
     const page = searchParams.get('page') || '1';
     const limit = searchParams.get('limit') || '12'; // Asegúrate que '3' es el valor por defecto deseado
@@ -113,6 +114,7 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
       colorId,
       brandId,
       isFeatured: Boolean(isFeatured),
+      q,
       skip,
       take: limitInt,
     });

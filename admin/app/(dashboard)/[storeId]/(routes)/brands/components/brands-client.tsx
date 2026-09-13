@@ -20,14 +20,17 @@ function BrandsClient({ data }: IBrand) {
 
   return (
     <Fragment>
-      <div className='flex items-center justify-between'>
-        <Heading title={`Marcas (${data.length})`} description='Gestioná las marcas de tu negocio' />
-        <Button onClick={() => router.push(`/${params.storeId}/brands/new`)}>
-          <FiPlus className='mr-2 w-4- h4' />
-          Agregar
-        </Button>
-      </div>
-      <Separator />
+      <Heading
+        title='Marcas'
+        badge={data.length}
+        description='Gestioná las marcas de tu negocio'
+        action={
+          <Button size='lg' onClick={() => router.push(`/${params.storeId}/brands/new`)}>
+            <FiPlus className='mr-2 h-4 w-4' />
+            Agregar marca
+          </Button>
+        }
+      />
 
       <DataTable searchKey='name' columns={columns} data={data} />
       <Separator />

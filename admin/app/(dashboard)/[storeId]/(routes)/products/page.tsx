@@ -3,7 +3,7 @@ import { format } from 'date-fns'
 import React from 'react'
 import ProductClient from './components/product-client'
 import { ProductColumn } from './components/columns'
-import { formatter } from '@/lib/utils'
+import { formatter, formatDate } from '@/lib/utils'
 
 async function ProductsPage({ params }: { params: { storeId: string } }) {
   const products = await prismadb.product.findMany({
@@ -14,6 +14,8 @@ async function ProductsPage({ params }: { params: { storeId: string } }) {
       category: true,
       brand: true,
       color: true,
+      // La miniatura es lo que hace que cada fila se reconozca de un vistazo.
+      images: { take: 1 },
     },
     orderBy: {
       createdAt: 'desc',
@@ -31,7 +33,8 @@ async function ProductsPage({ params }: { params: { storeId: string } }) {
     category: item.category.name,
     brand: item.brand.name,
     color: item.color.value,
-    createdAt: format(item.createdAt, 'MMMM do, yyyy'),
+    image: item.images[0]?.url ?? null,
+    createdAt: formatDate(item.createdAt),
   }))
 
   return (
