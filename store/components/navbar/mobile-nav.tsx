@@ -1,41 +1,42 @@
 'use client'
 
-import React from 'react';
-import Link from 'next/link';
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from '@/components/ui/navigation-menu';
-import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu';
-import { Category } from '@/types';
+import React from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { cn } from '@/utils/utils'
+import { Category } from '@/types'
 
 interface IMobileNav {
-  brands: Category[];
+  brands: Category[]
 }
 
-function MobileNav({ brands }: IMobileNav) {
-  const longestCategoryLength = Math.max(...brands.map(brand => brand.name.length));
-  const minWidth = `${longestCategoryLength * 0.75}ch`; // Ajusta el valor según tus necesidades
-  const maxWidth = '25rem'; // Ajusta el valor según tus necesidades
+const LINKS = [
+  { href: '/productos', label: 'Productos' },
+  { href: '/combos', label: 'Combos' },
+  { href: '/brands', label: 'Marcas' },
+]
+
+// Links simples y compactos: con el menú desplegable de antes (flecha y padding) los
+// tres no entraban al lado del logo y la página se ensanchaba.
+function MobileNav(_props: IMobileNav) {
+  const pathname = usePathname()
 
   return (
-    <NavigationMenu>
-      <NavigationMenuList className='group flex flex-1 list-none justify-start space-x-1'>
-        <NavigationMenuItem>
-          <Link href='/productos' passHref>
-          <NavigationMenuTrigger className='bg-transparent flex items-center justify-center'>Productos</NavigationMenuTrigger>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link href='/combos' passHref>
-          <NavigationMenuTrigger className='bg-transparent flex items-center justify-center'>Combos</NavigationMenuTrigger>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link href='/brands' passHref>
-          <NavigationMenuTrigger className='bg-transparent flex items-center justify-center'>Marcas</NavigationMenuTrigger>
-          </Link>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
-  );
+    <nav className='flex items-center'>
+      {LINKS.map(link => (
+        <Link
+          key={link.href}
+          href={link.href}
+          className={cn(
+            'rounded-md px-2 py-2 text-[13px] font-bold transition-colors',
+            pathname.startsWith(link.href) ? 'text-[#f5b301]' : 'text-white'
+          )}
+        >
+          {link.label}
+        </Link>
+      ))}
+    </nav>
+  )
 }
 
-export default MobileNav;
+export default MobileNav

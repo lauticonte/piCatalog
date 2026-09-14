@@ -54,7 +54,9 @@ async function CatalogPage({ searchParams }: ICatalogPage) {
   const visible = products.filter(product => product.images?.length > 0)
 
   return (
-    <div className='flex flex-1 flex-col bg-custom'>
+    // Bloque y no flex-col: en flex, el mx-auto del Container anula el estiramiento y el
+    // contenedor tomaba el ancho de la fila de chips (1024px en un celular).
+    <div className='flex-1 bg-custom'>
       <Container>
         <div className='px-4 pb-16 pt-6 sm:px-6 lg:px-8 lg:pt-8'>
           <header className='mb-6'>
