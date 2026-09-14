@@ -5,8 +5,9 @@ const BASE = process.env.ADMIN_API_URL || 'https://admin.mhgarage.ar/api/65ec0a7
 
 const URL = `${BASE}/brands`
 
-export const getBrands = async (): Promise<Brand[]> => {
-  const res = await fetch(URL, {
+// Con categoryId, la API devuelve solo las que tienen productos ahí y cuántos.
+export const getBrands = async (query: { categoryId?: string } = {}): Promise<Brand[]> => {
+  const res = await fetch(query.categoryId ? `${URL}?categoryId=${query.categoryId}` : URL, {
     next: {
       revalidate: 300,
     },

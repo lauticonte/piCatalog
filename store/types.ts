@@ -25,6 +25,8 @@ export interface Billboard {
 export interface Category {
   id: string
   name: string
+  /** Solo viene cuando se pide acotado a una marca. */
+  productsCount?: number
 }
 
 export interface Brand {
@@ -33,6 +35,8 @@ export interface Brand {
   value: string
   billboard: Billboard
   imageUrl: string
+  /** Solo viene cuando se pide acotado a una categoría. */
+  productsCount?: number
 }
 
 export interface Combo {

@@ -68,6 +68,27 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
       return new NextResponse('Store id is required', { status: 400 })
     }
 
+    // Con ?categoryId= devuelve solo las marcas que tienen productos publicados en esa
+    // categoría, con la cantidad: la tienda las usa como filtro y no tiene sentido
+    // ofrecer una opción que no muestra nada.
+    const categoryId = new URL(req.url).searchParams.get('categoryId')
+
+    if (categoryId) {
+      const counts = await prismadb.product.groupBy({
+        by: ['brandId'],
+        where: { storeId: params.storeId, categoryId, isArchived: false },
+        _count: { _all: true },
+      })
+      const countById = new Map(counts.map(item => [item.brandId, item._count._all]))
+
+      const brands = await prismadb.brand.findMany({
+        where: { storeId: params.storeId, id: { in: Array.from(countById.keys()) } },
+        orderBy: { name: 'asc' },
+      })
+
+      return NextResponse.json(brands.map(brand => ({ ...brand, productsCount: countById.get(brand.id) ?? 0 })))
+    }
+
     const brands = await prismadb.brand.findMany({
       where: {
         storeId: params.storeId,
