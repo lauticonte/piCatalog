@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React, { useState, useTransition } from 'react'
 import qs from 'query-string'
-import { BiCheck } from 'react-icons/bi'
+import { BiCheck, BiGridAlt } from 'react-icons/bi'
 import { cn } from '@/utils/utils'
 
 export interface FacetOption {
@@ -63,7 +63,7 @@ function FacetFilter({ valueKey, title, options }: IFacetFilter) {
       {/* Mobile: fila deslizable arriba del listado, sin panel que abrir. */}
       <div className='lg:hidden'>
         <p className='text-[10px] font-bold uppercase tracking-widest text-slate-500'>Filtrar por {title.toLowerCase()}</p>
-        <div className='-mx-4 mt-2.5 flex snap-x gap-2.5 overflow-x-auto px-4 pb-2 [scrollbar-width:none] sm:-mx-6 sm:px-6 [&::-webkit-scrollbar]:hidden'>
+        <div className='-mx-4 mt-2.5 flex snap-x scroll-px-4 gap-2.5 overflow-x-auto px-4 pb-2 sm:scroll-px-6 [scrollbar-width:none] sm:-mx-6 sm:px-6 [&::-webkit-scrollbar]:hidden'>
           {items.map(item =>
             withLogos ? (
               <LogoTile key={item.id ?? 'todas'} item={item} active={isActive(item)} loading={isLoading(item)} onSelect={select} />
@@ -108,11 +108,17 @@ function FacetFilter({ valueKey, title, options }: IFacetFilter) {
                 >
                   {active && <span className='absolute inset-y-2 left-0 w-0.5 rounded-full bg-[#f5b301]' />}
                   {withLogos && (
-                    <span className='relative flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white'>
+                    // Rectangular: los logos son apaisados y en un cuadrado quedaban ilegibles.
+                    <span
+                      className={cn(
+                        'relative flex h-8 w-14 shrink-0 items-center justify-center overflow-hidden rounded-md',
+                        item.imageUrl ? 'bg-white' : 'bg-white/[0.06] text-slate-300'
+                      )}
+                    >
                       {item.imageUrl ? (
-                        <Image src={item.imageUrl} alt='' fill sizes='32px' className='object-contain p-1' />
+                        <Image src={item.imageUrl} alt='' fill sizes='56px' className='object-contain px-1.5 py-1' />
                       ) : (
-                        <span className='text-[9px] font-extrabold text-[#1D232A]'>ALL</span>
+                        <BiGridAlt className='h-4 w-4' />
                       )}
                     </span>
                   )}
@@ -163,7 +169,7 @@ function LogoTile({ item, active, loading, onSelect }: IOption) {
         {item.imageUrl ? (
           <Image src={item.imageUrl} alt='' fill sizes='104px' className='object-contain px-3 py-2' />
         ) : (
-          <span className='text-xs font-extrabold uppercase tracking-widest text-white'>Todas</span>
+          <BiGridAlt className='h-6 w-6 text-slate-300' />
         )}
         {active && (
           <span className='absolute right-1.5 top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#f5b301] text-[#1D232A]'>
