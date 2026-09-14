@@ -91,27 +91,82 @@ export const findProductById = async (productId: string) => {
   return product ?? null
 }
 
-export const findProducts = async ({ storeId, categoryId, colorId, brandId, isFeatured, q, skip = 0, take = 12 }: ProductFilters) => {
+// Cada palabra se busca por separado y tolera tildes: "tubo 1/2 22" encuentra
+// "TUBO 1/2 22 MM HEXAGONAL" aunque las palabras no estén seguidas, e "hidraulica"
+// encuentra "HIDRÁULICA".
+const ACCENTS: Record<string, string> = { a: '[aáàä]', e: '[eéèë]', i: '[iíìï]', o: '[oóòö]', u: '[uúùü]', n: '[nñ]' }
+const tokenRegex = (token: string) =>
+  escapeRegex(token)
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[aeioun]/g, char => ACCENTS[char])
+
+const tokensOf = (q?: string) => (q ?? '').trim().split(/\s+/).filter(Boolean).slice(0, 8)
+
+// La marca no forma parte del nombre del producto: "torx bremen" no encontraba nada.
+// Se resuelve antes qué marcas coinciden con cada palabra y se busca también por su id.
+const brandIdsByToken = async (storeId: string, q?: string) => {
+  const tokens = tokensOf(q)
+  if (tokens.length === 0) return new Map<string, string[]>()
+
+  const brands = await prismadb.brand.findMany({ where: { storeId }, select: { id: true, name: true } })
+  return new Map(
+    tokens.map(token => {
+      const regex = new RegExp(tokenRegex(token), 'i')
+      return [token, brands.filter(brand => regex.test(brand.name)).map(brand => brand.id)]
+    })
+  )
+}
+
+const textMatch = (q: string | undefined, brandsByToken: Map<string, string[]>) => {
+  const tokens = tokensOf(q)
+  if (tokens.length === 0) return {}
+
+  return {
+    $and: tokens.map(token => {
+      const regex = { $regex: tokenRegex(token), $options: 'i' }
+      const brandIds = brandsByToken.get(token) ?? []
+      return {
+        $or: [
+          { name: regex },
+          { SKU: regex },
+          ...(brandIds.length ? [{ brandId: { $in: brandIds.map(id => ({ $oid: id })) } }] : []),
+        ],
+      }
+    }),
+  }
+}
+
+// Filtro común a los listados y a los conteos. `omit` deja afuera un filtro: el conteo
+// por marca se calcula sin la marca elegida, así las demás siguen apareciendo.
+const buildMatch = (
+  { storeId, categoryId, colorId, brandId, isFeatured, q }: ProductFilters,
+  brandsByToken: Map<string, string[]>,
+  omit?: 'categoryId' | 'brandId'
+) => {
   const match: Record<string, any> = {
     storeId: { $oid: storeId },
     isArchived: false,
+    ...textMatch(q, brandsByToken),
   }
 
   // Los filtros opcionales se agregan solo si vinieron, igual que el `undefined` de Prisma.
-  if (categoryId) match.categoryId = { $oid: categoryId }
+  if (categoryId && omit !== 'categoryId') match.categoryId = { $oid: categoryId }
   if (colorId) match.colorId = { $oid: colorId }
-  if (brandId) match.brandId = { $oid: brandId }
+  if (brandId && omit !== 'brandId') match.brandId = { $oid: brandId }
   if (isFeatured) match.isFeatured = true
 
-  if (q?.trim()) {
-    const termino = escapeRegex(q.trim())
-    match.$or = [{ name: { $regex: termino, $options: 'i' } }, { SKU: { $regex: termino, $options: 'i' } }]
-  }
+  return match
+}
+
+export const findProducts = async ({ skip = 0, take = 12, ...filters }: ProductFilters) => {
+  const brandsByToken = await brandIdsByToken(filters.storeId, filters.q)
 
   return normalize(
     await prismadb.product.aggregateRaw({
       pipeline: [
-        { $match: match },
+        { $match: buildMatch(filters, brandsByToken) },
         { $sort: { createdAt: -1 } },
         ...(skip > 0 ? [{ $skip: skip }] : []),
         { $limit: take },
@@ -119,4 +174,41 @@ export const findProducts = async ({ storeId, categoryId, colorId, brandId, isFe
       ],
     })
   )
+}
+
+// Solo las claves pedidas: el resto del filtro ya se aplicó en el $match inicial.
+const pick = (match: Record<string, any>, keys: string[]) =>
+  Object.fromEntries(Object.entries(match).filter(([key]) => keys.includes(key)))
+
+/**
+ * Total y cantidades por categoría y por marca para una búsqueda, en una sola consulta.
+ * Cada faceta ignora su propio filtro y respeta el resto: con Bremen elegido, las
+ * categorías cuentan solo productos Bremen, pero las marcas siguen mostrando todas las
+ * que tienen resultados para la categoría y el texto.
+ */
+export const findProductFacets = async (filters: Omit<ProductFilters, 'skip' | 'take'>) => {
+  const brandsByToken = await brandIdsByToken(filters.storeId, filters.q)
+  const countBy = (field: string) => [{ $group: { _id: `$${field}`, count: { $sum: 1 } } }]
+
+  const [result] = normalize(
+    await prismadb.product.aggregateRaw({
+      pipeline: [
+        // Lo que comparten las tres facetas; el resto se filtra dentro de cada una.
+        { $match: buildMatch({ ...filters, categoryId: undefined, brandId: undefined }, brandsByToken) },
+        {
+          $facet: {
+            total: [{ $match: pick(buildMatch(filters, brandsByToken), ['categoryId', 'brandId']) }, { $count: 'count' }],
+            categories: [{ $match: pick(buildMatch(filters, brandsByToken, 'categoryId'), ['brandId']) }, ...countBy('categoryId')],
+            brands: [{ $match: pick(buildMatch(filters, brandsByToken, 'brandId'), ['categoryId']) }, ...countBy('brandId')],
+          },
+        },
+      ],
+    })
+  )
+
+  return {
+    total: (result?.total?.[0]?.count as number) ?? 0,
+    categories: (result?.categories ?? []) as Array<{ id: string; count: number }>,
+    brands: (result?.brands ?? []) as Array<{ id: string; count: number }>,
+  }
 }
