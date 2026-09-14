@@ -77,7 +77,10 @@ async function BrandPage({ params, searchParams }: IBrandPage) {
             </aside>
 
             <section>
-              <ResultsBar count={count} activeLabel={activeCategory?.name} clearHref={`/brand/${brandId}`} />
+              <ResultsBar
+                count={count}
+                active={activeCategory ? [{ label: activeCategory.name, clearHref: `/brand/${brandId}` }] : []}
+              />
               {products.length === 0 && <NoResults />}
 
               <div className='grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 lg:grid-cols-3'>

@@ -15,6 +15,7 @@ function MainNav({ data }: IMainNav) {
   const pathname = usePathname()
 
   const links = [
+    { href: '/productos', label: 'Productos' },
     { href: '/combos', label: 'Combos' },
     { href: '/brands', label: 'Marcas' },
   ]

@@ -19,6 +19,11 @@ function MobileNav({ brands }: IMobileNav) {
     <NavigationMenu>
       <NavigationMenuList className='group flex flex-1 list-none justify-start space-x-1'>
         <NavigationMenuItem>
+          <Link href='/productos' passHref>
+          <NavigationMenuTrigger className='bg-transparent flex items-center justify-center'>Productos</NavigationMenuTrigger>
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
           <Link href='/combos' passHref>
           <NavigationMenuTrigger className='bg-transparent flex items-center justify-center'>Combos</NavigationMenuTrigger>
           </Link>

@@ -65,7 +65,10 @@ async function CategoryPage({ params, searchParams }: ICategoryPage) {
             </aside>
 
             <section>
-              <ResultsBar count={count} activeLabel={activeBrand?.name} clearHref={`/category/${categoryId}`} />
+              <ResultsBar
+                count={count}
+                active={activeBrand ? [{ label: activeBrand.name, clearHref: `/category/${categoryId}` }] : []}
+              />
               {products.length === 0 && <NoResults />}
 
               <div className='grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 lg:grid-cols-3'>
