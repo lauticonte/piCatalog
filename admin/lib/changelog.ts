@@ -18,6 +18,18 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.12.1',
+    date: '2026-09-15',
+    title: 'Filtros más cómodos en el celular',
+    changes: [
+      {
+        type: 'mejora',
+        text: 'En el celular los filtros se abren con el botón "Filtrar": todas las categorías en una lista y las marcas con su logo, en lugar de una fila que había que deslizar.',
+      },
+      { type: 'mejora', text: 'Cada filtro se aplica al tocarlo y el botón muestra cuántos productos quedan.' },
+    ],
+  },
+  {
     version: '1.12.0',
     date: '2026-09-15',
     title: 'Novedades en el panel',

@@ -3,6 +3,7 @@ import { getFacets } from '@/actions/get-facets'
 import ProductCard from '@/components/product/product-card'
 import Container from '@/components/ui/container'
 import FacetFilter from '@/components/filters/facet-filter'
+import MobileFilters from '@/components/filters/mobile-filters'
 import ResultsBar, { ActiveFilter } from '@/components/filters/results-bar'
 import LoadMore from '@/components/filters/load-more'
 import Link from 'next/link'
@@ -78,6 +79,13 @@ async function CatalogPage({ searchParams }: ICatalogPage) {
 
           <div className='lg:grid lg:grid-cols-[260px_1fr] lg:items-start lg:gap-x-8'>
             <aside className='mb-5 space-y-4 lg:sticky lg:top-[120px] lg:mb-0'>
+              <MobileFilters
+                total={facets.total}
+                facets={[
+                  { valueKey: 'categoryId', title: 'Categorías', options: facets.categories },
+                  { valueKey: 'brandId', title: 'Marcas', options: facets.brands },
+                ]}
+              />
               <FacetFilter valueKey='categoryId' title='Categorías' options={facets.categories} />
               <FacetFilter valueKey='brandId' title='Marcas' options={facets.brands} />
             </aside>

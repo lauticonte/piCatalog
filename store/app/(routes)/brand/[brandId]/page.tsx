@@ -5,6 +5,7 @@ import ProductCard from '@/components/product/product-card'
 import Container from '@/components/ui/container'
 import NoResults from '@/components/ui/no-result'
 import FacetFilter from '@/components/filters/facet-filter'
+import MobileFilters from '@/components/filters/mobile-filters'
 import ResultsBar from '@/components/filters/results-bar'
 import LoadMore from '@/components/filters/load-more'
 import Image from 'next/image'
@@ -73,6 +74,7 @@ async function BrandPage({ params, searchParams }: IBrandPage) {
 
           <div className='lg:grid lg:grid-cols-[260px_1fr] lg:items-start lg:gap-x-8'>
             <aside className='mb-5 lg:sticky lg:top-[120px] lg:mb-0'>
+              <MobileFilters total={count} facets={[{ valueKey: 'categoryId', title: 'Categorías', options: categories }]} />
               <FacetFilter valueKey='categoryId' title='Categorías' options={categories} />
             </aside>
 
