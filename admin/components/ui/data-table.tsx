@@ -30,11 +30,15 @@ export interface BulkAction<TData> {
 }
 
 // Ancho opcional declarado en la definición de cada columna.
-const colWidth = (def: any) => (def?.meta?.width ? { width: def.meta.width } : undefined)
+// Se aplica desde md: en mobile los anchos fijos sumados superaban la pantalla.
+const colWidth = (def: any) =>
+  def?.meta?.width ? ({ '--col-w': `${def.meta.width}px` } as React.CSSProperties) : undefined
 
 // Columnas secundarias marcadas con `meta.hideOnMobile`: en un celular no entran todas,
 // así que se ocultan y la columna principal muestra ese dato debajo del nombre.
-const colVisibility = (def: any) => (def?.meta?.hideOnMobile ? 'hidden md:table-cell' : undefined)
+const colVisibility = (def: any) =>
+  [def?.meta?.width && 'md:w-[var(--col-w)]', def?.meta?.hideOnMobile && 'hidden md:table-cell'].filter(Boolean).join(' ') ||
+  undefined
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]

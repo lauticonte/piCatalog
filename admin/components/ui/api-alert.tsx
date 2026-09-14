@@ -36,9 +36,12 @@ function ApiAlert({ title, description, variant }: IApiAlert) {
         {title}
         <Badge variant={variantMap[variant]}>{textMap[variant]}</Badge>
       </AlertTitle>
-      <AlertDescription className='mt-4 flex items-center justify-between'>
-        <code className='relative rounded-lg bg-muted px-[0.5rem] py-[0.2rem] font-mono text-sm font-semibold'>{description}</code>
-        <Button variant='outline' size='icon' onClick={() => handleCopy(description)}>
+      <AlertDescription className='mt-4 flex items-center justify-between gap-3'>
+        {/* break-all: las URLs no tienen espacios y en mobile desbordaban la pantalla. */}
+        <code className='relative min-w-0 break-all rounded-lg bg-muted px-[0.5rem] py-[0.2rem] font-mono text-xs font-semibold sm:text-sm'>
+          {description}
+        </code>
+        <Button variant='outline' size='icon' className='shrink-0' onClick={() => handleCopy(description)}>
           <FiCopy />
         </Button>
       </AlertDescription>

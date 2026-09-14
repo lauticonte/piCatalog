@@ -51,7 +51,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
           )}
         </div>
         {/* En mobile el ancho se limita al viewport: sin tope, el truncate estiraba la tabla. */}
-        <div className='min-w-0 max-w-[52vw] md:max-w-none'>
+        <div className='min-w-0 max-w-[44vw] md:max-w-none'>
           {/* Una sola línea: los nombres de dos renglones rompían el ritmo de la tabla. */}
           <div className='truncate font-medium text-slate-900' title={row.original.name}>
             {row.original.name}
