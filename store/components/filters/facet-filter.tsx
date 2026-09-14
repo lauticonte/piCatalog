@@ -63,7 +63,7 @@ function FacetFilter({ valueKey, title, options }: IFacetFilter) {
       {/* Mobile: fila deslizable arriba del listado, sin panel que abrir. */}
       <div className='lg:hidden'>
         <p className='text-[10px] font-bold uppercase tracking-widest text-slate-500'>Filtrar por {title.toLowerCase()}</p>
-        <div className='-mx-4 mt-2.5 flex snap-x scroll-px-4 gap-2.5 overflow-x-auto px-4 pb-2 sm:scroll-px-6 [scrollbar-width:none] sm:-mx-6 sm:px-6 [&::-webkit-scrollbar]:hidden'>
+        <div className='-mx-4 mt-2.5 flex gap-2.5 overflow-x-auto px-4 pb-2 [scrollbar-width:none] sm:-mx-6 sm:px-6 [&::-webkit-scrollbar]:hidden'>
           {items.map(item =>
             withLogos ? (
               <LogoTile key={item.id ?? 'todas'} item={item} active={isActive(item)} loading={isLoading(item)} onSelect={select} />
@@ -160,7 +160,7 @@ function LogoTile({ item, active, loading, onSelect }: IOption) {
       onClick={() => onSelect(item.id)}
       aria-pressed={active}
       className={cn(
-        'relative flex w-[104px] shrink-0 snap-start flex-col overflow-hidden rounded-xl border text-left transition',
+        'relative flex w-[104px] shrink-0 flex-col overflow-hidden rounded-xl border text-left transition',
         active ? 'border-[#f5b301] ring-1 ring-[#f5b301]' : 'border-white/10',
         loading && 'animate-pulse'
       )}
@@ -194,7 +194,7 @@ function Chip({ item, active, loading, onSelect }: IOption) {
       onClick={() => onSelect(item.id)}
       aria-pressed={active}
       className={cn(
-        'flex shrink-0 snap-start items-center gap-2 whitespace-nowrap rounded-full border py-1.5 pl-3.5 pr-1.5 text-xs font-bold uppercase tracking-wide transition-colors',
+        'flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full border py-1.5 pl-3.5 pr-1.5 text-xs font-bold uppercase tracking-wide transition-colors',
         active ? 'border-[#f5b301] bg-[#f5b301] text-[#1D232A]' : 'border-white/10 bg-white/[0.04] text-slate-200',
         loading && 'animate-pulse'
       )}

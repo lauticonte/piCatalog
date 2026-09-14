@@ -2,7 +2,6 @@ import { getProducts } from '@/actions/get-products'
 import { getCategories } from '@/actions/get-categories'
 import { getBrand } from '@/actions/get-brand'
 import ProductCard from '@/components/product/product-card'
-import Billboard from '@/components/ui/billboard'
 import Container from '@/components/ui/container'
 import NoResults from '@/components/ui/no-result'
 import FacetFilter from '@/components/filters/facet-filter'
@@ -44,8 +43,9 @@ async function BrandPage({ params, searchParams }: IBrandPage) {
   return (
     <div className='bg-custom'>
       <Container>
-        <Billboard data={brand.billboard} />
         <div className='px-4 pb-16 pt-6 sm:px-6 lg:px-8 lg:pt-8'>
+          {/* Sin banner: repetía el logo que ya muestra este encabezado y en mobile
+              ocupaba toda la primera pantalla antes de llegar a los productos. */}
           <header className='mb-6'>
             <nav aria-label='Ruta' className='text-[11px] font-semibold uppercase tracking-wider text-slate-500'>
               <Link href='/' className='hover:text-white'>
