@@ -6,6 +6,7 @@ import MainNav from './main-nav'
 import Image from 'next/image'
 import Link from 'next/link'
 import StoreSwitcher from './store-switcher'
+import { ChangelogLink } from '@/components/changelog/changelog-seen'
 
 async function Navbar() {
   const { userId } = auth()
@@ -35,9 +36,7 @@ async function Navbar() {
           <MainNav className='flex-1' />
 
           <div className='flex shrink-0 items-center gap-3'>
-            <span className='hidden text-[11px] text-slate-400 lg:block' title={`commit ${process.env.NEXT_PUBLIC_COMMIT_SHA}`}>
-              v{process.env.NEXT_PUBLIC_APP_VERSION} · {process.env.NEXT_PUBLIC_COMMIT_SHA}
-            </span>
+            <ChangelogLink className='hidden text-[11px] text-slate-400 lg:inline-flex' />
             <UserButton afterSignOutUrl='/' />
           </div>
         </div>

@@ -2,6 +2,7 @@
 
 import React, { memo, useEffect, useState } from 'react'
 import { HiOutlineMenu, HiOutlineX } from 'react-icons/hi'
+import { ChangelogLink } from '@/components/changelog/changelog-seen'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { useParams, usePathname } from 'next/navigation'
@@ -82,7 +83,7 @@ function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
           adivinar que se podía deslizar). Se muestra la sección actual y un menú desplegable. */}
       <div className='flex min-w-0 flex-1 items-center justify-end md:hidden'>
         <span className='mr-auto truncate text-sm font-semibold uppercase tracking-wide text-slate-300'>
-          {current?.label}
+          {current?.label ?? (pathname.endsWith('/novedades') ? 'Novedades' : '')}
         </span>
         <button
           type='button'
@@ -112,9 +113,9 @@ function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
                 {route.label}
               </Link>
             ))}
-            <p className='mt-2 border-t border-white/10 px-4 pt-3 text-[11px] text-slate-500'>
-              v{process.env.NEXT_PUBLIC_APP_VERSION} · {process.env.NEXT_PUBLIC_COMMIT_SHA}
-            </p>
+            <div className='mt-2 border-t border-white/10 px-4 pt-3'>
+              <ChangelogLink label='Novedades' className='text-sm font-semibold text-slate-300' />
+            </div>
           </nav>
         </div>
       )}

@@ -4,6 +4,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import CellAction from './cell-action'
 import { Checkbox } from '@/components/ui/checkbox'
 import Image from 'next/image'
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 
 export type ProductColumn = {
   id: string
@@ -53,8 +54,14 @@ export const columns: ColumnDef<ProductColumn>[] = [
         {/* En mobile el ancho se limita al viewport: sin tope, el truncate estiraba la tabla. */}
         <div className='min-w-0 max-w-[44vw] md:max-w-none'>
           {/* Una sola línea: los nombres de dos renglones rompían el ritmo de la tabla. */}
-          <div className='truncate font-medium text-slate-900' title={row.original.name}>
-            {row.original.name}
+          <div className='flex items-center gap-1.5'>
+            {/* En mobile la columna "Dest." se oculta: la estrella acompaña al nombre. */}
+            {row.original.isFeatured && (
+              <AiFillStar className='h-3.5 w-3.5 shrink-0 text-amber-400 md:hidden' aria-label='Destacado' />
+            )}
+            <span className='truncate font-medium text-slate-900' title={row.original.name}>
+              {row.original.name}
+            </span>
           </div>
           <div className='truncate text-xs text-slate-400'>{row.original.brand}</div>
           {/* Precio y SKU: sus columnas se ocultan en mobile, así que se repiten acá. */}
@@ -70,17 +77,15 @@ export const columns: ColumnDef<ProductColumn>[] = [
     accessorKey: 'isFeatured',
     header: () => <div className='text-center'>Dest.</div>,
     meta: { width: 70, hideOnMobile: true },
-    // Mostraba el booleano crudo ("true" / "false"). Como solo hay dos estados,
-    // un punto alcanza y libera el ancho que ocupaba la etiqueta.
+    // Estrella: es el símbolo que se asocia con "destacado"; el punto verde se leía
+    // como un estado (activo, publicado) y no como lo que es.
     cell: ({ row }) => (
       <div className='flex justify-center' title={row.original.isFeatured ? 'Destacado' : 'No destacado'}>
-        <span
-          className={
-            row.original.isFeatured
-              ? 'h-2.5 w-2.5 rounded-full bg-emerald-500 ring-4 ring-emerald-100'
-              : 'h-2.5 w-2.5 rounded-full bg-slate-200'
-          }
-        />
+        {row.original.isFeatured ? (
+          <AiFillStar className='h-5 w-5 text-amber-400' aria-label='Destacado' />
+        ) : (
+          <AiOutlineStar className='h-5 w-5 text-slate-200' aria-label='No destacado' />
+        )}
       </div>
     ),
   },
