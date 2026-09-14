@@ -120,7 +120,7 @@ function ComboForm({ initialData }: IComboForm) {
               </FormItem>
             )}
           />
-          <div className='grid grid-cols-3 gap-8'>
+          <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8'>
             <FormField
               control={form.control}
               name='name'
@@ -148,7 +148,7 @@ function ComboForm({ initialData }: IComboForm) {
               )}
             />
           </div>
-          <Button disabled={loading} className='ml-auto' type='submit'>
+          <Button disabled={loading} className='w-full sm:ml-auto sm:w-auto' type='submit'>
             {action}
           </Button>
         </form>

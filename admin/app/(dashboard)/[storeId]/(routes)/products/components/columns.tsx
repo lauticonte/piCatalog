@@ -50,12 +50,18 @@ export const columns: ColumnDef<ProductColumn>[] = [
             <div className='flex h-full w-full items-center justify-center text-[10px] text-slate-300'>—</div>
           )}
         </div>
-        <div className='min-w-0'>
+        {/* En mobile el ancho se limita al viewport: sin tope, el truncate estiraba la tabla. */}
+        <div className='min-w-0 max-w-[52vw] md:max-w-none'>
           {/* Una sola línea: los nombres de dos renglones rompían el ritmo de la tabla. */}
           <div className='truncate font-medium text-slate-900' title={row.original.name}>
             {row.original.name}
           </div>
           <div className='truncate text-xs text-slate-400'>{row.original.brand}</div>
+          {/* Precio y SKU: sus columnas se ocultan en mobile, así que se repiten acá. */}
+          <div className='mt-0.5 flex items-center gap-2 md:hidden'>
+            <span className='text-xs font-semibold tabular-nums text-slate-900'>{row.original.price}</span>
+            <span className='truncate font-mono text-[11px] text-slate-400'>{row.original.SKU}</span>
+          </div>
         </div>
       </div>
     ),
@@ -63,7 +69,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: 'isFeatured',
     header: () => <div className='text-center'>Dest.</div>,
-    meta: { width: 70 },
+    meta: { width: 70, hideOnMobile: true },
     // Mostraba el booleano crudo ("true" / "false"). Como solo hay dos estados,
     // un punto alcanza y libera el ancho que ocupaba la etiqueta.
     cell: ({ row }) => (
@@ -81,7 +87,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: 'price',
     header: () => <div className='text-right'>Precio</div>,
-    meta: { width: 130 },
+    meta: { width: 130, hideOnMobile: true },
     cell: ({ row }) => (
       <div className='text-right font-semibold tabular-nums text-slate-900'>{row.original.price}</div>
     ),
@@ -89,7 +95,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: 'category',
     header: 'Categoría',
-    meta: { width: 180 },
+    meta: { width: 180, hideOnMobile: true },
     cell: ({ row }) => (
       <span className='inline-block rounded-md bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600'>
         {row.original.category}
@@ -99,13 +105,13 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: 'createdAt',
     header: 'Fecha',
-    meta: { width: 110 },
+    meta: { width: 110, hideOnMobile: true },
     cell: ({ row }) => <span className='text-xs text-slate-400'>{row.original.createdAt}</span>,
   },
   {
     accessorKey: 'SKU',
     header: 'SKU',
-    meta: { width: 140 },
+    meta: { width: 140, hideOnMobile: true },
     cell: ({ row }) => (
       <span className='rounded bg-slate-100 px-1.5 py-0.5 font-mono text-xs text-slate-600'>{row.original.SKU}</span>
     ),

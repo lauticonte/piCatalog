@@ -32,6 +32,10 @@ export interface BulkAction<TData> {
 // Ancho opcional declarado en la definición de cada columna.
 const colWidth = (def: any) => (def?.meta?.width ? { width: def.meta.width } : undefined)
 
+// Columnas secundarias marcadas con `meta.hideOnMobile`: en un celular no entran todas,
+// así que se ocultan y la columna principal muestra ese dato debajo del nombre.
+const colVisibility = (def: any) => (def?.meta?.hideOnMobile ? 'hidden md:table-cell' : undefined)
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
@@ -175,7 +179,7 @@ export function DataTable<TData, TValue>({
 
         {/* La barra de acciones aparece solo con filas tildadas y se destaca del resto. */}
         {actions.length > 0 && selectedRows.length > 0 && (
-          <div className='ml-auto flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-1.5'>
+          <div className='flex w-full flex-wrap items-center gap-2 rounded-lg border sm:ml-auto sm:w-auto border-emerald-200 bg-emerald-50 px-3 py-1.5'>
             <span className='whitespace-nowrap text-sm font-semibold text-emerald-800'>
               {selectedRows.length} seleccionado{selectedRows.length > 1 ? 's' : ''}
             </span>
@@ -208,6 +212,7 @@ export function DataTable<TData, TValue>({
                       // Se usa `meta.width` y no `size` porque TanStack le asigna
                       // size: 150 por defecto a todas, lo que limitaría la columna ancha.
                       style={colWidth(header.column.columnDef)}
+                      className={colVisibility(header.column.columnDef)}
                     >
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
@@ -221,7 +226,7 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map(row => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'} className='transition-colors'>
                   {row.getVisibleCells().map(cell => (
-                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                    <TableCell key={cell.id} className={colVisibility(cell.column.columnDef)}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                   ))}
                 </TableRow>
               ))
@@ -258,8 +263,8 @@ export function DataTable<TData, TValue>({
             </SelectContent>
           </Select>
         </div>
-        <div className='flex items-center gap-2'>
-        <span className='text-sm text-slate-500'>
+        <div className='flex w-full items-center gap-2 sm:w-auto'>
+        <span className='mr-auto text-sm text-slate-500 sm:mr-0'>
           Página {pageCount === 0 ? 0 : pagination.pageIndex + 1} de {pageCount}
         </span>
         <Button variant='outline' size='sm' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>

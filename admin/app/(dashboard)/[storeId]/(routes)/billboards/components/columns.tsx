@@ -17,6 +17,7 @@ export const columns: ColumnDef<BillboardColumn>[] = [
   {
     accessorKey: 'createdAt',
     header: 'Creado',
+    meta: { hideOnMobile: true },
   },
   {
     id: 'actions',

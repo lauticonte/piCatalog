@@ -121,7 +121,7 @@ function BillboardForm({ initialData }: IBillboardForm) {
               </FormItem>
             )}
           />
-          <Button disabled={loading} className='ml-auto' type='submit'>
+          <Button disabled={loading} className='w-full sm:ml-auto sm:w-auto' type='submit'>
             {action}
           </Button>
         </form>

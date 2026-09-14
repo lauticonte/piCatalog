@@ -77,10 +77,10 @@ const DashboardPage = async ({ params }: DashboardPageProps) => {
 
   return (
     <div className='flex-col overflow-hidden'>
-      <div className='flex-1 space-y-4 p-8 pt-6'>
+      <div className='flex-1 space-y-4 p-4 pt-4 sm:p-8 sm:pt-6'>
         <Heading title='Panel' description='Qué están consultando tus clientes' />
         <Separator />
-        <div className='grid gap-4 grid-cols-3'>
+        <div className='grid gap-3 sm:grid-cols-3 sm:gap-4'>
           <Card className='shadow-sm'>
             <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
               <CardTitle className='text-sm font-medium'>Valor consultado</CardTitle>

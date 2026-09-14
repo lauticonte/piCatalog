@@ -22,7 +22,7 @@ async function BillboardsPage({ params }: { params: { storeId: string } }) {
 
   return (
     <div className='flex flex-col'>
-      <div className='flex-1 space-y-4 px-8 pt-2'>
+      <div className='flex-1 space-y-4 px-4 pt-2 sm:px-8'>
         <BillboardClient data={transformedBillboards} />
       </div>
     </div>

@@ -129,7 +129,7 @@ function ProductForm({ initialData, categories, brands, colors }: IProductForm) 
               </FormItem>
             )}
           />
-          <div className='grid grid-cols-3 gap-8'>
+          <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8'>
             <FormField
               control={form.control}
               name='name'
@@ -228,13 +228,13 @@ function ProductForm({ initialData, categories, brands, colors }: IProductForm) 
             />
             
           </div>
-          <div className='grid grid-cols-3 gap-8'>
+          <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8'>
             <FormField
               control={form.control}
               name='isFeatured'
               render={({ field }) => {
                 return (
-                  <FormItem className='flex flex-rwo items-start space-x-3 space-y-0 rounded-md border p-4'>
+                  <FormItem className='flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4'>
                     <FormControl>
                       <Checkbox className='mt-1' checked={field.value} onCheckedChange={field.onChange} />
                     </FormControl>
@@ -251,7 +251,7 @@ function ProductForm({ initialData, categories, brands, colors }: IProductForm) 
               name='isArchived'
               render={({ field }) => {
                 return (
-                  <FormItem className='flex flex-rwo items-start space-x-3 space-y-0 rounded-md border p-4'>
+                  <FormItem className='flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4'>
                     <FormControl>
                       <Checkbox className='mt-1' checked={field.value} onCheckedChange={field.onChange} />
                     </FormControl>
@@ -264,7 +264,7 @@ function ProductForm({ initialData, categories, brands, colors }: IProductForm) 
               }}
             />
           </div>
-          <Button disabled={loading} className='ml-auto' type='submit'>
+          <Button disabled={loading} className='w-full sm:ml-auto sm:w-auto' type='submit'>
             {action}
           </Button>
         </form>

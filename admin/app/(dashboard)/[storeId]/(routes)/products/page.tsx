@@ -39,7 +39,7 @@ async function ProductsPage({ params }: { params: { storeId: string } }) {
 
   return (
     <div className='flex flex-col overscroll-none'>
-      <div className='flex-1 space-y-4 px-8 pt-2 overscroll-none'>
+      <div className='flex-1 space-y-4 px-4 pt-2 sm:px-8 overscroll-none'>
         <ProductClient data={transformedProducts} />
       </div>
     </div>

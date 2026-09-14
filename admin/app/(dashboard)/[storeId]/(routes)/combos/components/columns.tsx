@@ -54,7 +54,7 @@ export const columns: ColumnDef<ComboColumn>[] = [
   {
     accessorKey: 'createdAt',
     header: 'Creado',
-    meta: { width: 130 },
+    meta: { width: 130, hideOnMobile: true },
     cell: ({ row }) => <span className='text-xs text-slate-400'>{row.original.createdAt}</span>,
   },
   {

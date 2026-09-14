@@ -35,7 +35,7 @@ async function ProductPage({ params }: { params: { storeId: string; productId: s
 
   return (
     <div className='flex-col'>
-      <div className='flex-1 space-y-4 px-8 pt-2'>
+      <div className='flex-1 space-y-4 px-4 pt-2 sm:px-8'>
         <BillboardForm initialData={product} categories={categories} brands={brands} colors={colors} />
       </div>
     </div>

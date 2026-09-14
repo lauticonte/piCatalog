@@ -35,21 +35,34 @@ export const productColumns: ColumnDef<ComboProductColumn>[] = [
   {
     accessorKey: 'name',
     header: 'Producto',
+    // SKU, categoría y marca se ocultan en mobile: se muestran bajo el nombre.
+    cell: ({ row }) => (
+      <div>
+        {row.original.name}
+        <div className='mt-0.5 text-[11px] font-normal text-slate-400 md:hidden'>
+          {row.original.SKU} · {row.original.price}
+        </div>
+      </div>
+    ),
   },
   {
     accessorKey: 'SKU',
     header: 'SKU',
+    meta: { hideOnMobile: true },
   },
   {
     accessorKey: 'price',
     header: 'Precio',
+    meta: { hideOnMobile: true },
   },
   {
     accessorKey: 'category',
     header: 'Categoría',
+    meta: { hideOnMobile: true },
   },
   {
     accessorKey: 'brand',
     header: 'Marca',
+    meta: { hideOnMobile: true },
   },
 ]
