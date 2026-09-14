@@ -58,8 +58,9 @@ async function BrandPage({ params, searchParams }: IBrandPage) {
             </nav>
             <div className='mt-2 flex items-center gap-3'>
               {brand?.imageUrl ? (
-                <span className='relative h-11 w-11 shrink-0 overflow-hidden rounded-xl bg-white'>
-                  <Image src={brand.imageUrl} alt='' fill sizes='44px' className='object-contain p-1.5' />
+                // Apaisado como los logos: en un cuadrado quedaban diminutos e ilegibles.
+                <span className='relative h-12 w-24 shrink-0 overflow-hidden rounded-xl bg-white'>
+                  <Image src={brand.imageUrl} alt='' fill sizes='96px' className='object-contain px-2.5 py-2' />
                 </span>
               ) : (
                 <span className='h-8 w-1 rounded-full bg-[#f5b301]' />
