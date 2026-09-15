@@ -73,7 +73,7 @@ async function CategoryPage({ params, searchParams }: ICategoryPage) {
               />
               {products.length === 0 && <NoResults />}
 
-              <div className='grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 lg:grid-cols-3'>
+              <div className='grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3'>
                 {products.map(item => (
                   <ProductCard key={item.id} data={item} />
                 ))}

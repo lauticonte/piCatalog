@@ -68,7 +68,7 @@ function SearchForm({ className }: ISearchForm) {
           type='search'
           value={term}
           onChange={event => setTerm(event.target.value)}
-          placeholder='Buscar herramientas, marcas, códigos...'
+          placeholder='Buscar...'
           aria-label='Buscar productos'
           enterKeyHint='search'
           className='w-full rounded-lg border border-white/10 bg-white/5 py-2 pl-9 pr-9 text-sm text-white placeholder:text-slate-500 focus:border-[#f5b301]/60 focus:outline-none [&::-webkit-search-cancel-button]:hidden'

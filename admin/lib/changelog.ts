@@ -18,6 +18,18 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.12.3',
+    date: '2026-09-15',
+    title: 'Tarjetas de producto y encabezado renovados',
+    changes: [
+      { type: 'mejora', text: 'En el celular los productos se ven de a dos por fila: se recorre el catálogo con la mitad de desplazamiento.' },
+      { type: 'mejora', text: 'Tarjetas con la foto enmarcada, el código del producto visible, el precio destacado y el botón "Consultar" más compacto.' },
+      { type: 'mejora', text: 'La franja superior pasa a los colores de MH y suma "Retiro sin cargo" y "Cuotas fijas".' },
+      { type: 'mejora', text: 'Pie de página renovado con los beneficios de la tienda, el número de WhatsApp y el horario de atención.' },
+      { type: 'mejora', text: 'Componentes internos actualizados por seguridad.' },
+    ],
+  },
+  {
     version: '1.12.1',
     date: '2026-09-15',
     title: 'Filtros más cómodos en el celular',

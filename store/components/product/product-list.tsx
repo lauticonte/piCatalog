@@ -25,7 +25,7 @@ function ProductList({ title, items }: IProductList) {
       {items.length === 0 ? (
         <NoResults />
       ) : (
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-items-center'>
+        <div className='grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4'>
           {items.map((item, idx) => (
             <ProductCard key={idx} data={item} />
           ))}
