@@ -18,6 +18,24 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.13.0',
+    date: '2026-10-08',
+    title: 'Encabezado nuevo con menú de categorías',
+    changes: [
+      {
+        type: 'nuevo',
+        text: 'En la computadora, "Productos" despliega todas las categorías con una foto y la cantidad de productos de cada una, y "Marcas" muestra los logos.',
+      },
+      {
+        type: 'nuevo',
+        text: 'En el celular el encabezado entra en una sola línea: logo, buscador y un menú con las secciones, las categorías y las marcas.',
+      },
+      { type: 'mejora', text: 'Buscador más grande, con botón "Buscar" a la vista.' },
+      { type: 'mejora', text: 'La ficha del producto aparece completa de una vez, con la foto ya cargada, en lugar de mostrarse por partes.' },
+      { type: 'arreglo', text: 'Las fotos de productos nuevos vuelven a verse en la tienda: habían dejado de cargar.' },
+    ],
+  },
+  {
     version: '1.12.3',
     date: '2026-09-15',
     title: 'Tarjetas de producto y encabezado renovados',

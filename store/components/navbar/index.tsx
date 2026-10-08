@@ -4,7 +4,7 @@ import Container from '../ui/container'
 import MainNav from './main-nav'
 import Mobilenav from './mobile-nav'
 import Image from 'next/image'
-import { getBrands } from '@/actions/get-brands'
+import { getMenuData } from '@/actions/get-menu'
 import SearchForm from './search-form'
 import { LuCreditCard, LuHeadphones, LuPackageCheck, LuStore, LuTag, LuTruck, LuWrench } from 'react-icons/lu'
 
@@ -21,7 +21,7 @@ const MENSAJES = [
 ]
 
 async function Navbar() {
-  const brands = await getBrands()
+  const menu = await getMenuData()
 
   return (
     <Fragment>
@@ -55,22 +55,22 @@ async function Navbar() {
         {/* Fondo sólido: el anterior era translúcido y se comía el borde del hero. */}
         <div className='border-b border-white/10 bg-[#151a20]'>
           <Container>
-            <div className='flex h-[68px] items-center gap-4 px-4 sm:px-6 lg:gap-8 lg:px-8'>
+            {/* relative: el panel desplegable del menú se ubica contra esta fila. */}
+            <div className='relative flex h-[72px] items-center gap-3 px-4 sm:px-6 md:gap-4 lg:gap-6 lg:px-8'>
+              {/* En mobile van en una sola fila el isotipo MH, el buscador y el menú
+                  hamburguesa; el logo completo no entraba a un tamaño legible. */}
               <Link href='/' className='shrink-0' aria-label='MH Garage'>
-                <Image src='/logo-full.png' width={150} height={70} unoptimized alt='MH Garage' className='h-9 w-auto sm:h-11' priority />
+                <Image src='/logo.png' width={48} height={40} unoptimized alt='MH Garage' className='h-10 w-auto md:hidden' priority />
+                <Image src='/logo-full.png' width={115} height={40} unoptimized alt='MH Garage' className='hidden h-10 w-auto md:block' priority />
               </Link>
 
-              <MainNav data={brands} />
+              <SearchForm className='min-w-0 flex-1 md:hidden' placeholder='Buscar productos' />
 
-              <div className='ml-auto block md:hidden'>
-                <Mobilenav brands={brands} />
+              <MainNav menu={menu} />
+
+              <div className='-mr-2 md:hidden'>
+                <Mobilenav menu={menu} />
               </div>
-            </div>
-
-            {/* En mobile el buscador no entra en la misma fila que el logo y el menú,
-                así que baja a una fila propia en vez de desaparecer. */}
-            <div className='px-4 pb-3 md:hidden'>
-              <SearchForm />
             </div>
           </Container>
         </div>

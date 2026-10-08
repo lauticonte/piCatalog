@@ -8,13 +8,15 @@ import { cn } from '@/utils/utils'
 
 interface ISearchForm {
   className?: string
+  /** En mobile el campo es angosto y el ejemplo largo se corta. */
+  placeholder?: string
 }
 
 const CATALOG = '/productos'
 
 // En el catálogo busca mientras se escribe; en cualquier otra página lleva al catálogo.
 // Es el mismo input en los dos casos, así no hay dos buscadores compitiendo en pantalla.
-function SearchForm({ className }: ISearchForm) {
+function SearchForm({ className, placeholder = 'Buscá soldadoras, llaves...' }: ISearchForm) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -55,23 +57,23 @@ function SearchForm({ className }: ISearchForm) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className={className} role='search'>
-      <div className='relative'>
-        <AiOutlineSearch
-          className={cn(
-            'pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2',
-            isPending ? 'animate-pulse text-[#f5b301]' : 'text-slate-400'
-          )}
-        />
+    <form onSubmit={handleSubmit} className={cn('flex', className)} role='search'>
+      {/* Input y botón forman una sola barra: el botón va pegado al costado, no flotando
+          dentro del campo. */}
+      <div className='relative min-w-0 flex-1'>
         <input
           ref={inputRef}
           type='search'
           value={term}
           onChange={event => setTerm(event.target.value)}
-          placeholder='Buscar...'
+          placeholder={placeholder}
           aria-label='Buscar productos'
           enterKeyHint='search'
-          className='w-full rounded-lg border border-white/10 bg-white/5 py-2 pl-9 pr-9 text-sm text-white placeholder:text-slate-500 focus:border-[#f5b301]/60 focus:outline-none [&::-webkit-search-cancel-button]:hidden'
+          className={cn(
+            'h-10 w-full rounded-l-md border border-r-0 border-transparent bg-white/[0.07] pl-3.5 text-[15px] text-white placeholder:text-slate-400 transition-colors hover:bg-white/[0.09] focus:border-[#f5b301] focus:bg-[#0f1318] focus:outline-none [&::-webkit-search-cancel-button]:hidden',
+            // Lugar para la cruz de borrar solo cuando hay algo escrito.
+            term ? 'pr-9' : 'pr-3'
+          )}
         />
         {term && (
           <button
@@ -81,12 +83,20 @@ function SearchForm({ className }: ISearchForm) {
               inputRef.current?.focus()
             }}
             aria-label='Borrar búsqueda'
-            className='absolute right-2 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full text-slate-400 hover:bg-white/10 hover:text-white'
+            className='absolute right-2 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center text-slate-400 hover:text-white'
           >
             <AiOutlineClose className='h-3.5 w-3.5' />
           </button>
         )}
       </div>
+      <button
+        type='submit'
+        aria-label='Buscar'
+        className='flex h-10 shrink-0 items-center gap-2 rounded-r-md bg-[#f5b301] px-4 text-sm font-bold text-[#1D232A] transition-colors hover:bg-[#ffc21a]'
+      >
+        <AiOutlineSearch className={cn('h-[18px] w-[18px]', isPending && 'animate-pulse')} />
+        <span className='hidden sm:inline'>Buscar</span>
+      </button>
     </form>
   )
 }
@@ -95,7 +105,7 @@ function SearchForm({ className }: ISearchForm) {
 // todas las páginas del lado del cliente.
 function SearchFormBoundary(props: ISearchForm) {
   return (
-    <Suspense fallback={<div className={cn('h-9 rounded-lg border border-white/10 bg-white/5', props.className)} />}>
+    <Suspense fallback={<div className={cn('h-10 rounded-md bg-white/[0.07]', props.className)} />}>
       <SearchForm {...props} />
     </Suspense>
   )
