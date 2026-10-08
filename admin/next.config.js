@@ -19,7 +19,8 @@ const nextConfig = {
     NEXT_PUBLIC_COMMIT_SHA: commitCorto(),
   },
   images: {
-    domains: ['res.cloudinary.com'],
+    loader: 'custom',
+    loaderFile: './lib/cloudinary-loader.ts',
   },
   experimental: {
     esmExternals: 'loose',

@@ -25,7 +25,7 @@ function Footer() {
       <div className='mx-auto max-w-6xl px-6 py-12'>
         <div className='grid items-center gap-10 lg:grid-cols-[1fr_minmax(0,380px)] lg:gap-16'>
           <div>
-            <Image src='/logo-full.png' width={150} height={70} alt='MH Garage' className='h-10 w-auto' />
+            <Image src='/logo-full.png' width={150} height={70} unoptimized alt='MH Garage' className='h-10 w-auto' />
             <p className='mt-4 max-w-xs text-sm leading-relaxed text-slate-400'>
               Distribuidora de herramientas y equipamiento para taller, con las marcas que usan los profesionales.
             </p>

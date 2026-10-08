@@ -57,7 +57,7 @@ async function Navbar() {
           <Container>
             <div className='flex h-[68px] items-center gap-4 px-4 sm:px-6 lg:gap-8 lg:px-8'>
               <Link href='/' className='shrink-0' aria-label='MH Garage'>
-                <Image src='/logo-full.png' width={150} height={70} alt='MH Garage' className='h-9 w-auto sm:h-11' priority />
+                <Image src='/logo-full.png' width={150} height={70} unoptimized alt='MH Garage' className='h-9 w-auto sm:h-11' priority />
               </Link>
 
               <MainNav data={brands} />

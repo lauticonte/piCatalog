@@ -27,7 +27,7 @@ async function Navbar() {
       <header className='fixed top-0 left-0 z-40 w-full bg-[#1D232A] text-white shadow-sm'>
         <div className='flex h-16 items-center gap-3 px-4 sm:px-6 md:gap-6'>
           <Link href={`/${stores[0]?.id ?? ''}`} className='flex shrink-0 items-center gap-2'>
-            <Image src='/logo.png' alt='MH Garage' width={34} height={34} className='rounded-md' priority />
+            <Image src='/logo.png' alt='MH Garage' width={34} height={34} unoptimized className='rounded-md' priority />
             <span className='hidden text-sm font-extrabold uppercase tracking-wider lg:block'>
               MH <span className='text-[#3aa17e]'>Garage</span>
             </span>

@@ -5,3 +5,5 @@ node_modules
 
 # Propuestas y backups del script de categorías
 scripts/out
+.vercel
+.env*

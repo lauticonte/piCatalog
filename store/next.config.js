@@ -31,7 +31,8 @@ const nextConfig = {
     serverActions: true,
   },
   images: {
-    domains: ['res.cloudinary.com'],
+    loader: 'custom',
+    loaderFile: './lib/cloudinary-loader.ts',
   },
 }
 
