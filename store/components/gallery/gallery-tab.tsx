@@ -6,15 +6,26 @@ import Image from 'next/image'
 
 interface IGalleryTab {
   image: ImageType
+  onLoad?: () => void
 }
 
-function GalleryTab({ image }: IGalleryTab) {
+function GalleryTab({ image, onLoad }: IGalleryTab) {
   return (
     <Tab className='relative flex aspect-square cursor-pointer items-center justify-center rounded-md bg-white'>
       {({ selected }) => (
         <div>
           <span className='absolute h-full w-full aspect-square inset-0 overflow-hidden rounded-md'>
-            <Image loading='lazy' fill sizes='(max-width: 640px) 25vw, 140px' src={image.url} alt='product' className='object-cover object-center' quality={75} />
+            <Image
+              loading='eager'
+              onLoad={onLoad}
+              onError={onLoad}
+              fill
+              sizes='(max-width: 640px) 25vw, 140px'
+              src={image.url}
+              alt='product'
+              className='object-cover object-center'
+              quality={75}
+            />
           </span>
           <span
             className={cn('absolute outline-none inset-0 rounded-md ring-1 ring-offset-1', selected ? 'ring-black' : 'ring-transparent')}

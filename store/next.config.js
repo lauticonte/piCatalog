@@ -33,6 +33,9 @@ const nextConfig = {
   images: {
     loader: 'custom',
     loaderFile: './lib/cloudinary-loader.ts',
+    // Menos anchos posibles = más visitas que piden la misma URL y la encuentran en la
+    // caché de Cloudinary (un ancho nuevo tarda ~0,5 s la primera vez).
+    deviceSizes: [640, 828, 1080, 1200, 1920],
   },
 }
 
