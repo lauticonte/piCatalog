@@ -18,6 +18,17 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.15.3',
+    date: '2026-10-08',
+    title: 'Más actualizaciones de seguridad',
+    changes: [
+      {
+        type: 'mejora',
+        text: 'Se cerraron otras fallas de seguridad conocidas en componentes internos del panel y la tienda, incluido el manejo de la sesión al iniciar sesión. No cambia nada en el uso diario.',
+      },
+    ],
+  },
+  {
     version: '1.15.2',
     date: '2026-10-08',
     title: 'Actualizaciones de seguridad',
