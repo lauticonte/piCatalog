@@ -50,7 +50,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ disabled, onChange, onRemove,
           </button>
         </div>
       ))}
-      <CldUploadWidget onUpload={onUpload} uploadPreset='nhgarage'>
+      <CldUploadWidget onSuccess={onUpload} uploadPreset='nhgarage'>
         {({ open }) => (
           <button
             type='button'

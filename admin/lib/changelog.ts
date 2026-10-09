@@ -18,6 +18,17 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.15.2',
+    date: '2026-10-08',
+    title: 'Actualizaciones de seguridad',
+    changes: [
+      {
+        type: 'mejora',
+        text: 'Se actualizaron componentes internos del panel y la tienda para cerrar fallas de seguridad conocidas. Subir y quitar imágenes de productos funciona igual que antes.',
+      },
+    ],
+  },
+  {
     version: '1.15.1',
     date: '2026-10-08',
     title: 'Velocidad de la tienda en el Panel',
