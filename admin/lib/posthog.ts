@@ -167,3 +167,39 @@ export const getDevices = async (days: Period): Promise<Breakdown[] | null> => {
   `)
   return rows?.map(([device, visitors]) => ({ label: DEVICE_LABEL[device] ?? device, visitors })) ?? null
 }
+
+export interface WebVitals {
+  device: string
+  /** Percentil 75 en milisegundos: el criterio de Google para "experiencia real". */
+  lcp: number | null
+  inp: number | null
+  /** Percentil 75, sin unidad. */
+  cls: number | null
+  samples: number
+}
+
+/** Velocidad percibida por visitantes reales (Web Vitals que manda la tienda), por dispositivo. */
+export const getWebVitals = async (days: Period): Promise<WebVitals[] | null> => {
+  const p75 = (metric: string) =>
+    `quantileIf(0.75)(toFloat(properties.$web_vitals_${metric}_value), properties.$web_vitals_${metric}_value is not null)`
+  const rows = await hogql<[string, number | null, number | null, number | null, number]>(`
+    select
+      coalesce(properties.$device_type, 'Otro') as device,
+      ${p75('LCP')}, ${p75('INP')}, ${p75('CLS')},
+      countIf(properties.$web_vitals_LCP_value is not null) as samples
+    from events
+    where event = '$web_vitals' and ${window(days, 0)}
+    group by device
+    order by samples desc
+  `)
+  return (
+    rows?.map(([device, lcp, inp, cls, samples]) => ({
+      device: DEVICE_LABEL[device] ?? device,
+      // quantileIf devuelve NaN cuando no hubo ninguna medición de esa métrica.
+      lcp: Number.isFinite(lcp) ? lcp : null,
+      inp: Number.isFinite(inp) ? inp : null,
+      cls: Number.isFinite(cls) ? cls : null,
+      samples,
+    })) ?? null
+  )
+}

@@ -18,6 +18,17 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.15.1',
+    date: '2026-10-08',
+    title: 'Velocidad de la tienda en el Panel',
+    changes: [
+      {
+        type: 'nuevo',
+        text: 'Nueva tarjeta "Velocidad de la tienda": cuánto tarda en cargar, en responder y cuánto se mueve la página para tus visitantes reales, en celular y computadora.',
+      },
+    ],
+  },
+  {
     version: '1.15.0',
     date: '2026-10-08',
     title: 'Panel con las visitas de la tienda',

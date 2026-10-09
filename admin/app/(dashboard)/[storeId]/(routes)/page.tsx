@@ -13,12 +13,14 @@ import {
   getReferrers,
   getTopProducts,
   getTotals,
+  getWebVitals,
   isPostHogConfigured,
   parsePeriod,
   type Period,
 } from '@/lib/posthog'
 import { VisitsChart } from '@/components/charts/visits-chart'
 import { BarListChart } from '@/components/charts/bar-list-chart'
+import { WebVitalsCard } from '@/components/charts/web-vitals-card'
 import ConsultationsTables from './components/consultations-tables'
 import { RankingColumn } from './components/ranking-columns'
 import { HistoryColumn } from './components/history-columns'
@@ -117,7 +119,7 @@ const DashboardPage = async ({ params, searchParams }: DashboardPageProps) => {
   const previousSince = new Date(Date.now() - period * 2 * 24 * 60 * 60 * 1000)
   const configured = isPostHogConfigured()
 
-  const [totals, previous, daily, topProducts, referrers, devices, consultations, previousConsultations] =
+  const [totals, previous, daily, topProducts, referrers, devices, webVitals, consultations, previousConsultations] =
     await Promise.all([
       getTotals(period),
       getPreviousTotals(period),
@@ -125,6 +127,7 @@ const DashboardPage = async ({ params, searchParams }: DashboardPageProps) => {
       getTopProducts(period),
       getReferrers(period),
       getDevices(period),
+      getWebVitals(period),
       prismadb.consultation.groupBy({
         by: ['productId'],
         where: { storeId: params.storeId, createdAt: { gte: since } },
@@ -320,6 +323,17 @@ const DashboardPage = async ({ params, searchParams }: DashboardPageProps) => {
             </Card>
           </div>
         </div>
+
+        <Card
+          title='Velocidad de la tienda'
+          description='Cómo la perciben tus visitantes reales: el 75 % tiene esta experiencia o una mejor'
+        >
+          {webVitals?.length ? (
+            <WebVitalsCard rows={webVitals} />
+          ) : (
+            <Empty>Se completa con las primeras visitas: carga, respuesta y estabilidad, en celular y computadora.</Empty>
+          )}
+        </Card>
 
         <div className='space-y-4 pt-2'>
           <ConsultationsTables ranking={ranking} history={history} />
