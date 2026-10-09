@@ -28,7 +28,15 @@ export const CHANGELOG: ChangelogEntry[] = [
       },
       {
         type: 'mejora',
-        text: 'La página de inicio de la tienda carga un poco más rápido porque ya no pide datos que no mostraba.',
+        text: 'Las páginas de la tienda bajan menos datos (unos 7 kB menos cada una) y la de inicio ya no pide información que no mostraba, así que cargan un poco más rápido, sobre todo en el celular.',
+      },
+      {
+        type: 'mejora',
+        text: 'Los cambios llegan antes a la tienda y al panel: cada actualización se publica en un minuto y medio o menos, contra más de dos minutos de antes.',
+      },
+      {
+        type: 'mejora',
+        text: 'Limpieza a fondo: se sacaron unas 1.700 líneas de código y 21 componentes externos que no se usaban. La tienda quedó con un 22% menos de código, lo que la hace más fácil y segura de mantener.',
       },
       {
         type: 'arreglo',
