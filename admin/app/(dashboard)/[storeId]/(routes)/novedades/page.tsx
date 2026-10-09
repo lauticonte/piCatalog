@@ -37,7 +37,7 @@ function NovedadesPage() {
               <span
                 className={cn(
                   'absolute left-0 top-1.5 h-[15px] w-[15px] rounded-full border-2 bg-white',
-                  index === 0 ? 'border-[#3aa17e] ring-4 ring-emerald-100' : 'border-slate-300'
+                  index === 0 ? 'border-[#f5b301] ring-4 ring-amber-100' : 'border-slate-300'
                 )}
                 aria-hidden
               />
@@ -54,7 +54,7 @@ function NovedadesPage() {
                   {formatDay(entry.date)}
                 </time>
                 {index === 0 && (
-                  <span className='text-[10px] font-bold uppercase tracking-wider text-[#3aa17e]'>Versión actual</span>
+                  <span className='text-[10px] font-bold uppercase tracking-wider text-amber-700'>Versión actual</span>
                 )}
               </div>
               <h2 className='mt-2 text-lg font-extrabold leading-snug text-slate-900'>{entry.title}</h2>

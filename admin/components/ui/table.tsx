@@ -32,8 +32,8 @@ const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTML
     ref={ref}
     className={cn(
       // Separadores suaves, zebra tenue y una fila seleccionada que se distingue de verdad.
-      'border-b border-slate-100 transition-colors even:bg-slate-50/40',
-      'hover:bg-emerald-50/40 data-[state=selected]:bg-emerald-50 data-[state=selected]:hover:bg-emerald-50',
+      'border-b border-slate-100 transition-colors',
+      'hover:bg-slate-50 data-[state=selected]:bg-amber-50/70 data-[state=selected]:hover:bg-amber-50',
       className
     )}
     {...props}
@@ -45,7 +45,7 @@ const TableHead = React.forwardRef<HTMLTableCellElement, React.ThHTMLAttributes<
   <th
     ref={ref}
     className={cn(
-      'h-10 px-4 text-left align-middle text-[11px] font-bold uppercase tracking-wider text-slate-500',
+      'h-10 whitespace-nowrap bg-slate-50 px-4 text-left align-middle text-xs font-semibold text-slate-500',
       '[&:has([role=checkbox])]:pr-0 [&:has([role=checkbox])]:w-10',
       className
     )}

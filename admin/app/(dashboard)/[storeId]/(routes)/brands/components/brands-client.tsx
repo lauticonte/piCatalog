@@ -1,10 +1,8 @@
 'use client'
 
-import ApiList from '@/components/ui/api-list'
 import { Button } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
 import Heading from '@/components/ui/heading'
-import { Separator } from '@/components/ui/separator'
 import { useParams, useRouter } from 'next/navigation'
 import React, { Fragment } from 'react'
 import { FiPlus } from 'react-icons/fi'
@@ -32,12 +30,15 @@ function BrandsClient({ data }: IBrand) {
         }
       />
 
-      <DataTable searchKey='name' columns={columns} data={data} />
-      <Separator />
-
-      <Heading title='API' description='Endpoints para marcas' />
-
-      <ApiList entityName='brands' entityIdName='brandId' />
+      <DataTable
+        searchKey='name'
+        columns={columns}
+        data={data}
+        quickFilters={[
+          { id: 'sin-productos', label: 'Sin productos', predicate: brand => brand.productsCount === 0 },
+          { id: 'sin-logo', label: 'Sin logo', predicate: brand => !brand.image },
+        ]}
+      />
     </Fragment>
   )
 }

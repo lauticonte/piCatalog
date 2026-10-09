@@ -2,7 +2,8 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 import CellAction from './cell-action'
-import Image from 'next/image'
+import { LuPackage } from 'react-icons/lu'
+import { CountCell, DateCell, Thumb } from '@/components/ui/table-cells'
 
 export type ComboColumn = {
   id: string
@@ -11,26 +12,25 @@ export type ComboColumn = {
   name: string
   productsCount: number
   createdAt: string
+  /** Fecha de alta en milisegundos, para ordenar (la de `createdAt` ya viene formateada). */
+  createdAtValue: number
 }
 
 export const columns: ColumnDef<ComboColumn>[] = [
   {
     accessorKey: 'name',
     header: 'Combo',
+    meta: { sortable: true },
     cell: ({ row }) => (
       <div className='flex items-center gap-3'>
-        <div className='relative h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-slate-50 ring-1 ring-slate-200'>
-          {row.original.image ? (
-            <Image src={row.original.image} alt='' fill sizes='44px' className='object-cover' />
-          ) : (
-            <div className='flex h-full w-full items-center justify-center text-[10px] text-slate-300'>—</div>
-          )}
-        </div>
+        <Thumb src={row.original.image} fallbackIcon={LuPackage} fit='cover' />
         <div className='min-w-0'>
           <div className='truncate font-medium text-slate-900'>{row.original.name}</div>
-          <div className='truncate text-xs text-slate-400'>
-            {row.original.desc || 'Sin descripción'}
-          </div>
+          {row.original.desc ? (
+            <div className='truncate text-xs text-slate-500'>{row.original.desc}</div>
+          ) : (
+            <div className='text-xs text-slate-400'>Sin descripción</div>
+          )}
         </div>
       </div>
     ),
@@ -38,24 +38,15 @@ export const columns: ColumnDef<ComboColumn>[] = [
   {
     accessorKey: 'productsCount',
     header: 'Productos',
-    meta: { width: 150 },
-    // Un "0" suelto no dice nada; conviene que se note cuál está vacío.
-    cell: ({ row }) =>
-      row.original.productsCount > 0 ? (
-        <span className='inline-flex items-center rounded-md bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700'>
-          {row.original.productsCount} producto{row.original.productsCount > 1 ? 's' : ''}
-        </span>
-      ) : (
-        <span className='inline-flex items-center rounded-md bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-700'>
-          Sin cargar
-        </span>
-      ),
+    meta: { width: 160, sortable: true, sortValue: (row: ComboColumn) => row.productsCount },
+    // Un combo vacío no se muestra completo en la tienda: el aviso tiene que notarse.
+    cell: ({ row }) => <CountCell count={row.original.productsCount} emptyLabel='Sin cargar' />,
   },
   {
     accessorKey: 'createdAt',
     header: 'Creado',
-    meta: { width: 130, hideOnMobile: true },
-    cell: ({ row }) => <span className='text-xs text-slate-400'>{row.original.createdAt}</span>,
+    meta: { width: 130, hideOnMobile: true, sortable: true, sortValue: (row: ComboColumn) => row.createdAtValue },
+    cell: ({ row }) => <DateCell value={row.original.createdAt} />,
   },
   {
     id: 'actions',

@@ -1,5 +1,5 @@
 import prismadb from '@/lib/prismadb'
-import { formatDate } from '@/lib/utils'
+import { formatName, formatShortDate } from '@/lib/utils'
 import React from 'react'
 import BillboardClient from './components/billboard-client'
 import { CategoryColumn } from './components/columns'
@@ -20,9 +20,11 @@ async function CategoriesPage({ params }: { params: { storeId: string } }) {
 
   const transformedCategoreis: CategoryColumn[] = categories.map(item => ({
     id: item.id,
-    name: item.name,
+    // Los nombres vienen con mayúsculas desparejas ("iNYECCIÓN", "Limpieza y Mantenimiento").
+    name: formatName(item.name),
     productsCount: item._count.products,
-    createdAt: formatDate(item.createdAt),
+    createdAt: formatShortDate(item.createdAt),
+    createdAtValue: item.createdAt.getTime(),
   }))
 
   return (

@@ -2,7 +2,8 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 import CellAction from './cell-action'
-import Image from 'next/image'
+import { LuImageOff } from 'react-icons/lu'
+import { CountCell, DateCell, Thumb } from '@/components/ui/table-cells'
 
 export type BrandColumn = {
   id: string
@@ -10,23 +11,20 @@ export type BrandColumn = {
   name: string
   productsCount: number
   billboardLabel: string
+  billboardImage: string | null
   createdAt: string
+  /** Fecha de alta en milisegundos, para ordenar (la de `createdAt` ya viene formateada). */
+  createdAtValue: number
 }
 
 export const columns: ColumnDef<BrandColumn>[] = [
   {
     accessorKey: 'name',
     header: 'Marca',
+    meta: { sortable: true },
     cell: ({ row }) => (
       <div className='flex items-center gap-3'>
-        {/* Las marcas ya tenían logo cargado y la tabla no lo mostraba. */}
-        <div className='relative h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-white ring-1 ring-slate-200'>
-          {row.original.image ? (
-            <Image src={row.original.image} alt='' fill sizes='44px' className='object-contain p-1' />
-          ) : (
-            <div className='flex h-full w-full items-center justify-center text-[10px] text-slate-300'>—</div>
-          )}
-        </div>
+        <Thumb src={row.original.image} fallbackIcon={LuImageOff} />
         <span className='truncate font-medium text-slate-900'>{row.original.name}</span>
       </div>
     ),
@@ -34,27 +32,26 @@ export const columns: ColumnDef<BrandColumn>[] = [
   {
     accessorKey: 'productsCount',
     header: 'Productos',
-    meta: { width: 150 },
-    cell: ({ row }) =>
-      row.original.productsCount > 0 ? (
-        <span className='inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700'>
-          {row.original.productsCount}
-        </span>
-      ) : (
-        <span className='text-xs text-slate-400'>sin productos</span>
-      ),
+    meta: { width: 160, sortable: true, sortValue: (row: BrandColumn) => row.productsCount },
+    cell: ({ row }) => <CountCell count={row.original.productsCount} />,
   },
   {
     accessorKey: 'billboardLabel',
     header: 'Billboard',
     meta: { width: 220, hideOnMobile: true },
-    cell: ({ row }) => <span className='text-slate-500'>{row.original.billboardLabel}</span>,
+    // Los billboards no tienen nombre cargado: la miniatura es lo que permite reconocerlo.
+    cell: ({ row }) => (
+      <div className='flex items-center gap-2'>
+        <Thumb src={row.original.billboardImage} fallbackIcon={LuImageOff} fit='cover' wide />
+        {row.original.billboardLabel.trim() && <span className='truncate text-sm text-slate-600'>{row.original.billboardLabel}</span>}
+      </div>
+    ),
   },
   {
     accessorKey: 'createdAt',
-    header: 'Creado',
-    meta: { width: 130, hideOnMobile: true },
-    cell: ({ row }) => <span className='text-xs text-slate-400'>{row.original.createdAt}</span>,
+    header: 'Creada',
+    meta: { width: 130, hideOnMobile: true, sortable: true, sortValue: (row: BrandColumn) => row.createdAtValue },
+    cell: ({ row }) => <DateCell value={row.original.createdAt} />,
   },
   {
     id: 'actions',

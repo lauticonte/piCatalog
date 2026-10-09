@@ -3,7 +3,7 @@ import { format } from 'date-fns'
 import React from 'react'
 import ProductClient from './components/product-client'
 import { ProductColumn } from './components/columns'
-import { formatter, formatDate } from '@/lib/utils'
+import { formatter, formatName, formatShortDate } from '@/lib/utils'
 
 async function ProductsPage({ params }: { params: { storeId: string } }) {
   const products = await prismadb.product.findMany({
@@ -24,17 +24,21 @@ async function ProductsPage({ params }: { params: { storeId: string } }) {
 
   const transformedProducts: ProductColumn[] = products.map(item => ({
     id: item.id,
-    name: item.name.toUpperCase(),
+    // En mayúsculas porque en la base conviven nombres cargados en mayúscula y en minúscula:
+    // convertirlos rompería modelos y códigos ("400NM", "LJ-F40"), y mezclados se ven desparejos.
+    name: item.name.trim().toUpperCase(),
     desc: item.desc,
     SKU: item.SKU,
     isFeatured: item.isFeatured,
     isArchived: item.isArchived,
     price: formatter.format(item.price),
-    category: item.category.name,
+    priceValue: item.price,
+    category: formatName(item.category.name),
     brand: item.brand.name,
     color: item.color.value,
     image: item.images[0]?.url ?? null,
-    createdAt: formatDate(item.createdAt),
+    createdAt: formatShortDate(item.createdAt),
+    createdAtValue: item.createdAt.getTime(),
   }))
 
   return (

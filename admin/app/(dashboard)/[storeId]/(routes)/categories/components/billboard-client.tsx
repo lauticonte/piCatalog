@@ -1,10 +1,8 @@
 'use client'
 
-import ApiList from '@/components/ui/api-list'
 import { Button } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
 import Heading from '@/components/ui/heading'
-import { Separator } from '@/components/ui/separator'
 import { useParams, useRouter } from 'next/navigation'
 import React, { Fragment } from 'react'
 import { FiPlus } from 'react-icons/fi'
@@ -32,12 +30,15 @@ function BillboardClient({ data }: IBillboardClient) {
         }
       />
 
-      <DataTable searchKey='name' columns={columns} data={data} />
-      <Separator />
-
-      <Heading title='API' description='API calls for Categories' />
-
-      <ApiList entityName='categories' entityIdName='categoryId' />
+      <DataTable
+        searchKey='name'
+        columns={columns}
+        data={data}
+        quickFilters={[
+          { id: 'con-productos', label: 'Con productos', predicate: category => category.productsCount > 0 },
+          { id: 'vacias', label: 'Vacías', predicate: category => category.productsCount === 0 },
+        ]}
+      />
     </Fragment>
   )
 }

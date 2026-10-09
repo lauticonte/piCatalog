@@ -49,7 +49,7 @@ export function ChangelogLink({ className, label }: { className?: string; label?
       {label && <span>{label}</span>}
       <span>v{process.env.NEXT_PUBLIC_APP_VERSION}</span>
       {unseen && (
-        <span className='flex items-center gap-1 rounded-full bg-[#3aa17e] px-1.5 py-0.5 text-[9px] font-bold uppercase leading-none text-white'>
+        <span className='flex items-center gap-1 rounded-full bg-[#f5b301] px-1.5 py-0.5 text-[9px] font-bold uppercase leading-none text-[#1D232A]'>
           Nuevo
         </span>
       )}

@@ -1,5 +1,5 @@
 import prismadb from '@/lib/prismadb'
-import { formatDate } from '@/lib/utils'
+import { formatShortDate } from '@/lib/utils'
 import React from 'react'
 import CombosClient from './components/combos-client'
 import { ComboColumn } from './components/columns'
@@ -25,7 +25,8 @@ async function CombosPage({ params }: { params: { storeId: string } }) {
     image: item.imageUrl || null,
     desc: item.desc,
     productsCount: item._count.items,
-    createdAt: formatDate(item.createdAt),
+    createdAt: formatShortDate(item.createdAt),
+    createdAtValue: item.createdAt.getTime(),
   }))
 
   return (

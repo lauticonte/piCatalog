@@ -23,20 +23,19 @@ async function Navbar() {
 
   return (
     <>
-      {/* Barra oscura con la identidad de la tienda, en lugar del blanco por defecto. */}
-      <header className='fixed top-0 left-0 z-40 w-full bg-[#1D232A] text-white shadow-sm'>
-        <div className='flex h-16 items-center gap-3 px-4 sm:px-6 md:gap-6'>
-          <Link href={`/${stores[0]?.id ?? ''}`} className='flex shrink-0 items-center gap-2'>
-            <Image src='/logo.png' alt='MH Garage' width={34} height={34} unoptimized className='rounded-md' priority />
-            <span className='hidden text-sm font-extrabold uppercase tracking-wider lg:block'>
-              MH <span className='text-[#3aa17e]'>Garage</span>
-            </span>
+      {/* Misma barra que la tienda: fondo oscuro, logo de MH y pestañas con barra amarilla
+          bajo la sección activa, así el panel se reconoce como parte de la marca. */}
+      <header className='fixed left-0 top-0 z-40 w-full border-b border-white/10 bg-[#151a20] text-white'>
+        <div className='flex h-16 items-center gap-4 px-4 sm:px-6 lg:gap-6'>
+          <Link href={`/${stores[0]?.id ?? ''}`} className='flex shrink-0 items-center' aria-label='MH Garage, inicio del panel'>
+            <Image src='/logo-mark.png' alt='' width={46} height={38} unoptimized className='h-9 w-auto xl:hidden' priority />
+            <Image src='/logo-full.png' alt='' width={104} height={36} unoptimized className='hidden h-9 w-auto xl:block' priority />
           </Link>
 
-          <MainNav className='flex-1' />
+          <MainNav className='h-full flex-1' />
 
-          <div className='flex shrink-0 items-center gap-3'>
-            <ChangelogLink className='hidden text-[11px] text-slate-400 lg:inline-flex' />
+          <div className='flex shrink-0 items-center gap-4'>
+            <ChangelogLink className='hidden text-xs font-semibold text-slate-400 lg:inline-flex' />
             <UserButton afterSignOutUrl='/' />
           </div>
         </div>

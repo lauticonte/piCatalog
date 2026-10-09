@@ -63,18 +63,31 @@ function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
 
   return (
     <>
-      <nav className={cn('hidden items-center gap-1 md:flex', className)} {...props}>
+      {/* Pestañas del alto de la barra, como en la tienda: la activa lleva la barra amarilla
+          pegada al borde inferior y el resto la muestra al pasar el mouse. */}
+      <nav className={cn('hidden items-stretch self-stretch md:flex', className)} {...props}>
         {routes?.map(route => (
           <Link
             key={route.href}
             href={route.href}
-            className={cn(
-              'whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-semibold uppercase tracking-wide transition-colors',
-              // La pestaña activa se marca con un fondo propio, no solo con el color del texto.
-              route.active ? 'bg-white/10 text-white' : 'text-slate-400 hover:bg-white/5 hover:text-white'
-            )}
+            aria-current={route.active ? 'page' : undefined}
+            className='group relative flex items-center whitespace-nowrap px-3 lg:px-4'
           >
-            {route.label}
+            <span
+              className={cn(
+                'text-xs font-black uppercase tracking-[0.06em] transition-colors',
+                route.active ? 'text-white' : 'text-slate-400 group-hover:text-white'
+              )}
+            >
+              {route.label}
+            </span>
+            <span
+              className={cn(
+                'absolute inset-x-2 bottom-0 h-[3px] rounded-t-sm bg-[#f5b301] transition-transform duration-200 motion-reduce:transition-none',
+                route.active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+              )}
+              aria-hidden
+            />
           </Link>
         ))}
       </nav>
@@ -82,7 +95,7 @@ function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
       {/* Mobile: las seis secciones no entran en una fila (quedaban cortadas y había que
           adivinar que se podía deslizar). Se muestra la sección actual y un menú desplegable. */}
       <div className='flex min-w-0 flex-1 items-center justify-end md:hidden'>
-        <span className='mr-auto truncate text-sm font-semibold uppercase tracking-wide text-slate-300'>
+        <span className='mr-auto truncate text-xs font-black uppercase tracking-[0.06em] text-white'>
           {current?.label ?? (pathname.endsWith('/novedades') ? 'Novedades' : '')}
         </span>
         <button
@@ -99,17 +112,17 @@ function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
       {open && (
         <div className='fixed inset-x-0 bottom-0 top-16 z-40 md:hidden'>
           <button type='button' aria-label='Cerrar menú' className='absolute inset-0 bg-black/40' onClick={() => setOpen(false)} />
-          <nav className='relative border-t border-white/10 bg-[#1D232A] px-3 pb-4 pt-2 shadow-xl'>
+          <nav className='relative border-t border-white/10 bg-[#151a20] px-3 pb-4 pt-2 shadow-xl'>
             {routes.map(route => (
               <Link
                 key={route.href}
                 href={route.href}
                 className={cn(
-                  'flex items-center rounded-lg px-4 py-3.5 text-base font-semibold transition-colors',
-                  route.active ? 'bg-white/10 text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white'
+                  'relative flex items-center rounded-lg px-4 py-3.5 text-sm font-black uppercase tracking-[0.04em] transition-colors',
+                  route.active ? 'bg-white/5 text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white'
                 )}
               >
-                {route.active && <span className='mr-3 h-5 w-1 rounded-full bg-[#3aa17e]' />}
+                {route.active && <span className='absolute inset-y-3 left-0 w-[3px] rounded-r-sm bg-[#f5b301]' aria-hidden />}
                 {route.label}
               </Link>
             ))}

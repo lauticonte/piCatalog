@@ -31,7 +31,15 @@ function CombosClient({ data }: ICombosClient) {
         }
       />
 
-      <DataTable searchKey='name' columns={columns} data={data} />
+      <DataTable
+        searchKey='name'
+        columns={columns}
+        data={data}
+        quickFilters={[
+          { id: 'sin-cargar', label: 'Sin cargar', predicate: combo => combo.productsCount === 0 },
+          { id: 'sin-imagen', label: 'Sin imagen', predicate: combo => !combo.image },
+        ]}
+      />
     </Fragment>
   )
 }

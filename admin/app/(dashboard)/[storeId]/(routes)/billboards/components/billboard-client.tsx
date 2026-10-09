@@ -1,10 +1,8 @@
 'use client'
 
-import ApiList from '@/components/ui/api-list'
 import { Button } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
 import Heading from '@/components/ui/heading'
-import { Separator } from '@/components/ui/separator'
 import { useParams, useRouter } from 'next/navigation'
 import React, { Fragment } from 'react'
 import { FiPlus } from 'react-icons/fi'
@@ -32,11 +30,6 @@ function BillboardClient({ data }: IBillboardClient) {
         }
       />
       <DataTable searchKey='label' columns={columns} data={data} />
-      <Separator />
-
-      <Heading title='API' description='API calls for Billboards' />
-
-      <ApiList entityName='billboards' entityIdName='billboardId' />
     </Fragment>
   )
 }

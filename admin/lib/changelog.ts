@@ -18,6 +18,28 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.14.0',
+    date: '2026-10-08',
+    title: 'Precios en masa y un panel con los colores de MH',
+    changes: [
+      {
+        type: 'nuevo',
+        text: 'Editar precios de varios productos a la vez: subir o bajar un porcentaje, poner un mismo precio o cambiarlos uno por uno, con vista previa antes de guardar.',
+      },
+      {
+        type: 'nuevo',
+        text: 'Las tablas se pueden ordenar por nombre, precio, cantidad o fecha, y tienen filtros rápidos: destacados, sin imagen, sin código, categorías vacías, combos sin cargar.',
+      },
+      { type: 'mejora', text: 'El panel pasa a los colores de MH, con el mismo encabezado que la tienda.' },
+      {
+        type: 'mejora',
+        text: 'Formulario de producto ordenado en secciones, con la descripción en varias líneas y el botón de guardar siempre a la vista.',
+      },
+      { type: 'mejora', text: 'Al cargar un producto, los datos que faltan se marcan debajo de cada campo.' },
+      { type: 'mejora', text: 'En el celular, el menú de la tienda se abre con una animación más clara.' },
+    ],
+  },
+  {
     version: '1.13.0',
     date: '2026-10-08',
     title: 'Encabezado nuevo con menú de categorías',

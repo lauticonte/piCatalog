@@ -44,6 +44,24 @@ export const formatDate = (date: Date) =>
     year: 'numeric',
   }).format(date)
 
+/** Fecha corta para tablas: "8 oct 2026" se lee más rápido que "08/10/2026". */
+export const formatShortDate = (date: Date) =>
+  new Intl.DateTimeFormat('es-AR', { timeZone: TIMEZONE, day: 'numeric', month: 'short', year: 'numeric' })
+    .format(date)
+    .replace(/\./g, '')
+    .replace(/ de /g, ' ')
+
+// Conectores que van en minúscula dentro del nombre: "De Pie y de Banco".
+const CONECTORES = new Set(['y', 'de', 'del', 'para', 'con'])
+
+/** Normaliza nombres cargados con mayúsculas desparejas ("iNYECCIÓN" -> "Inyección"). */
+export const formatName = (name: string) =>
+  name
+    .toLocaleLowerCase('es')
+    .split(' ')
+    .map((word, i) => (i > 0 && CONECTORES.has(word) ? word : word.charAt(0).toLocaleUpperCase('es') + word.slice(1)))
+    .join(' ')
+
 /**
  * Día calendario argentino en formato YYYY-MM-DD.
  *

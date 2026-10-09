@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs'
 import prismadb from '@/lib/prismadb'
 import { findProducts } from '@/lib/product-queries'
+import { applyPriceChange, BulkPriceChange, precioManualValido, validatePriceChange } from '@/lib/bulk-price'
 
 export async function POST(req: Request, { params }: { params: { storeId: string } }) {
   try {
@@ -183,6 +184,84 @@ export async function DELETE(req: Request, { params }: { params: { storeId: stri
     return NextResponse.json({ deleted, blocked })
   } catch (error) {
     console.log('[PRODUCTS_DELETE]', error)
+    return new NextResponse('Internal error', { status: 500 })
+  }
+}
+
+// Cambio masivo de precios. El precio nuevo se calcula acá sobre el guardado, con la misma
+// función que la vista previa del modal: si alguien lo cambió mientras tanto, no se pisa
+// con un valor viejo.
+export async function PATCH(req: Request, { params }: { params: { storeId: string } }) {
+  try {
+    const { userId } = auth()
+
+    if (!userId) {
+      return new NextResponse('Unauthenticated', { status: 403 })
+    }
+
+    const body = await req.json()
+    const { ids, mode, value, rounding, prices } = body
+
+    // Dos formas: { prices: [{ id, price }] } con un precio por producto ("Uno por uno"),
+    // o { ids, mode, value, rounding } con la misma fórmula para todos.
+    const manual = Array.isArray(prices)
+
+    if (manual) {
+      if (prices.length === 0) {
+        return new NextResponse('Prices are required', { status: 400 })
+      }
+      if (!prices.every((item: any) => typeof item?.id === 'string' && precioManualValido(item?.price))) {
+        return new NextResponse('Every price must be a number above zero', { status: 400 })
+      }
+    } else if (!Array.isArray(ids) || ids.length === 0) {
+      return new NextResponse('Product ids are required', { status: 400 })
+    }
+
+    const change = { mode, value: Number(value), rounding: Number(rounding) }
+    const invalid = manual ? null : validatePriceChange(change)
+
+    if (invalid) {
+      return new NextResponse(invalid, { status: 400 })
+    }
+
+    const storeByUserId = await prismadb.store.findFirst({
+      where: {
+        id: params.storeId,
+        userId,
+      },
+    })
+
+    if (!storeByUserId) {
+      return new NextResponse('Unauthorized', { status: 405 })
+    }
+
+    const targetIds: string[] = manual ? prices.map((item: { id: string }) => item.id) : ids
+
+    // El storeId acota el cambio a la tienda del usuario autenticado: un id ajeno se ignora.
+    const products = await prismadb.product.findMany({
+      where: { id: { in: targetIds }, storeId: params.storeId },
+      select: { id: true, price: true },
+    })
+
+    const manualById = new Map<string, number>(manual ? prices.map((item: { id: string; price: number }) => [item.id, item.price]) : [])
+
+    const updates = products.map(product => ({
+      id: product.id,
+      price: manual ? (manualById.get(product.id) as number) : applyPriceChange(product.price, change as BulkPriceChange),
+    }))
+
+    if (updates.some(update => update.price <= 0)) {
+      return new NextResponse('Some prices would end up at zero or below', { status: 400 })
+    }
+
+    // Todo o nada: si falla uno, no queda la mitad de la lista con precios nuevos.
+    await prismadb.$transaction(
+      updates.map(update => prismadb.product.update({ where: { id: update.id }, data: { price: update.price } }))
+    )
+
+    return NextResponse.json({ updated: updates.length })
+  } catch (error) {
+    console.log('[PRODUCTS_PATCH]', error)
     return new NextResponse('Internal error', { status: 500 })
   }
 }

@@ -26,7 +26,7 @@ export const Overview: React.FC<OverviewProps> = ({ data }) => {
           formatter={(value: number) => [formatter.format(value), 'Consultado']}
           contentStyle={{ borderRadius: 8, border: '1px solid #e3e7ea', fontSize: 12 }}
         />
-        <Bar dataKey='total' fill='#3aa17e' radius={[4, 4, 0, 0]} maxBarSize={44} />
+        <Bar dataKey='total' fill='#f5b301' radius={[4, 4, 0, 0]} maxBarSize={44} />
       </BarChart>
     </ResponsiveContainer>
   )

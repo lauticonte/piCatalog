@@ -8,11 +8,12 @@ import { Separator } from '@/components/ui/separator'
 import { useParams, useRouter } from 'next/navigation'
 import React, { Fragment, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
-import { BiPackage } from 'react-icons/bi'
+import { BiDollar, BiPackage } from 'react-icons/bi'
 import { ProductColumn, columns } from './columns'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
 import AddToComboModal from '@/components/modals/add-to-combo-modal'
+import BulkPriceModal, { BulkPricePayload } from '@/components/modals/bulk-price-modal'
 
 interface IProductClient {
   data: Array<ProductColumn>
@@ -24,6 +25,7 @@ function ProductClient({ data }: IProductClient) {
   const [comboModalOpen, setComboModalOpen] = useState(false)
   // Se guarda la selección al abrir el modal, porque el DataTable la limpia al terminar la acción.
   const [selectedProducts, setSelectedProducts] = useState<ProductColumn[]>([])
+  const [priceModalOpen, setPriceModalOpen] = useState(false)
 
   const onDeleteSelected = async (rows: ProductColumn[]) => {
     try {
@@ -72,8 +74,32 @@ function ProductClient({ data }: IProductClient) {
     }
   }
 
+  const onBulkPrice = async (payload: BulkPricePayload) => {
+    try {
+      const response = await axios.patch(
+        `/api/${params.storeId}/products`,
+        'prices' in payload ? payload : { ids: selectedProducts.map(product => product.id), ...payload }
+      )
+
+      const { updated } = response.data
+      toast.success(`${updated} precio${updated > 1 ? 's' : ''} actualizado${updated > 1 ? 's' : ''}`)
+      setPriceModalOpen(false)
+      setSelectedProducts([])
+      router.refresh()
+    } catch (error) {
+      // El modal queda abierto con los datos cargados para reintentar.
+      toast.error('No se pudieron actualizar los precios')
+    }
+  }
+
   return (
     <Fragment>
+      <BulkPriceModal
+        isOpen={priceModalOpen}
+        onClose={() => setPriceModalOpen(false)}
+        onConfirm={onBulkPrice}
+        products={selectedProducts}
+      />
       <AddToComboModal
         isOpen={comboModalOpen}
         onClose={() => setComboModalOpen(false)}
@@ -98,7 +124,22 @@ function ProductClient({ data }: IProductClient) {
         data={data}
         onDeleteSelected={onDeleteSelected}
         getRowLabel={product => `${product.name} (SKU ${product.SKU})`}
+        quickFilters={[
+          { id: 'destacados', label: 'Destacados', predicate: product => product.isFeatured },
+          { id: 'archivados', label: 'Archivados', predicate: product => product.isArchived },
+          { id: 'sin-imagen', label: 'Sin imagen', predicate: product => !product.image },
+          { id: 'sin-codigo', label: 'Sin código', predicate: product => !product.SKU.trim() },
+        ]}
         bulkActions={[
+          {
+            label: 'Editar precios',
+            icon: <BiDollar className='mr-2 h-4 w-4' />,
+            // Sin confirm: el modal ya muestra la vista previa y pide confirmar.
+            onRun: rows => {
+              setSelectedProducts(rows)
+              setPriceModalOpen(true)
+            },
+          },
           {
             label: 'Agregar a combo',
             icon: <BiPackage className='mr-2 h-4 w-4' />,

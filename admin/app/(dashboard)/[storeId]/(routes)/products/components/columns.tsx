@@ -4,18 +4,25 @@ import { ColumnDef } from '@tanstack/react-table'
 import CellAction from './cell-action'
 import { Checkbox } from '@/components/ui/checkbox'
 import Image from 'next/image'
-import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
+import { AiFillStar } from 'react-icons/ai'
+import { LuImageOff } from 'react-icons/lu'
+import { cn } from '@/lib/utils'
 
 export type ProductColumn = {
   id: string
   image: string | null
   name: string
   price: string
+  /** El precio sin formatear: lo usa la vista previa del cambio masivo de precios. */
+  priceValue: number
+  /** Fecha de alta en milisegundos, para ordenar (la de `createdAt` ya viene formateada). */
+  createdAtValue: number
   category: string
   brand: string
   SKU: string
   createdAt: string
   isFeatured: boolean
+  isArchived: boolean
 }
 
 export const columns: ColumnDef<ProductColumn>[] = [
@@ -42,13 +49,21 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: 'name',
     header: 'Producto',
+    meta: { sortable: true },
     cell: ({ row }) => (
       <div className='flex items-center gap-3'>
-        <div className='relative h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-slate-50 ring-1 ring-slate-200'>
+        <div
+          className={cn(
+            'relative h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-white ring-1 ring-slate-200',
+            row.original.isArchived && 'opacity-50 grayscale'
+          )}
+        >
           {row.original.image ? (
             <Image src={row.original.image} alt='' fill sizes='44px' className='object-contain p-0.5' />
           ) : (
-            <div className='flex h-full w-full items-center justify-center text-[10px] text-slate-300'>—</div>
+            <div className='flex h-full w-full items-center justify-center bg-slate-50 text-slate-300' title='Sin imagen'>
+              <LuImageOff className='h-4 w-4' />
+            </div>
           )}
         </div>
         {/* En mobile el ancho se limita al viewport: sin tope, el truncate estiraba la tabla. */}
@@ -62,8 +77,11 @@ export const columns: ColumnDef<ProductColumn>[] = [
             <span className='truncate font-medium text-slate-900' title={row.original.name}>
               {row.original.name}
             </span>
+            {row.original.isArchived && (
+              <span className='shrink-0 rounded-md bg-slate-100 px-1.5 py-0.5 text-[11px] font-medium text-slate-500'>Archivado</span>
+            )}
           </div>
-          <div className='truncate text-xs text-slate-400'>{row.original.brand}</div>
+          <div className='truncate text-xs text-slate-500'>{row.original.brand}</div>
           {/* Precio y SKU: sus columnas se ocultan en mobile, así que se repiten acá. */}
           <div className='mt-0.5 flex items-center gap-2 md:hidden'>
             <span className='text-xs font-semibold tabular-nums text-slate-900'>{row.original.price}</span>
@@ -81,20 +99,22 @@ export const columns: ColumnDef<ProductColumn>[] = [
     // como un estado (activo, publicado) y no como lo que es.
     cell: ({ row }) => (
       <div className='flex justify-center' title={row.original.isFeatured ? 'Destacado' : 'No destacado'}>
-        {row.original.isFeatured ? (
-          <AiFillStar className='h-5 w-5 text-amber-400' aria-label='Destacado' />
-        ) : (
-          <AiOutlineStar className='h-5 w-5 text-slate-200' aria-label='No destacado' />
-        )}
+        {/* Solo los destacados llevan estrella: una vacía en cada fila era ruido. */}
+        {row.original.isFeatured && <AiFillStar className='h-[18px] w-[18px] text-[#f5b301]' aria-label='Destacado' />}
       </div>
     ),
   },
   {
     accessorKey: 'price',
-    header: () => <div className='text-right'>Precio</div>,
-    meta: { width: 130, hideOnMobile: true },
+    header: 'Precio',
+    meta: { width: 150, hideOnMobile: true, align: 'right', sortable: true, sortValue: (row: ProductColumn) => row.priceValue },
+    // "$" fijo a la izquierda y la cifra a la derecha, como en una planilla: con el "$"
+    // pegado al número se corría de lugar según el largo del precio.
     cell: ({ row }) => (
-      <div className='text-right font-semibold tabular-nums text-slate-900'>{row.original.price}</div>
+      <div className='flex items-baseline justify-between gap-2 font-semibold tabular-nums text-slate-900'>
+        <span className='text-slate-400'>$</span>
+        <span>{row.original.price.replace(/^\$\s*/, '')}</span>
+      </div>
     ),
   },
   {
@@ -102,7 +122,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
     header: 'Categoría',
     meta: { width: 180, hideOnMobile: true },
     cell: ({ row }) => (
-      <span className='inline-block rounded-md bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600'>
+      <span className='inline-block max-w-full truncate rounded-md bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700'>
         {row.original.category}
       </span>
     ),
@@ -110,16 +130,19 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: 'createdAt',
     header: 'Fecha',
-    meta: { width: 110, hideOnMobile: true },
-    cell: ({ row }) => <span className='text-xs text-slate-400'>{row.original.createdAt}</span>,
+    meta: { width: 120, hideOnMobile: true, sortable: true, sortValue: (row: ProductColumn) => row.createdAtValue },
+    cell: ({ row }) => <span className='whitespace-nowrap text-xs tabular-nums text-slate-500'>{row.original.createdAt}</span>,
   },
   {
     accessorKey: 'SKU',
     header: 'SKU',
     meta: { width: 140, hideOnMobile: true },
-    cell: ({ row }) => (
-      <span className='rounded bg-slate-100 px-1.5 py-0.5 font-mono text-xs text-slate-600'>{row.original.SKU}</span>
-    ),
+    cell: ({ row }) =>
+      row.original.SKU.trim() ? (
+        <span className='font-mono text-xs text-slate-600'>{row.original.SKU}</span>
+      ) : (
+        <span className='text-xs font-medium text-amber-700'>Sin código</span>
+      ),
   },
   {
     id: 'actions',

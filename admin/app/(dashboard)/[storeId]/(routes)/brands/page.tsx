@@ -1,5 +1,5 @@
 import prismadb from '@/lib/prismadb'
-import { formatDate } from '@/lib/utils'
+import { formatShortDate } from '@/lib/utils'
 import React from 'react'
 import BrandsClient from './components/brands-client'
 import { BrandColumn } from './components/columns'
@@ -23,9 +23,11 @@ async function BrandsPage({ params }: { params: { storeId: string } }) {
     name: item.name,
     value: item.value,
     billboardLabel: item.billboard.label,
+    billboardImage: item.billboard.imageUrl || null,
     image: item.imageUrl || null,
     productsCount: item._count.products,
-    createdAt: formatDate(item.createdAt),
+    createdAt: formatShortDate(item.createdAt),
+    createdAtValue: item.createdAt.getTime(),
   }))
 
   return (
