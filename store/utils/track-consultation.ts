@@ -6,6 +6,8 @@
  * navegador se encarga de entregarlo aunque el documento ya se haya ido.
  */
 
+import posthog from 'posthog-js'
+
 const ADMIN_API =
   process.env.NEXT_PUBLIC_ADMIN_API_URL || 'https://admin.mhgarage.ar/api/65ec0a796702c9c0e4c0895f'
 
@@ -33,6 +35,9 @@ export const trackConsultation = (productId: string) => {
     // text/plain evita el preflight entre dominios, que perdería el beacon.
     const blob = new Blob([body], { type: 'text/plain;charset=UTF-8' })
     navigator.sendBeacon(`${ADMIN_API}/consultations`, blob)
+    // También a PostHog, para cruzar vistas y consultas de cada producto. Si PostHog no
+    // se inicializó (local o sin clave), capture no hace nada.
+    if (posthog.__loaded) posthog.capture('consulta_whatsapp', { product_id: productId }, { transport: 'sendBeacon' })
   } catch {
     // El registro es secundario: nunca debe impedir que se abra WhatsApp.
   }

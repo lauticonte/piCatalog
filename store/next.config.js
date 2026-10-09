@@ -26,6 +26,15 @@ const nextConfig = {
     NEXT_PUBLIC_COMMIT_SHA: commitCorto(),
   },
   reactStrictMode: true,
+  // PostHog llega a través de la propia tienda (/ingest): los bloqueadores de anuncios
+  // cortan los pedidos directos a posthog.com. skipTrailingSlashRedirect lo pide su API.
+  skipTrailingSlashRedirect: true,
+  async rewrites() {
+    return [
+      { source: '/ingest/static/:path*', destination: 'https://us-assets.i.posthog.com/static/:path*' },
+      { source: '/ingest/:path*', destination: 'https://us.i.posthog.com/:path*' },
+    ]
+  },
   swcMinify: true,
   experimental: {
     serverActions: true,

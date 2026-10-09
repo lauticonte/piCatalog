@@ -8,6 +8,7 @@ import ToastProvider from '@/providers/toast-prrovider'
 import ProgressBar from '@/components/ui/progress-bar'
 import ScrollToTop from '@/components/ui/scroll-to-top'
 import ReactQueryProvider from '@/providers/react-query-provider'
+import PostHogProvider from '@/providers/posthog-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       {/* Columna flex de alto mínimo de pantalla + <main> que crece: así el footer
           queda abajo de todo aunque la página tenga poco contenido. */}
       <body className={`${inter.className} min-h-screen flex flex-col bg-custom`}>
+        <PostHogProvider />
         <ModalProvider />
         <ToastProvider />
         <ProgressBar />

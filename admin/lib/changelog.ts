@@ -18,6 +18,23 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.15.0',
+    date: '2026-10-08',
+    title: 'Panel con las visitas de la tienda',
+    changes: [
+      {
+        type: 'nuevo',
+        text: 'El Panel muestra cuánta gente visita la tienda: visitantes y páginas vistas por día, comparados con el período anterior.',
+      },
+      {
+        type: 'nuevo',
+        text: 'Productos más vistos con su tasa de consulta: de cada 100 personas que miran un producto, cuántas preguntan por WhatsApp.',
+      },
+      { type: 'nuevo', text: 'De dónde llegan los visitantes (Google, Instagram, WhatsApp, directo) y desde qué dispositivo.' },
+      { type: 'mejora', text: 'Se puede ver el Panel de los últimos 7, 30 o 90 días.' },
+    ],
+  },
+  {
     version: '1.14.0',
     date: '2026-10-08',
     title: 'Precios en masa y un panel con los colores de MH',
