@@ -1,0 +1,15 @@
+overrides:
+  "@types/minimatch": 5.1.2
+  next>postcss: ^8.5.12
+  "@next/eslint-plugin-next>glob": ^10.5.0
+  rollup-plugin-terser>serialize-javascript: ^7.0.3
+
+# No instala versiones publicadas hace menos de 7 días (en minutos).
+minimumReleaseAge: 10080
+minimumReleaseAgeExclude:
+  - posthog-js
+  - "@posthog/*"
+
+ignoredBuiltDependencies:
+  - core-js
+  - unrs-resolver

@@ -1,0 +1,18 @@
+overrides:
+  next>postcss: ^8.5.12
+  "@next/eslint-plugin-next>glob": ^10.5.0
+  "@clerk/shared>js-cookie": ^3.0.7
+  "@clerk/backend>cookie": ^0.7.0
+
+# No instala versiones publicadas hace menos de 7 días (en minutos).
+minimumReleaseAge: 10080
+minimumReleaseAgeExclude:
+  - "@tanstack/charts"
+
+onlyBuiltDependencies:
+  - "@prisma/client"
+  - "@prisma/engines"
+  - prisma
+
+ignoredBuiltDependencies:
+  - unrs-resolver

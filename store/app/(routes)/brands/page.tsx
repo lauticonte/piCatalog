@@ -2,12 +2,9 @@ import { getBrands } from "@/actions/get-brands";
 import Link from "next/link";
 import React from "react";
 import Container from '@/components/ui/container';
-import Footer from '@/components/footer';
 
 // Componente para las tarjetas de marca
 const BrandCard = ({ brand }) => {
-  const logoSrc = 'https://mpsa.com.ar/wp-content/uploads/2021/06/logo-lusqtoff-alpha.png';
-  
   return (
     <Link href={`/brand/${brand.id}`} className="w-full w-auto">
       <div className="group border-0 flex lg:w-56 lg:h-40 w-36 h-28 flex-col self-center overflow-hidden rounded-xl bg-gray-700 shadow-xl shadow-black">

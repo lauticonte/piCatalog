@@ -1,6 +1,6 @@
 'use client'
 
-import { useCart } from '@/hooks/use-cart'
+import { consultOnWhatsApp } from '@/utils/consult-whatsapp'
 import { Product } from '@/types'
 import React, { MouseEventHandler } from 'react'
 import { AiOutlineWhatsApp } from 'react-icons/ai'
@@ -10,11 +10,9 @@ interface IConsult {
 }
 
 function Consult({ data }: IConsult) {
-  const cart = useCart()
-
   const handleConsult: MouseEventHandler<HTMLButtonElement> = event => {
     event.stopPropagation()
-    cart.addItem(data)
+    consultOnWhatsApp(data)
   }
 
   return (

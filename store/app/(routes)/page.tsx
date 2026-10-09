@@ -1,12 +1,9 @@
-import { getBillboards } from '@/actions/get-billboards';
 import { getProducts } from '@/actions/get-products';
 import { getBrands } from '@/actions/get-brands';
 import { Product } from '@/types';
 import ProductList from '@/components/product/product-list';
 import Container from '@/components/ui/container';
 import Image from 'next/image';
-
-const srcImage = 'https://images.unsplash.com/photo-1632216820004-4b3b3b3b3b3b';
 
 async function getProductsLimited() {
   // Step 1: Get all brands
@@ -43,11 +40,7 @@ async function getProductsLimited() {
 }
 
 export default async function Home() {
-  // Las dos ramas son independientes: no tiene sentido encadenarlas.
-  const [billboard, productsLimited] = await Promise.all([
-    getBillboards('6602115b567a6fa1743446d6'),
-    getProductsLimited(),
-  ]);
+  const productsLimited = await getProductsLimited();
 
   return (
     <Container>

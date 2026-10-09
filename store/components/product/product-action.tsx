@@ -1,10 +1,9 @@
 'use client'
 
 import { usePreviewModal } from '@/hooks/use-preview-modal'
-import { useCart } from '@/hooks/use-cart'
 import { Product } from '@/types'
 import React, { MouseEventHandler } from 'react'
-import { AiOutlineExpand, AiOutlineWhatsApp } from 'react-icons/ai'
+import { AiOutlineExpand } from 'react-icons/ai'
 import IconButton from '../ui/icon-button'
 
 interface IProductAction {
@@ -13,16 +12,10 @@ interface IProductAction {
 
 function ProductAction({ data }: IProductAction) {
   const previewModal = usePreviewModal()
-  const cart = useCart()
 
   const handlePreview: MouseEventHandler<HTMLButtonElement> = event => {
     event.stopPropagation()
     previewModal.onOpen(data)
-  }
-
-  const handleAddToCart: MouseEventHandler<HTMLButtonElement> = event => {
-    event.stopPropagation()
-    cart.addItem(data)
   }
 
   return (
@@ -34,12 +27,6 @@ function ProductAction({ data }: IProductAction) {
           role='button'
           aria-label='preview'
         />
-        {/* <IconButton
-          onClick={handleAddToCart}
-          icon={<AiOutlineWhatsApp size={20} className='text-gray-600' />}
-          role='button'
-          aria-label='consultar por whatsapp'
-        /> */}
       </div>
     </div>
   )

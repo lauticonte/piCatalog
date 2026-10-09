@@ -1,10 +1,8 @@
 'use client'
 
-import ApiList from '@/components/ui/api-list'
 import { Button } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
 import Heading from '@/components/ui/heading'
-import { Separator } from '@/components/ui/separator'
 import { useParams, useRouter } from 'next/navigation'
 import React, { Fragment, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
@@ -33,14 +31,10 @@ function ProductClient({ data }: IProductClient) {
         data: { ids: rows.map(row => row.id) },
       })
 
-      const { deleted, blocked } = response.data
+      const { deleted } = response.data
 
       if (deleted > 0) {
         toast.success(`${deleted} producto${deleted > 1 ? 's' : ''} eliminado${deleted > 1 ? 's' : ''}`)
-      }
-
-      if (blocked?.length) {
-        toast.error(`${blocked.length} no se pudieron eliminar porque están asociados a un pedido`)
       }
 
       router.refresh()
@@ -151,11 +145,6 @@ function ProductClient({ data }: IProductClient) {
           },
         ]}
       />
-      {/* <Separator />
-
-      <Heading title='API' description='API calls for Products' />
-
-      <ApiList entityName='products' entityIdName='productId' /> */}
     </Fragment>
   )
 }

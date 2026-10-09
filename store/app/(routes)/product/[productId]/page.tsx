@@ -5,7 +5,7 @@ import ProductInfo from '@/components/gallery/product-info'
 import { ProductReveal } from '@/components/gallery/reveal'
 import ProductList from '@/components/product/product-list'
 import Container from '@/components/ui/container'
-import { Metadata, ResolvingMetadata } from 'next'
+import { Metadata } from 'next'
 import React, { Suspense } from 'react'
 import { Loader } from '@/components/ui/loader'
 

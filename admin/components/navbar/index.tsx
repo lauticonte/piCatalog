@@ -5,7 +5,6 @@ import React from 'react'
 import MainNav from './main-nav'
 import Image from 'next/image'
 import Link from 'next/link'
-import StoreSwitcher from './store-switcher'
 import { ChangelogLink } from '@/components/changelog/changelog-seen'
 
 async function Navbar() {

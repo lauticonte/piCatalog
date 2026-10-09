@@ -18,6 +18,25 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.16.0',
+    date: '2026-10-09',
+    title: 'Panel y tienda más livianos',
+    changes: [
+      {
+        type: 'mejora',
+        text: 'Se quitaron el carrito y los pagos online, que no se usaban: la tienda sigue funcionando con la consulta por WhatsApp, igual que hasta ahora.',
+      },
+      {
+        type: 'mejora',
+        text: 'La página de inicio de la tienda carga un poco más rápido porque ya no pide datos que no mostraba.',
+      },
+      {
+        type: 'arreglo',
+        text: 'Los buscadores ya no reciben indicaciones de otro sitio: antes la tienda les señalaba un dominio que no era el de MH Garage.',
+      },
+    ],
+  },
+  {
     version: '1.15.3',
     date: '2026-10-08',
     title: 'Más actualizaciones de seguridad',

@@ -3,7 +3,6 @@
 import { Button } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
 import Heading from '@/components/ui/heading'
-import { Separator } from '@/components/ui/separator'
 import { useParams, useRouter } from 'next/navigation'
 import React, { Fragment } from 'react'
 import { FiPlus } from 'react-icons/fi'

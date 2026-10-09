@@ -4,7 +4,7 @@ import { Product } from '@/types'
 import React, { MouseEventHandler, useState } from 'react'
 import Currency from '../ui/currency'
 import { AiOutlineWhatsApp } from 'react-icons/ai'
-import { useCart } from '@/hooks/use-cart'
+import { consultOnWhatsApp } from '@/utils/consult-whatsapp'
 
 interface IProductInfo {
   data: Product
@@ -13,12 +13,11 @@ interface IProductInfo {
 const ITEMS_INICIALES = 8
 
 function ProductInfo({ data }: IProductInfo) {
-  const cart = useCart()
   const [visibleItems, setVisibleItems] = useState(ITEMS_INICIALES)
 
   const handleConsult: MouseEventHandler<HTMLButtonElement> = event => {
     event.stopPropagation()
-    cart.addItem(data)
+    consultOnWhatsApp(data)
   }
 
   // Las descripciones vienen con los puntos separados por "•". Muchos productos

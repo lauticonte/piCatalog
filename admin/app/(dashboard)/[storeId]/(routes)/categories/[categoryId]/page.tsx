@@ -12,12 +12,6 @@ async function CategoryPage({ params }: { params: { categoryId: string; storeId:
           },
         })
 
-  const billboards = await prismadb.billboard.findMany({
-    where: {
-      storeId: params.storeId,
-    },
-  })
-
   return (
     <div className='flex-col'>
       <div className='flex-1 space-y-4 px-4 pt-2 sm:px-8'>

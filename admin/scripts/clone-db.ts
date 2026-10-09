@@ -48,8 +48,6 @@ async function main() {
     if (existing > 0) {
       console.log(`Vaciando "${targetDb}"...`)
       // Orden inverso a las dependencias.
-      await target.orderItem.deleteMany()
-      await target.order.deleteMany()
       await target.image.deleteMany()
       await target.product.deleteMany()
       await target.color.deleteMany()
@@ -79,8 +77,6 @@ async function main() {
     await copy('colors', () => source.color.findMany(), data => target.color.createMany({ data }))
     await copy('products', () => source.product.findMany(), data => target.product.createMany({ data }))
     await copy('images', () => source.image.findMany(), data => target.image.createMany({ data }))
-    await copy('orders', () => source.order.findMany(), data => target.order.createMany({ data }))
-    await copy('orderItems', () => source.orderItem.findMany(), data => target.orderItem.createMany({ data }))
 
     console.log('\nListo. Apuntá DATABASE_URL del .env a la base de destino.')
   } finally {
