@@ -45,22 +45,24 @@ function MobileNav({ menu }: { menu: MenuData }) {
         <Dialog onClose={setAbierto} className='relative z-50 md:hidden'>
           <Transition.Child
             as={Fragment}
-            enter='transition-opacity duration-200 motion-reduce:transition-none'
+            enter='transition-opacity duration-300 motion-reduce:transition-none'
             enterFrom='opacity-0'
             enterTo='opacity-100'
-            leave='transition-opacity duration-150 motion-reduce:transition-none'
+            leave='transition-opacity duration-200 motion-reduce:transition-none'
             leaveFrom='opacity-100'
             leaveTo='opacity-0'
           >
-            <div className='fixed inset-0 bg-black/60' aria-hidden />
+            <div className='fixed inset-0 bg-black/60 backdrop-blur-[2px]' aria-hidden />
           </Transition.Child>
 
           <Transition.Child
             as={Fragment}
-            enter='transition-transform duration-200 ease-out motion-reduce:transition-none'
+            // Curva de cajón tipo iOS: arranca rápido y frena suave. Con 200 ms y ease-out el
+            // panel parecía aparecer de golpe en el celular.
+            enter='transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none'
             enterFrom='translate-x-full'
             enterTo='translate-x-0'
-            leave='transition-transform duration-150 ease-in motion-reduce:transition-none'
+            leave='transition-transform duration-200 ease-[cubic-bezier(0.4,0,1,1)] motion-reduce:transition-none'
             leaveFrom='translate-x-0'
             leaveTo='translate-x-full'
           >
@@ -79,7 +81,7 @@ function MobileNav({ menu }: { menu: MenuData }) {
 
               <div className='flex-1 overflow-y-auto overscroll-contain'>
                 <nav className='border-b border-white/10 py-2'>
-                  {LINKS.map(link => {
+                  {LINKS.map((link, i) => {
                     const activo = link.match.some(prefijo => pathname.startsWith(prefijo))
                     return (
                       <Link
@@ -87,8 +89,12 @@ function MobileNav({ menu }: { menu: MenuData }) {
                         href={link.href}
                         onClick={() => setAbierto(false)}
                         aria-current={activo ? 'page' : undefined}
+                        // Las secciones entran escalonadas detrás del panel: acompañan el
+                        // deslizamiento en vez de aparecer todas ya quietas.
+                        style={{ animationDelay: `${80 + i * 40}ms` }}
                         className={cn(
                           'relative flex h-12 items-center px-5 text-[15px] font-black uppercase tracking-[0.04em]',
+                          'duration-300 animate-in fade-in-0 slide-in-from-right-4 fill-mode-both motion-reduce:animate-none',
                           activo ? 'text-white' : 'text-slate-300'
                         )}
                       >
