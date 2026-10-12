@@ -11,12 +11,14 @@ interface IProductCard {
 }
 
 // Pensada para dos columnas en un celular (~170px) y tres o cuatro en desktop.
+// Radios concéntricos (exterior = interior + separación): 20/24px afuera, la foto a 6/8px
+// del borde con 14/16px, y el botón a 12/16px del borde con 8px.
 function ProductCard({ data }: IProductCard) {
   return (
-    <article className='group flex h-full w-full flex-col rounded-2xl bg-[#232b33] p-1.5 ring-1 ring-white/10 transition duration-200 hover:ring-[#f5b301]/70 sm:p-2'>
+    <article className='group flex h-full w-full flex-col rounded-[20px] bg-[#232b33] p-1.5 ring-1 ring-white/10 transition duration-200 hover:ring-[#f5b301]/70 sm:rounded-3xl sm:p-2'>
       {/* La foto va en un marco blanco dentro de la tarjeta: la placa blanca de borde a
           borde cortaba la tarjeta en dos bloques y se veía plana. */}
-      <div className='relative aspect-square shrink-0 overflow-hidden rounded-xl bg-white'>
+      <div className='relative aspect-square shrink-0 overflow-hidden rounded-[14px] bg-white sm:rounded-2xl'>
         <Link href={`/product/${data.id}`} className='absolute inset-0' aria-label={data.name}>
           <BlurImage
             className='object-contain p-3 transition duration-300 group-hover:scale-105 sm:p-5'

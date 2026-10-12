@@ -41,7 +41,7 @@ function FacetFilter({ valueKey, title, options }: Facet) {
   if (options.length < 2) return null
 
   return (
-    <nav aria-label={title} className='hidden rounded-2xl border border-white/10 bg-white/[0.03] p-2 lg:block'>
+    <nav aria-label={title} className='hidden rounded-[20px] border border-white/10 bg-white/[0.03] p-2 lg:block'>
       <div className='flex items-center justify-between px-3 pb-2 pt-2'>
         <h2 className='flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-[#f5b301]'>
           <span className='h-3 w-0.5 rounded bg-[#f5b301]' />

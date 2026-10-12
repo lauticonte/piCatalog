@@ -134,7 +134,7 @@ function MainNav({ menu }: { menu: MenuData }) {
                   <li key={category.id}>
                     <Link
                       href={`/productos?categoryId=${category.id}`}
-                      className='group flex items-center gap-3 rounded-xl p-1.5 transition-colors hover:bg-white/5'
+                      className='group flex items-center gap-3 rounded-[14px] p-1.5 transition-colors hover:bg-white/5'
                     >
                       <span className='relative h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-white'>
                         {category.imageUrl && (

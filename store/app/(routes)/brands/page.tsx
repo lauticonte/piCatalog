@@ -8,9 +8,11 @@ import { BrandLogo } from '@/components/ui/brand-logo'
 const BrandCard = ({ brand }) => {
   return (
     <Link href={`/brand/${brand.id}`} className="w-full w-auto">
-      <div className="group border-0 flex lg:w-56 lg:h-40 w-36 h-28 flex-col self-center overflow-hidden rounded-xl bg-gray-700 shadow-xl shadow-black">
-        <div className="relative mx-auto my-3 lg:h-32 lg:w-48 w-32 h-[5.5rem] overflow-hidden rounded-lg bg-white">
-          <BrandLogo src={brand.imageUrl} sizes="(min-width: 1024px) 192px, 128px" />
+      {/* Marco con la misma separación en los cuatro lados y radios concéntricos:
+          exterior 20px = interior 8px + separación 12px. */}
+      <div className="group flex lg:w-56 w-36 self-center rounded-[20px] bg-gray-700 p-3 shadow-xl shadow-black">
+        <div className="relative lg:h-32 h-[5.5rem] w-full overflow-hidden rounded-lg bg-white">
+          <BrandLogo src={brand.imageUrl} sizes="(min-width: 1024px) 200px, 120px" />
         </div>
         {/* <div className="mt-4 px-5 pb-5 text-center">
           <h3 className="text-xl uppercase font-medium text-ellipsis overflow-hidden text-white">{brand.name}</h3>
