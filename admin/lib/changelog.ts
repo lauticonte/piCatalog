@@ -18,6 +18,37 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.16.1',
+    date: '2026-10-12',
+    title: 'Panel más claro y ordenado',
+    changes: [
+      {
+        type: 'arreglo',
+        text: 'La tasa de consulta podía pasar del 100 %. Ahora compara personas con personas: de quienes vieron un producto, cuántas consultaron por WhatsApp.',
+      },
+      {
+        type: 'mejora',
+        text: '"Productos más vistos" muestra el SKU y la marca de cada producto, y cuántas personas lo consultaron. Se quitó "Productos más consultados", que repetía casi la misma información.',
+      },
+      {
+        type: 'mejora',
+        text: 'El gráfico de visitantes empieza el día en que se empezaron a medir las visitas, en vez de mostrar semanas en cero, y el panel avisa desde cuándo vas a poder comparar con el período anterior.',
+      },
+      {
+        type: 'mejora',
+        text: '"De dónde llegan" y "Dispositivos" muestran las cifras y porcentajes a la vista, y "Velocidad de la tienda" ocupa mucho menos lugar.',
+      },
+      {
+        type: 'mejora',
+        text: 'En "Últimas consultas" se puede buscar por marca y entrar a la ficha de cada producto con un clic.',
+      },
+      {
+        type: 'mejora',
+        text: 'Nuevo logo en la barra del panel.',
+      },
+    ],
+  },
+  {
     version: '1.16.0',
     date: '2026-10-09',
     title: 'Panel y tienda más livianos',

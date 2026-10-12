@@ -1,9 +1,11 @@
 'use client'
 
+import Link from 'next/link'
 import { ColumnDef } from '@tanstack/react-table'
 
 export type HistoryColumn = {
   id: string
+  href: string
   name: string
   SKU: string
   brand: string
@@ -22,7 +24,9 @@ export const historyColumns: ColumnDef<HistoryColumn>[] = [
     // SKU y marca se ocultan en mobile: se muestran bajo el nombre.
     cell: ({ row }) => (
       <div>
-        {row.original.name}
+        <Link href={row.original.href} className='hover:underline'>
+          {row.original.name}
+        </Link>
         <div className='mt-0.5 text-[11px] font-normal text-slate-400 md:hidden'>
           {row.original.SKU} · {row.original.brand}
         </div>

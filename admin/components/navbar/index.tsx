@@ -27,8 +27,8 @@ async function Navbar() {
       <header className='fixed left-0 top-0 z-40 w-full border-b border-white/10 bg-[#151a20] text-white'>
         <div className='flex h-16 items-center gap-4 px-4 sm:px-6 lg:gap-6'>
           <Link href={`/${stores[0]?.id ?? ''}`} className='flex shrink-0 items-center' aria-label='MH Garage, inicio del panel'>
-            <Image src='/logo-mark.png' alt='' width={46} height={38} unoptimized className='h-9 w-auto xl:hidden' priority />
-            <Image src='/logo-full.png' alt='' width={104} height={36} unoptimized className='hidden h-9 w-auto xl:block' priority />
+            <Image src='/logo.png' alt='' width={46} height={38} unoptimized className='h-9 w-auto xl:hidden' priority />
+            <Image src='/logo-full-admin.png' alt='' width={104} height={36} unoptimized className='hidden h-9 w-auto xl:block' priority />
           </Link>
 
           <MainNav className='h-full flex-1' />

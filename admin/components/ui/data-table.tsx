@@ -103,6 +103,8 @@ interface DataTableProps<TData, TValue> {
   getRowLabel?: (row: TData) => string
   /** Filtros rápidos; "Todos" se agrega solo. */
   quickFilters?: QuickFilter<TData>[]
+  /** Encabezado opcional dentro de la tarjeta, arriba del buscador (p. ej. título y descripción). */
+  header?: React.ReactNode
 }
 
 export function DataTable<TData, TValue>({
@@ -114,6 +116,7 @@ export function DataTable<TData, TValue>({
   bulkActions,
   getRowLabel,
   quickFilters,
+  header,
 }: DataTableProps<TData, TValue>) {
   const [filtroRapido, setFiltroRapido] = useState<string | null>(null)
   const filtroActivo = quickFilters?.find(filtro => filtro.id === filtroRapido)
@@ -226,6 +229,7 @@ export function DataTable<TData, TValue>({
       {/* Buscador, tabla y paginador dentro de una sola tarjeta: antes el buscador
           flotaba suelto arriba y la tabla parecía un bloque aparte. */}
       <div className='overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm'>
+      {header}
       <div className='flex flex-wrap items-center gap-3 border-b border-slate-200 bg-slate-50/60 px-4 py-3'>
         <div className='relative w-full max-w-sm'>
           <BiSearch className='pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400' />

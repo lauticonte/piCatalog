@@ -15,6 +15,9 @@ const TZ = 'America/Argentina/Buenos_Aires'
 
 // Una vista de página de la tienda. Todas las consultas parten de acá.
 const PAGEVIEW = "event = '$pageview'"
+// Clic en "Consultar" por WhatsApp (store/utils/track-consultation.ts). Viaja con el mismo
+// visitante que las páginas vistas, así la tasa de consulta compara personas con personas.
+const CONSULTA = "event = 'consulta_whatsapp'"
 
 export const isPostHogConfigured = () => Boolean(PROJECT_ID && API_KEY)
 
@@ -61,24 +64,40 @@ export interface Totals {
   visitors: number
   pageviews: number
   productVisitors: number
+  /** Personas distintas que consultaron por WhatsApp. */
+  consulters: number
 }
 
 const totals = async (fromDaysAgo: number, toDaysAgo: number): Promise<Totals | null> => {
-  const rows = await hogql<[number, number, number]>(`
+  const rows = await hogql<[number, number, number, number]>(`
     select
-      uniq(distinct_id),
-      count(),
-      uniqIf(distinct_id, properties.$pathname like '/product/%')
+      uniqIf(distinct_id, ${PAGEVIEW}),
+      countIf(${PAGEVIEW}),
+      uniqIf(distinct_id, ${PAGEVIEW} and properties.$pathname like '/product/%'),
+      uniqIf(distinct_id, ${CONSULTA})
     from events
-    where ${PAGEVIEW} and ${window(fromDaysAgo, toDaysAgo)}
+    where (${PAGEVIEW} or ${CONSULTA}) and ${window(fromDaysAgo, toDaysAgo)}
   `)
   if (!rows?.[0]) return null
-  const [visitors, pageviews, productVisitors] = rows[0]
-  return { visitors, pageviews, productVisitors }
+  const [visitors, pageviews, productVisitors, consulters] = rows[0]
+  return { visitors, pageviews, productVisitors, consulters }
 }
 
 export const getTotals = (days: Period) => totals(days, 0)
 export const getPreviousTotals = (days: Period) => totals(days * 2, days)
+
+/**
+ * Primer día (AAAA-MM-DD, hora argentina) con visitas registradas. Antes de eso no hay
+ * medición: el gráfico no debe mostrar esos días como si hubieran tenido cero visitas.
+ */
+export const getTrackingStart = async (): Promise<string | null> => {
+  const rows = await hogql<[number, string]>(`
+    select count(), toString(toDate(toTimeZone(min(timestamp), '${TZ}')))
+    from events
+    where ${PAGEVIEW}
+  `)
+  return rows?.[0]?.[0] ? rows[0][1] : null
+}
 
 export interface DailyVisits {
   /** AAAA-MM-DD en hora argentina. */
@@ -114,18 +133,26 @@ export interface ProductVisits {
   productId: string
   visitors: number
   pageviews: number
+  /** Personas distintas que consultaron este producto. */
+  consulters: number
 }
 
 export const getTopProducts = async (days: Period, limit = 10): Promise<ProductVisits[] | null> => {
-  const rows = await hogql<[string, number, number]>(`
-    select extract(properties.$pathname, '^/product/([0-9a-f]{24})') as product, uniq(distinct_id) as visitors, count()
+  // La consulta se manda desde la ficha, así que su $pathname también identifica al producto.
+  const rows = await hogql<[string, number, number, number]>(`
+    select
+      extract(properties.$pathname, '^/product/([0-9a-f]{24})') as product,
+      uniqIf(distinct_id, ${PAGEVIEW}) as visitors,
+      countIf(${PAGEVIEW}),
+      uniqIf(distinct_id, ${CONSULTA})
     from events
-    where ${PAGEVIEW} and ${window(days, 0)} and product != ''
+    where (${PAGEVIEW} or ${CONSULTA}) and ${window(days, 0)} and product != ''
     group by product
+    having visitors > 0
     order by visitors desc
     limit ${limit}
   `)
-  return rows?.map(([productId, visitors, pageviews]) => ({ productId, visitors, pageviews })) ?? null
+  return rows?.map(([productId, visitors, pageviews, consulters]) => ({ productId, visitors, pageviews, consulters })) ?? null
 }
 
 export interface Breakdown {

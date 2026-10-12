@@ -42,44 +42,66 @@ const STATUS = {
 // Con pocas mediciones el percentil 75 cambia mucho de un día a otro: se avisa.
 const MIN_SAMPLES = 20
 
+const statusOf = (metric: (typeof METRICS)[number], value: number | null) =>
+  value == null ? null : STATUS[value <= metric.good ? 'good' : value <= metric.poor ? 'needs' : 'poor']
+
+/**
+ * Una fila por dispositivo y una columna por métrica: la versión anterior, con una caja
+ * por métrica, ocupaba media pantalla para decir casi siempre lo mismo ("Bueno").
+ */
 export function WebVitalsCard({ rows }: { rows: WebVitals[] }) {
   return (
-    <div className='space-y-5'>
-      {rows.map(row => (
-        <div key={row.device}>
-          <div className='mb-2 flex items-baseline justify-between gap-3'>
-            <h3 className='text-sm font-semibold text-slate-900'>{row.device}</h3>
-            <span className='text-xs text-slate-500'>
-              {row.samples} {row.samples === 1 ? 'medición' : 'mediciones'}
-              {row.samples < MIN_SAMPLES && ' · todavía pocas, el valor puede variar'}
-            </span>
-          </div>
-          <div className='grid gap-3 sm:grid-cols-3'>
-            {METRICS.map(metric => {
-              const value = row[metric.key]
-              const status = value == null ? null : value <= metric.good ? 'good' : value <= metric.poor ? 'needs' : 'poor'
-              const s = status ? STATUS[status] : null
-              return (
-                <div key={metric.key} className='rounded-lg border border-slate-200 p-3.5'>
-                  <p className='text-sm font-medium text-slate-700'>{metric.name}</p>
-                  <p className='mt-1 text-2xl font-extrabold tracking-tight text-slate-900'>
-                    {value == null ? '—' : metric.format(value)}
-                  </p>
-                  {s ? (
-                    <span className={cn('mt-1.5 inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs font-semibold', s.className)}>
-                      <s.Icon className='h-3.5 w-3.5' aria-hidden />
-                      {s.label}
+    <div className='-mx-5 overflow-x-auto px-5'>
+      <table className='w-full min-w-[560px] text-sm'>
+        <thead>
+          <tr className='border-b border-slate-100 text-left align-bottom'>
+            <th className='pb-2 pr-4 text-xs font-semibold text-slate-500'>Dispositivo</th>
+            {METRICS.map(metric => (
+              <th key={metric.key} className='pb-2 pr-4 font-normal'>
+                <span className='block text-xs font-semibold text-slate-500'>{metric.name}</span>
+                <span className='block text-xs text-slate-400'>{metric.hint}</span>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(row => (
+            <tr key={row.device} className='border-b border-slate-100 last:border-0'>
+              <td className='py-3 pr-4 align-top'>
+                <span className='block font-medium text-slate-900'>{row.device}</span>
+                <span className='block text-xs text-slate-500'>
+                  {row.samples} {row.samples === 1 ? 'medición' : 'mediciones'}
+                  {row.samples < MIN_SAMPLES && ' · todavía pocas'}
+                </span>
+              </td>
+              {METRICS.map(metric => {
+                const value = row[metric.key]
+                const s = statusOf(metric, value)
+                return (
+                  <td key={metric.key} className='py-3 pr-4 align-top'>
+                    <span className='flex flex-wrap items-center gap-x-2 gap-y-1'>
+                      <span className='text-base font-bold tabular-nums text-slate-900'>
+                        {value == null ? '—' : metric.format(value)}
+                      </span>
+                      {s ? (
+                        <span className={cn('inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs font-semibold', s.className)}>
+                          <s.Icon className='h-3.5 w-3.5' aria-hidden />
+                          {s.label}
+                        </span>
+                      ) : (
+                        <span className='text-xs text-slate-400'>Sin datos</span>
+                      )}
                     </span>
-                  ) : (
-                    <span className='mt-1.5 inline-block text-xs text-slate-400'>Sin datos</span>
-                  )}
-                  <p className='mt-1.5 text-xs text-slate-500'>{metric.hint}</p>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      ))}
+                  </td>
+                )
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {rows.some(row => row.samples < MIN_SAMPLES) && (
+        <p className='mt-3 text-xs text-slate-500'>Con pocas mediciones el valor todavía puede variar bastante.</p>
+      )}
     </div>
   )
 }
