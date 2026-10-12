@@ -9,6 +9,7 @@ import { cn } from '@/utils/utils'
 import type { MenuData } from '@/actions/get-menu'
 import SearchForm from './search-form'
 import { cantidadProductos as cantidad, formatearNombre } from './menu-utils'
+import { BrandLogo } from '@/components/ui/brand-logo'
 
 type Menu = 'productos' | 'marcas'
 
@@ -159,7 +160,7 @@ function MainNav({ menu }: { menu: MenuData }) {
                   <li key={brand.id}>
                     <Link href={`/brand/${brand.id}`} aria-label={brand.name} className='group block'>
                       <span className='relative block h-16 rounded-xl bg-white ring-2 ring-transparent transition group-hover:ring-[#f5b301]'>
-                        <Image src={brand.imageUrl} alt='' fill sizes='180px' className='object-contain px-3 py-2' />
+                        <BrandLogo src={brand.imageUrl} sizes='180px' />
                       </span>
                       {brand.productsCount !== undefined && (
                         <span className='mt-1.5 block text-center text-xs text-slate-400 transition-colors group-hover:text-slate-200'>

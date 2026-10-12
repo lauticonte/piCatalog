@@ -2,14 +2,15 @@ import { getBrands } from "@/actions/get-brands";
 import Link from "next/link";
 import React from "react";
 import Container from '@/components/ui/container';
+import { BrandLogo } from '@/components/ui/brand-logo'
 
 // Componente para las tarjetas de marca
 const BrandCard = ({ brand }) => {
   return (
     <Link href={`/brand/${brand.id}`} className="w-full w-auto">
       <div className="group border-0 flex lg:w-56 lg:h-40 w-36 h-28 flex-col self-center overflow-hidden rounded-xl bg-gray-700 shadow-xl shadow-black">
-        <div className="relative mx-auto my-3 px-3 lg:h-32 lg:w-48 w-36 h-24 overflow-hidden rounded-lg">
-          <img src={brand.imageUrl} alt={brand.name} className="h-full w-full object-contain bg-white rounded-lg" />
+        <div className="relative mx-auto my-3 lg:h-32 lg:w-48 w-32 h-[5.5rem] overflow-hidden rounded-lg bg-white">
+          <BrandLogo src={brand.imageUrl} sizes="(min-width: 1024px) 192px, 128px" />
         </div>
         {/* <div className="mt-4 px-5 pb-5 text-center">
           <h3 className="text-xl uppercase font-medium text-ellipsis overflow-hidden text-white">{brand.name}</h3>

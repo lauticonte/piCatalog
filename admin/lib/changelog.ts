@@ -18,6 +18,21 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.16.2',
+    date: '2026-10-12',
+    title: 'Logos de marcas parejos y combos con imagen',
+    changes: [
+      {
+        type: 'mejora',
+        text: 'Los logos de las marcas se ven todos del mismo tamaño y con el mismo margen en la tienda: en la página de marcas, en el menú y en los filtros. Lusqtoff, INGCO y PZ Force tienen logos nuevos, en mejor calidad y sin fondos.',
+      },
+      {
+        type: 'nuevo',
+        text: 'Cada combo tiene una imagen propia con el estilo de MH Garage y un ícono de su oficio, en vez del ícono genérico.',
+      },
+    ],
+  },
+  {
     version: '1.16.1',
     date: '2026-10-12',
     title: 'Panel más claro y ordenado',

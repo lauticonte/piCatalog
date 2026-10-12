@@ -2,13 +2,13 @@
 
 import React, { Fragment, Suspense, useEffect, useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { Dialog, Transition } from '@headlessui/react'
 import { LuMenu, LuX } from 'react-icons/lu'
 import { cn } from '@/utils/utils'
 import type { MenuData } from '@/actions/get-menu'
 import { cantidadProductos, formatearNombre } from './menu-utils'
+import { BrandLogo } from '@/components/ui/brand-logo'
 
 // match: rutas que cuentan como esa sección (la ficha de una marca está en /brand/[id]).
 const LINKS = [
@@ -134,7 +134,7 @@ function MobileNav({ menu }: { menu: MenuData }) {
                           aria-label={`${brand.name}, ${cantidadProductos(brand.productsCount ?? 0)}`}
                           className='relative block h-12 rounded-md bg-white'
                         >
-                          <Image src={brand.imageUrl} alt='' fill sizes='120px' className='object-contain px-2 py-1.5' />
+                          <BrandLogo src={brand.imageUrl} sizes='120px' />
                         </Link>
                       </li>
                     ))}

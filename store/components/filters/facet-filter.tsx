@@ -1,10 +1,10 @@
 'use client'
 
-import Image from 'next/image'
 import React from 'react'
 import { BiCheck, BiGridAlt } from 'react-icons/bi'
 import { cn } from '@/utils/utils'
 import { useFilterUrl } from './use-filter-url'
+import { BrandLogo } from '@/components/ui/brand-logo'
 
 export interface FacetOption {
   id: string
@@ -98,7 +98,7 @@ export function LogoBox({ item, className }: { item: FacetItem; className?: stri
       )}
     >
       {item.imageUrl ? (
-        <Image src={item.imageUrl} alt='' fill sizes='120px' className='object-contain px-2 py-1' />
+        <BrandLogo src={item.imageUrl} sizes='120px' />
       ) : (
         <BiGridAlt className='h-5 w-5' />
       )}

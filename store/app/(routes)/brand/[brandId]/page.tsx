@@ -8,9 +8,9 @@ import FacetFilter from '@/components/filters/facet-filter'
 import MobileFilters from '@/components/filters/mobile-filters'
 import ResultsBar from '@/components/filters/results-bar'
 import LoadMore from '@/components/filters/load-more'
-import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import { BrandLogo } from '@/components/ui/brand-logo'
 
 const PAGE_SIZE = 12
 
@@ -61,7 +61,7 @@ async function BrandPage({ params, searchParams }: IBrandPage) {
               {brand?.imageUrl ? (
                 // Apaisado como los logos: en un cuadrado quedaban diminutos e ilegibles.
                 <span className='relative h-12 w-24 shrink-0 overflow-hidden rounded-xl bg-white'>
-                  <Image src={brand.imageUrl} alt='' fill sizes='96px' className='object-contain px-2.5 py-2' />
+                  <BrandLogo src={brand.imageUrl} sizes='96px' />
                 </span>
               ) : (
                 <span className='h-8 w-1 rounded-full bg-[#f5b301]' />
